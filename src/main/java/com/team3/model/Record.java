@@ -1,0 +1,93 @@
+package com.team3.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "RECORD")
+public class Record {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer id;
+	@Column(name = "TYPE")
+	private Boolean type;
+	@Column(name = "REASON")
+	private String reason;
+	@Column(name = "CREATE_DATE")
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createDate;
+	@Column(name = "STAFF_ID")
+	private Integer staffId;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Boolean isType() {
+		return type;
+	}
+
+	public void setType(Boolean type) {
+		this.type = type;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Record(Integer id, Boolean type, String reason, Date createDate, Integer staffId) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.reason = reason;
+		this.createDate = createDate;
+		this.staffId = staffId;
+	}
+
+	public Integer getStaffId() {
+		return staffId;
+	}
+
+	public void setStaffId(Integer staffId) {
+		this.staffId = staffId;
+	}
+
+	public Record() {
+		super();
+	}
+
+}
