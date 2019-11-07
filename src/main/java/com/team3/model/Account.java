@@ -15,14 +15,15 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team3.customModel.AccountCustom;
 
 @Entity
-
 @Table(name = "ACCOUNT")
 public class Account {
 	@Id
@@ -41,6 +42,30 @@ public class Account {
 	private Integer staffId;
 	@Column(name = "ACCOUNT_ROLE")
 	private Boolean accountRole;
+	@Transient
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fromDate;
+	@Transient
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date toDate;
+	@Transient
+	private String staffName;
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
 
 	public Integer getId() {
 		return id;
@@ -103,6 +128,32 @@ public class Account {
 		this.createDate = createDate;
 		this.staffId = staffId;
 		this.accountRole = accountRole;
+	}
+
+	public Account(Integer id, String username, String password, Date createDate, Integer staffId, Boolean accountRole,
+			Date fromDate, Date toDate, String staffName) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.createDate = createDate;
+		this.staffId = staffId;
+		this.accountRole = accountRole;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+		this.staffName = staffName;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Boolean getAccountRole() {
+		return accountRole;
 	}
 
 }

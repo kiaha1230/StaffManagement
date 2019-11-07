@@ -11,35 +11,35 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.team3.model.Attendance;
 
-import com.team3.service.AttendanceService;
+import com.team3.model.LogDetail;
+import com.team3.service.LogDetailService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/attendance")
-public class AttendanceController {
+@RequestMapping("/logdetail")
+public class LogDetailController {
 	@Autowired
-	private AttendanceService attendanceService;
+	private LogDetailService logDetailService;
 
 	@PostMapping("/add")
-	public void addDepart(@RequestBody Attendance attendance) {
-		attendanceService.addAttendance(attendance);
+	public void addDepart(@RequestBody LogDetail logDetail) {
+		logDetailService.addLogDetail(logDetail);
 	}
 
 	@PutMapping("/edit")
-	public void editDepart(@RequestBody Attendance attendance) {
-		attendanceService.editAttendance(attendance);
+	public void editDepart(@RequestBody LogDetail logDetail) {
+		logDetailService.editLogDetail(logDetail);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void deleteAttendance(@PathVariable Integer id) {
-		attendanceService.deleteAttendance(id);
+	public void deleteLogDetail(@PathVariable Integer id) {
+		logDetailService.deleteLogDetail(id);
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Attendance> getByCondition(@RequestBody Attendance attendance) {
-		return attendanceService.getByCondition(attendance);
+	public ArrayList<LogDetail> getByCondition(@RequestBody LogDetail logDetail) {
+		return logDetailService.getByCondition(logDetail);
 	}
 
 }

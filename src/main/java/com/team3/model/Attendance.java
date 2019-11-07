@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,11 +31,66 @@ public class Attendance {
 	private Integer staffId;
 	@Column(name = "ATTENDANCE_DATE")
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
 	private Date attendanceDate;
 	@Column(name = "CHECK_IN_TIME")
 	private Time checkInTime;
 	@Column(name = "CHECK_OUT_TIME")
 	private Time checkOutTime;
+	@Transient
+	private String staffName;
+	@Transient
+	private Date fromDate;
+	@Transient
+	private Date toDate;
+
+	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime,
+			String staffName, Date fromDate, Date toDate) {
+		super();
+		this.id = id;
+		this.staffId = staffId;
+		this.attendanceDate = attendanceDate;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+		this.staffName = staffName;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime,
+			String staffName) {
+		super();
+		this.id = id;
+		this.staffId = staffId;
+		this.attendanceDate = attendanceDate;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+		this.staffName = staffName;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
 
 	public Integer getId() {
 		return id;

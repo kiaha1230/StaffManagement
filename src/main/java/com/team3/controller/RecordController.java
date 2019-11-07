@@ -20,40 +20,40 @@ import com.team3.model.Depart;
 import com.team3.model.Record;
 import com.team3.service.RecordService;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/record")
 public class RecordController {
 	@Autowired
 	private RecordService recordService;
 
-	@GetMapping("records")
-	public ArrayList<Record> getAllRecord() {
-		return recordService.getAllRecord();
-	}
+//	@GetMapping("records")
+//	public ArrayList<Record> getAllRecord() {
+//		return recordService.getAllRecord();
+//	}
+//
+//	@GetMapping("records")
+//	public Optional<Record> getById(@PathVariable int id) {
+//		return recordService.getById(id);
+//	}
 
-	@GetMapping("records/{id}")
-	public Optional<Record> getById(@PathVariable int id) {
-		return recordService.getById(id);
-	}
-
-	@PostMapping("/records")
+	@PostMapping("/add")
 	public void addRecord(@RequestBody Record record) {
 		recordService.addOrEditRecord(record);
 	}
 
-	@PutMapping("/records/{id}")
+	@PutMapping("/edit")
 	public void editProject(@RequestBody Record record) {
 		recordService.addOrEditRecord(record);
 	}
 
-	@DeleteMapping("/records/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void deleteRecord(@PathVariable Integer id) {
 		recordService.deleteRecord(id);
 	}
 
-	@PostMapping("/records/condition/")
-	public List<RecordCustom> findByCondition(@RequestBody Record record) {
+	@PostMapping("/getsByConditions")
+	public List<Record> findByCondition(@RequestBody Record record) {
 		return recordService.findByCondition(record);
 	}
 }

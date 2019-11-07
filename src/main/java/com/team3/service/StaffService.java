@@ -26,6 +26,8 @@ public class StaffService {
 	private StaffRepository staffRepository;
 	@PersistenceContext
 	private EntityManager em;
+	@Autowired
+	private	LogAuditService auditService;
 
 	public ArrayList<Staff> getAllStaff() {
 		List<Staff> list = new ArrayList<Staff>();
@@ -46,9 +48,9 @@ public class StaffService {
 		staffRepository.deleteById(id);
 	}
 
-	public ArrayList<StaffCustom> findByCondition(Staff staff) {
-		ArrayList<StaffCustom> list = new ArrayList<StaffCustom>();
-		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phone,s.status,s.role from Depart d , Staff s where d.id = s.departId ";
+	public ArrayList<Staff> findByCondition(Staff staff) {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phone,s.status from Depart d , Staff s where d.id = s.departId ";
 		if (!(staff.getStaffCode() == null)) {
 			query += " and  r.staffCode like :staffCode";
 		}
@@ -76,7 +78,7 @@ public class StaffService {
 		}
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((staffs) -> {
-			StaffCustom custom = new StaffCustom();
+			Staff custom = new Staff();
 			custom.setId((Integer) staffs[0]);
 			custom.setStaffCode((String) staffs[1]);
 			custom.setStaffName((String) staffs[2]);
@@ -87,6 +89,24 @@ public class StaffService {
 			custom.setEmail((String) staffs[7]);
 			custom.setPhoto((String) staffs[8]);
 			custom.setStatus((Boolean) staffs[9]);
+			list.add(custom);
+		});
+		return list;
+	}
+
+	public ArrayList<Staff> top10Staff(Staff staff) {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String hql = "SELECT  s.staffName,  SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)"
+				+ "  FROM Record r,Staff s where r.staffId = s.id "
+				+ "GROUP BY s.staffName order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
+		Query q = em.createQuery(hql);
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((staffs) -> {
+			Staff custom = new Staff();
+			custom.setStaffName((String) staffs[0]);
+			custom.setKhenThuong((Long) staffs[1]);
+			custom.setKiLuat((Long) staffs[2]);
+			custom.setDiem((Long) staffs[3]);	
 			list.add(custom);
 		});
 		return list;

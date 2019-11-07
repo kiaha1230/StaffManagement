@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "RECORD")
 public class Record {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Integer id;
 	@Column(name = "TYPE")
@@ -36,6 +37,53 @@ public class Record {
 	private Date createDate;
 	@Column(name = "STAFF_ID")
 	private Integer staffId;
+	@Transient
+	private String staffName;
+	@Transient
+	private Date fromDate;
+	@Transient
+	private Date toDate;
+
+	public Record(Integer id, Boolean type, String reason, Date createDate, Integer staffId, String staffName,
+			Date fromDate, Date toDate) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.reason = reason;
+		this.createDate = createDate;
+		this.staffId = staffId;
+		this.staffName = staffName;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public Boolean getType() {
+		return type;
+	}
 
 	public Integer getId() {
 		return id;

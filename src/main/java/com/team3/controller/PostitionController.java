@@ -1,6 +1,7 @@
 package com.team3.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,35 +12,35 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.team3.model.Attendance;
 
-import com.team3.service.AttendanceService;
+import com.team3.model.Position;
+import com.team3.service.PositionService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/attendance")
-public class AttendanceController {
+@RequestMapping("/position")
+public class PostitionController {
 	@Autowired
-	private AttendanceService attendanceService;
+	private PositionService positionService;
 
 	@PostMapping("/add")
-	public void addDepart(@RequestBody Attendance attendance) {
-		attendanceService.addAttendance(attendance);
+	public void addDepart(@RequestBody Position position) {
+		positionService.addPosition(position);
 	}
 
 	@PutMapping("/edit")
-	public void editDepart(@RequestBody Attendance attendance) {
-		attendanceService.editAttendance(attendance);
+	public void editDepart(@RequestBody Position position) {
+		positionService.editPosition(position);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void deleteAttendance(@PathVariable Integer id) {
-		attendanceService.deleteAttendance(id);
+	public void deletePosition(@PathVariable Integer id) {
+		positionService.deletePosition(id);
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Attendance> getByCondition(@RequestBody Attendance attendance) {
-		return attendanceService.getByCondition(attendance);
+	public ArrayList<Position> getByCondition(@RequestBody Position position) {
+		return positionService.getByCondition(position);
 	}
 
 }

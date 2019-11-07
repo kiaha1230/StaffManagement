@@ -1,6 +1,8 @@
 package com.team3.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,46 +17,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.customModel.AccountCustom;
-import com.team3.customModel.SalaryCustom;
 import com.team3.model.Account;
-import com.team3.model.Salary;
-import com.team3.service.SalaryService;
+import com.team3.model.Depart;
+import com.team3.model.Salgrade;
+import com.team3.service.AccountService;
+import com.team3.service.SalgradeService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/salary")
-public class SalaryController {
+@RequestMapping("/salgrade")
+public class SalgradeController {
 	@Autowired
-	private SalaryService salaryService;
+	private SalgradeService salgradeService;
 
-//	@GetMapping("salaries")
-//	public ArrayList<Salary> getAllSalary() {
-//		return salaryService.getAllSalary();
+//	@GetMapping("accounts")
+//	public ArrayList<Account> getAllAccount() {
+//		return salgradeService.getAllAccount();
 //	}
-//
-//	@GetMapping("/salaries/{id}")
-//	public Optional<Salary> getById(@PathVariable int id) {
-//		return salaryService.getById(id);
+
+//	@GetMapping("/accounts/{id}")
+//	public Optional<Account> getById(@PathVariable int id) {
+//		return salgradeService.getById(id);
 //	}
 
 	@PostMapping("/add")
-	public void addDepart(@RequestBody Salary salary) {
-		salaryService.addOrEditSalary(salary);
+	public void addDepart(@RequestBody Account account) {
+		salgradeService.addAccount(account);
 	}
 
 	@PutMapping("/edit")
-	public void editDepart(@RequestBody Salary salary) {
-		salaryService.addOrEditSalary(salary);
+	public void editDepart(@RequestBody Account account) {
+		salgradeService.editAccount(account);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void deleleSalary(@PathVariable int id) {
-		salaryService.deleteSalary(id);
+	public void deleteAccount(@PathVariable Integer id) {
+		salgradeService.deleteAccount(id);
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<SalaryCustom> getByCondition(@RequestBody SalaryCustom salaryCustom) {
-		return salaryService.findByCondition(salaryCustom);
+	public ArrayList<Salgrade> getByCondition(@RequestBody Salgrade salgrade) {
+		return salgradeService.getByCondition(salgrade);
 	}
+
+	
 
 }

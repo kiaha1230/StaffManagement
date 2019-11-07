@@ -7,6 +7,8 @@ public class AccountCustom {
 	private String username;
 	private String password;
 	private Date createDate;
+	private Date fromDate;
+	private Date toDate;
 	private Integer staffId;
 	private Boolean accountRole;
 	private String staffName;
@@ -67,16 +69,34 @@ public class AccountCustom {
 		this.staffName = staffName;
 	}
 
-	public AccountCustom(Integer id, String username, String password, Date createDate, Integer staffId,
-			Boolean accountRole, String staffName) {
+	public AccountCustom(Integer id, String username, String password, Date createDate, Date fromDate, Date toDate,
+			Integer staffId, Boolean accountRole, String staffName) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.createDate = createDate;
+		this.fromDate = fromDate;
+		this.toDate = toDate;
 		this.staffId = staffId;
 		this.accountRole = accountRole;
 		this.staffName = staffName;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
 	}
 
 	public AccountCustom() {

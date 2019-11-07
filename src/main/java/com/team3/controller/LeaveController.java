@@ -23,8 +23,8 @@ import com.team3.service.AccountService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/account")
-public class AccountController {
+@RequestMapping("/leave")
+public class LeaveController {
 	@Autowired
 	private AccountService accountService;
 

@@ -42,8 +42,8 @@ public class RecordService {
 		recordRepository.deleteById(id);
 	}
 
-	public ArrayList<RecordCustom> findByCondition(Record record) {
-		ArrayList<RecordCustom> list = new ArrayList<RecordCustom>();
+	public ArrayList<Record> findByCondition(Record record) {
+		ArrayList<Record> list = new ArrayList<Record>();
 		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName from Record r , Staff s where r.staffId = s.id ";
 		if (!(record.getReason() == null)) {
 			query += " and  r.reason like :reason";
@@ -66,7 +66,7 @@ public class RecordService {
 		}
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((records) -> {
-			RecordCustom custom = new RecordCustom();
+			Record custom = new Record();
 			custom.setId((Integer) records[0]);
 			custom.setType((Boolean) records[1]);
 			custom.setReason((String) records[2]);

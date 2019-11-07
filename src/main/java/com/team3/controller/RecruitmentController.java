@@ -16,44 +16,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.team3.model.Depart;
-import com.team3.service.DepartService;
+import com.team3.model.Recruitment;
+import com.team3.service.RecruitmentService;
+import com.team3.service.RecruitmentService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/depart")
-public class DepartController {
+@RequestMapping("/recruitment")
+public class RecruitmentController {
 	@Autowired
-	private DepartService departService;
+	private RecruitmentService recruitmentService;
 
 //	@GetMapping("departs")
-//	public ArrayList<Depart> getAllDepart() {
-//		return ((DepartService) departService).getAllDepart();
+//	public ArrayList<Recruitment> getAllRecruitment() {
+//		return ((RecruitmentService) recruitmentService).getAllRecruitment();
 //	}
 //
 //	@GetMapping("/departs/{id}")
-//	public Optional<Depart> getById(@PathVariable int id) {
-//		return departService.getById(id);
+//	public Optional<Recruitment> getById(@PathVariable int id) {
+//		return recruitmentService.getById(id);
 //	}
 
 	@PostMapping("/add")
-	public void addDepart(@RequestBody Depart depart) {
-		departService.addDepart(depart);
+	public void addRecruitment(@RequestBody Recruitment depart) {
+		recruitmentService.addOrEditRecruitment(depart);
 	}
 
 	@PutMapping("/edit")
-	public void editDepart(@RequestBody Depart depart) {
-		departService.editDepart(depart);
+	public void editRecruitment(@RequestBody Recruitment depart) {
+		recruitmentService.addOrEditRecruitment(depart);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void deleteDepart(@PathVariable Integer id) {
-		departService.deleteDepart(id);
+	public void deleteRecruitment(@PathVariable Integer id) {
+		recruitmentService.deleteRecruitment(id);
 	}
 
 	@PostMapping("/getsByConditions")
-	public List<Depart> findByCondition(@RequestBody Depart depart) {
-		return departService.findByCondition(depart);
+	public List<Recruitment> findByCondition(@RequestBody Recruitment depart) {
+		return recruitmentService.findByCondition(depart);
 	}
 
 }

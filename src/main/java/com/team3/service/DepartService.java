@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,17 +50,17 @@ public class DepartService {
 		ArrayList<Depart> list = new ArrayList<Depart>();
 		String query = "from Depart where id >0 ";
 		if (!(depart.getDepartCode() == null)) {
-			query += " and  departCode = :departCode";
+			query += " and  departCode like :departCode";
 		}
 		if (!(depart.getDepartName() == null)) {
 			query += " and departName like :departName  ";
 		}
 		Query q = em.createQuery(query);
 		if (!(depart.getDepartCode() == null)) {
-			q.setParameter("departCode", depart.getDepartCode());
+			q.setParameter("departCode", "%" + depart.getDepartCode() + "%");
 		}
 		if (!(depart.getDepartName() == null)) {
-			q.setParameter("departName", depart.getDepartName());
+			q.setParameter("departName", "%" + depart.getDepartName() + "%");
 		}
 
 		list = (ArrayList<Depart>) q.getResultList();

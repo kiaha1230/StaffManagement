@@ -44,18 +44,24 @@ public class SalaryService {
 
 	public ArrayList<SalaryCustom> findByCondition(SalaryCustom salary) {
 		ArrayList<SalaryCustom> list = new ArrayList<SalaryCustom>();
-		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary from Salary sa , Staff s where sa.staffId = s.id ";
+		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary from Salary sa , Staff s, Salgrade sal where sa.staffId = s.id ";
 		if (!(salary.getId() == null)) {
 			query += " and  sa.staffId = :staffId";
 		}
-		if (!(salary.getSalGrade()==null)) {
-			query += " and "
+		if (!(salary.getSalGrade() == null)) {
+			query += " and ";
 		}
-			if (!(salary.getGrossSalary() == null)) {
-				query += " and sa.grossSalary between :fromGross and :toGross  ";
-			}
+		if (!(salary.getGrossSalary() == null)) {
+			query += " and sa.grossSalary between :fromGross and :toGross  ";
+		}
 		if (!(salary.getNetSalary() == null)) {
 			query += " and sa.netSalary between :fromNet and :toNet ";
+		}
+		if (!(salary.getId() == null)) {
+			query += " and  sa.staffId = :staffId";
+		}
+		if (!(salary.getSalGrade() == null)) {
+			query += "	and grossSalary between losal and hisal and grade = :grade ";
 		}
 		Query q = em.createQuery(query);
 		if (!(salary.getId() == null)) {
@@ -67,6 +73,9 @@ public class SalaryService {
 		}
 		if (!(salary.getNetSalary() == null)) {
 			q.setParameter("fromNet", salary.getFromNetSalary());
+			q.setParameter("toNet", salary.getToNetSalary());
+		}
+		if (!(salary.getSalGrade() == null)) {
 			q.setParameter("toNet", salary.getToNetSalary());
 		}
 		List<Object[]> obj = q.getResultList();

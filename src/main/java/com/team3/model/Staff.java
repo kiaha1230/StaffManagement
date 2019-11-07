@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -46,16 +47,82 @@ public class Staff {
 	private String phone;
 	@Column(name = "STATUS")
 	private Boolean status;
-	@Column(name = "ROLE")
-	private Boolean role;
+	@Transient
+	private String departName;
+	@Transient
+	private Long kiLuat;
+	@Transient
+	private Long khenThuong;
+	@Transient
+	private Long diem;
 
-	public Boolean getRole() {
-		return role;
+	
+
+	
+
+	public Staff(Integer id, String staffCode, String staffName, Integer departId, Boolean gender, Date birthday,
+			String photo, String email, String phone, Boolean status, String departName, Long kiLuat, Long khenThuong,
+			Long diem, Integer positionId) {
+		super();
+		this.id = id;
+		this.staffCode = staffCode;
+		this.staffName = staffName;
+		this.departId = departId;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.photo = photo;
+		this.email = email;
+		this.phone = phone;
+		this.status = status;
+		this.departName = departName;
+		this.kiLuat = kiLuat;
+		this.khenThuong = khenThuong;
+		this.diem = diem;
+		this.positionId = positionId;
 	}
 
-	public void setRole(Boolean role) {
-		this.role = role;
+	public Long getKiLuat() {
+		return kiLuat;
 	}
+
+	public void setKiLuat(Long kiLuat) {
+		this.kiLuat = kiLuat;
+	}
+
+	public Long getKhenThuong() {
+		return khenThuong;
+	}
+
+	public void setKhenThuong(Long khenThuong) {
+		this.khenThuong = khenThuong;
+	}
+
+	public Long getDiem() {
+		return diem;
+	}
+
+	public void setDiem(Long diem) {
+		this.diem = diem;
+	}
+
+	public String getDepartName() {
+		return departName;
+	}
+
+	public void setDepartName(String departName) {
+		this.departName = departName;
+	}
+
+	public Integer getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(Integer positionId) {
+		this.positionId = positionId;
+	}
+
+	@Column(name = "POSITION_ID")
+	private Integer positionId;
 
 	public Boolean getGender() {
 		return gender;
@@ -149,20 +216,4 @@ public class Staff {
 		this.departId = departId;
 	}
 
-	public Staff(Integer id, String staffCode, String staffName, Integer departId, Boolean gender, Date birthday,
-			String photo, String email, String phone, Boolean status, Boolean role) {
-		super();
-		this.id = id;
-		this.staffCode = staffCode;
-		this.staffName = staffName;
-		this.departId = departId;
-		this.gender = gender;
-		this.birthday = birthday;
-		this.photo = photo;
-		this.email = email;
-		this.phone = phone;
-		this.status = status;
-		this.role = role;
-	}
-
-	}
+}
