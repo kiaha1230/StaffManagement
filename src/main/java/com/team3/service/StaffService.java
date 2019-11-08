@@ -111,5 +111,20 @@ public class StaffService {
 		});
 		return list;
 	}
+	
+	public ArrayList<Staff> getByActive() {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String hql = "from Staff where status = 1";
+		Query q = em.createQuery(hql);
+		list = (ArrayList<Staff>) q.getResultList();
+		return list;
+	}
+	public ArrayList<Staff> getsStaffWithoutAccount() {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String hql = "from Staff s where s.staffName not in ( select s.staffName from Account a, Staff s where a.staffId = s.id) ";
+		Query q = em.createQuery(hql);
+		list = (ArrayList<Staff>) q.getResultList();
+		return list;
+	}
 
 }

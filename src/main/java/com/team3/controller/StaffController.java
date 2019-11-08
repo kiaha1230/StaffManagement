@@ -66,11 +66,15 @@ public class StaffController {
 		return staffService.top10Staff(staff);
 	}
 
-	@GetMapping("test")
-	public String test()
-
-	{
-		return "test";
+	@GetMapping("/getsStaffActive")
+	public List<Staff> getsStaffActive() {
+		return staffService.getByActive();
 	}
+	@GetMapping("/getsStaffWithoutAccount")
+	public List<Staff> getsStaffDeactive() {
+		return staffService.getsStaffWithoutAccount();
+	}
+
+
 
 }
