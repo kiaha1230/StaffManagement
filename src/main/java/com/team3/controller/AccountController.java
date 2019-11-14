@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team3.customModel.AccountCustom;
 import com.team3.model.Account;
 import com.team3.model.Depart;
+import com.team3.model.Pager;
 import com.team3.service.AccountService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -59,8 +60,14 @@ public class AccountController {
 	}
 
 	@PostMapping("/login")
-	public List<Account> login(@RequestBody Account account) {
+	public Account login(@RequestBody Account account) {
 		return accountService.login(account);
 	}
+	@PostMapping("/getsByConditionsPager")
+	public Pager getByConditionPager(@RequestBody Account account) {
+		return accountService.getByConditionPager(account);
+	}
+	
+	
 
 }

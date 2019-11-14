@@ -1,4 +1,4 @@
-package com.team3.model;
+	package com.team3.model;
 
 import java.util.Date;
 
@@ -41,15 +41,40 @@ public class Account {
 	@Column(name = "STAFF_ID")
 	private Integer staffId;
 	@Column(name = "ACCOUNT_ROLE")
-	private Boolean accountRole;
+	private Integer accountRole;
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fromDate;
+	private Date fromCreateDate;
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date toDate;
+	private Date toCreateDate;
 	@Transient
 	private String staffName;
+	@Transient
+	private Pager pager;
+
+	public Account(Integer id, String username, String password, Date createDate, Integer staffId, Integer accountRole,
+			Date fromCreateDate, Date toCreateDate, String staffName, Pager pager) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.createDate = createDate;
+		this.staffId = staffId;
+		this.accountRole = accountRole;
+		this.fromCreateDate = fromCreateDate;
+		this.toCreateDate = toCreateDate;
+		this.staffName = staffName;
+		this.pager = pager;
+	}
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public String getStaffName() {
 		return staffName;
@@ -57,14 +82,6 @@ public class Account {
 
 	public void setStaffName(String staffName) {
 		this.staffName = staffName;
-	}
-
-	public Date getToDate() {
-		return toDate;
-	}
-
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
 	}
 
 	public Integer getId() {
@@ -99,14 +116,6 @@ public class Account {
 		this.createDate = createDate;
 	}
 
-	public Boolean isAccountRole() {
-		return accountRole;
-	}
-
-	public void setAccountRole(Boolean accountRole) {
-		this.accountRole = accountRole;
-	}
-
 	public Account() {
 		super();
 	}
@@ -119,41 +128,42 @@ public class Account {
 		this.staffId = staffId;
 	}
 
-	public Account(Integer id, String username, String password, Date createDate, Integer staffId,
-			Boolean accountRole) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.createDate = createDate;
-		this.staffId = staffId;
-		this.accountRole = accountRole;
+	public Date getFromCreateDate() {
+		return fromCreateDate;
 	}
 
-	public Account(Integer id, String username, String password, Date createDate, Integer staffId, Boolean accountRole,
-			Date fromDate, Date toDate, String staffName) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.createDate = createDate;
-		this.staffId = staffId;
-		this.accountRole = accountRole;
-		this.fromDate = fromDate;
-		this.toDate = toDate;
-		this.staffName = staffName;
+	public void setFromCreateDate(Date fromCreateDate) {
+		this.fromCreateDate = fromCreateDate;
 	}
 
-	public Date getFromDate() {
-		return fromDate;
+	public Date getToCreateDate() {
+		return toCreateDate;
 	}
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+	public void setToCreateDate(Date toCreateDate) {
+		this.toCreateDate = toCreateDate;
 	}
 
-	public Boolean getAccountRole() {
+	public Integer getAccountRole() {
 		return accountRole;
+	}
+
+	public void setAccountRole(Integer accountRole) {
+		this.accountRole = accountRole;
+	}
+
+	public Account(Integer id, String username, String password, Date createDate, Integer staffId, Integer accountRole,
+			Date fromCreateDate, Date toCreateDate, String staffName) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.createDate = createDate;
+		this.staffId = staffId;
+		this.accountRole = accountRole;
+		this.fromCreateDate = fromCreateDate;
+		this.toCreateDate = toCreateDate;
+		this.staffName = staffName;
 	}
 
 }

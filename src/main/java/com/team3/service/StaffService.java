@@ -50,12 +50,12 @@ public class StaffService {
 
 	public ArrayList<Staff> findByCondition(Staff staff) {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phone,s.status from Depart d , Staff s where d.id = s.departId ";
+		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phone,s.status from Depart d , Staff s where d.id = s.departId  ";
 		if (!(staff.getStaffCode() == null)) {
-			query += " and  r.staffCode like :staffCode";
+			query += " and  s.staffCode like :staffCode";
 		}
 		if (!(staff.getStaffName() == null)) {
-			query += " and s.staffName = :staffName ";
+			query += " and s.staffName like :staffName ";
 		}
 		if (staff.getDepartId() != null) {
 			query += " and s.departId = :departId ";
@@ -65,10 +65,10 @@ public class StaffService {
 		}
 		Query q = em.createQuery(query);
 		if (!(staff.getStaffCode() == null)) {
-			q.setParameter("staffCode", staff.getStaffCode());
+			q.setParameter("staffCode","%"+ staff.getStaffCode()+"%");
 		}
 		if (!(staff.getStaffName() == null)) {
-			q.setParameter("staffName", staff.getStaffName());
+			q.setParameter("staffName", "%"+staff.getStaffName()+"%");
 		}
 		if (staff.getDepartId() != null) {
 			q.setParameter("departId", staff.getDepartId());
@@ -94,9 +94,9 @@ public class StaffService {
 		return list;
 	}
 
-	public ArrayList<Staff> top10Staff(Staff staff) {
+	public ArrayList<Staff> top10Staff() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String hql = "SELECT  s.staffName,  SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)"
+		String hql = "SELECT  s.staffName, SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)"
 				+ "  FROM Record r,Staff s where r.staffId = s.id "
 				+ "GROUP BY s.staffName order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
 		Query q = em.createQuery(hql);

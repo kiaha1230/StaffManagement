@@ -44,7 +44,7 @@ public class SalaryService {
 
 	public ArrayList<SalaryCustom> findByCondition(SalaryCustom salary) {
 		ArrayList<SalaryCustom> list = new ArrayList<SalaryCustom>();
-		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary from Salary sa , Staff s, Salgrade sal where sa.staffId = s.id ";
+		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary from Salary sa , Staff s where sa.staffId = s.id ";
 		if (!(salary.getId() == null)) {
 			query += " and  sa.staffId = :staffId";
 		}

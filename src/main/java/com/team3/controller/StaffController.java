@@ -61,9 +61,9 @@ public class StaffController {
 		return staffService.findByCondition(staff);
 	}
 
-	@PostMapping("/top10Staff")
-	public List<Staff> top10Staff(@RequestBody Staff staff) {
-		return staffService.top10Staff(staff);
+	@GetMapping("/getsTop")
+	public List<Staff> top10Staff() {
+		return staffService.top10Staff();
 	}
 
 	@GetMapping("/getsStaffActive")

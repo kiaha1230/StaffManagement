@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.team3.customModel.AccountCustom;
 import com.team3.model.Account;
 import com.team3.model.Depart;
+import com.team3.model.Pager;
 import com.team3.repository.AccountRepository;
 
 @Service
@@ -49,7 +50,7 @@ public class AccountService {
 
 	public ArrayList<Account> getByCondition(Account account) {
 		ArrayList<Account> list = new ArrayList<Account>();
-		String query = "select a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole from Account a , Staff s where a.staffId = s.id ";
+		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId from Account a , Staff s where a.staffId = s.id ";
 		Date fromDate = new Date();
 		Date toDate = new Date();
 		Date createDate = new Date();
@@ -57,13 +58,13 @@ public class AccountService {
 			query += " and  a.username like :username";
 		}
 		// ngay
-		if (account.getFromDate() != null && account.getToDate() != null) {
+		if (account.getFromCreateDate() != null && account.getToCreateDate() != null) {
 			query += " and a.createDate between :fromDate and :toDate ";
 		}
-		if (account.getFromDate() != null && account.getToDate() == null) {
+		if (account.getFromCreateDate() != null && account.getToCreateDate() == null) {
 			query += " and a.createDate >= :fromDate ";
 		}
-		if (account.getFromDate() == null && account.getToDate() != null) {
+		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
 			query += " and a.createDate <= :toDate ";
 		}
 
@@ -71,7 +72,7 @@ public class AccountService {
 		if (!(account.getStaffId() == null)) {
 			query += " and s.id = :staffId  ";
 		}
-		if (account.isAccountRole() != null) {
+		if (account.getAccountRole() != null) {
 			query += " and a.accountRole = :accountRole ";
 		}
 		Query q = em.createQuery(query);
@@ -82,20 +83,18 @@ public class AccountService {
 		if (!(account.getStaffId() == null)) {
 			q.setParameter("staffId", account.getStaffId());
 		}
-		if (account.isAccountRole() != null) {
-			q.setParameter("accountRole", account.isAccountRole());
+		if (account.getAccountRole() != null) {
+			q.setParameter("accountRole", account.getAccountRole());
 		}
-		if (account.getFromDate() != null && account.getToDate() != null) {
-			q.setParameter("fromDate", account.getFromDate());
-			q.setParameter("toDate", account.getToDate());
+		if (account.getFromCreateDate() != null && account.getToCreateDate() != null) {
+			q.setParameter("fromDate", account.getFromCreateDate());
+			q.setParameter("toDate", account.getToCreateDate());
 		}
-		if (account.getFromDate() != null && account.getToDate() == null) {
-			q.setParameter("createDate", account.getCreateDate());
-			q.setParameter("fromDate", account.getFromDate());
+		if (account.getFromCreateDate() != null && account.getToCreateDate() == null) {
+			q.setParameter("fromDate", account.getFromCreateDate());
 		}
-		if (account.getFromDate() == null && account.getToDate() != null) {
-			q.setParameter("createDate", account.getCreateDate());
-			q.setParameter("toDate", account.getToDate());
+		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
+			q.setParameter("toDate", account.getToCreateDate());
 		}
 
 		List<Object[]> obj = q.getResultList();
@@ -106,20 +105,91 @@ public class AccountService {
 			custom.setPassword(record[2].toString());
 			custom.setCreateDate((Date) record[3]);
 			custom.setStaffName(record[4].toString());
-			custom.setAccountRole((Boolean) record[5]);
+			custom.setAccountRole((Integer) record[5]);
+			custom.setStaffId((Integer) record[6]);
 			list.add(custom);
 		});
 		return list;
 	}
 
-	public List<Account> login(Account account) {
-		List<Account> list = new ArrayList<Account>();
+	public Pager getByConditionPager(Account account) {
+		Pager pager = new Pager();
+		ArrayList<Account> list = new ArrayList<Account>();
+		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId from Account a , Staff s where a.staffId = s.id ";
+		Date fromDate = new Date();
+		Date toDate = new Date();
+		Date createDate = new Date();
+//		if (account.getPager().get != null) {
+//
+//		}
+		if (!(account.getUsername() == null)) {
+			query += " and  a.username like :username";
+		}
+		// ngay
+		if (account.getFromCreateDate() != null && account.getToCreateDate() != null) {
+			query += " and a.createDate between :fromDate and :toDate ";
+		}
+		if (account.getFromCreateDate() != null && account.getToCreateDate() == null) {
+			query += " and a.createDate >= :fromDate ";
+		}
+		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
+			query += " and a.createDate <= :toDate ";
+		}
+
+		//
+		if (!(account.getStaffId() == null)) {
+			query += " and s.id = :staffId  ";
+		}
+		if (account.getAccountRole() != null) {
+			query += " and a.accountRole = :accountRole ";
+		}
+		Query q = em.createQuery(query);
+		// set parameter
+		if (account.getUsername() != null) {
+			q.setParameter("username", "%" + account.getUsername() + "%");
+		}
+		if (!(account.getStaffId() == null)) {
+			q.setParameter("staffId", account.getStaffId());
+		}
+		if (account.getAccountRole() != null) {
+			q.setParameter("accountRole", account.getAccountRole());
+		}
+		if (account.getFromCreateDate() != null && account.getToCreateDate() != null) {
+			q.setParameter("fromDate", account.getFromCreateDate());
+			q.setParameter("toDate", account.getToCreateDate());
+		}
+		if (account.getFromCreateDate() != null && account.getToCreateDate() == null) {
+			q.setParameter("fromDate", account.getFromCreateDate());
+		}
+		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
+			q.setParameter("toDate", account.getToCreateDate());
+		}
+
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((record) -> {
+			Account custom = new Account();
+			custom.setId((Integer) record[0]);
+			custom.setUsername(record[1].toString());
+			custom.setPassword(record[2].toString());
+			custom.setCreateDate((Date) record[3]);
+			custom.setStaffName(record[4].toString());
+			custom.setAccountRole((Integer) record[5]);
+			custom.setStaffId((Integer) record[6]);
+			list.add(custom);
+		});
+		pager.setObject(list);
+		pager.setLength(list.size());
+		return pager;
+	}
+
+	public Account login(Account account) {
+		Account account1 = new Account();
 		String hql = "FROM Account WHERE username = :username and password = :password ";
 		Query q = em.createQuery(hql);
 		q.setParameter("username", account.getUsername());
 		q.setParameter("password", account.getPassword());
-		list = q.getResultList();
-		return list;
+		account1 = (Account) q.getSingleResult();
+		return account1;
 	}
 
 }

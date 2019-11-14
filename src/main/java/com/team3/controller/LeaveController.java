@@ -16,51 +16,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.team3.customModel.AccountCustom;
-import com.team3.model.Account;
+
+import com.team3.model.Leave;
 import com.team3.model.Depart;
-import com.team3.service.AccountService;
+import com.team3.service.LeaveService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/leave")
 public class LeaveController {
 	@Autowired
-	private AccountService accountService;
+	private LeaveService leaveService;
 
-//	@GetMapping("accounts")
-//	public ArrayList<Account> getAllAccount() {
-//		return accountService.getAllAccount();
-//	}
+	@GetMapping("getsAllLeave")
+	public ArrayList<Leave> getAllLeave() {
+		return leaveService.getAllLeave();
+	}
 
-//	@GetMapping("/accounts/{id}")
-//	public Optional<Account> getById(@PathVariable int id) {
-//		return accountService.getById(id);
+//	@GetMapping("/leaves/{id}")
+//	public Optional<Leave> getById(@PathVariable int id) {
+//		return leaveService.getById(id);
 //	}
 
 	@PostMapping("/add")
-	public void addDepart(@RequestBody Account account) {
-		accountService.addAccount(account);
+	public void addDepart(@RequestBody Leave leave) {
+		leaveService.addLeave(leave);
 	}
 
 	@PutMapping("/edit")
-	public void editDepart(@RequestBody Account account) {
-		accountService.editAccount(account);
+	public void editDepart(@RequestBody Leave leave) {
+		leaveService.editLeave(leave);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public void deleteAccount(@PathVariable Integer id) {
-		accountService.deleteAccount(id);
+	public void deleteLeave(@PathVariable Integer id) {
+		leaveService.deleteLeave(id);
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Account> getByCondition(@RequestBody Account account) {
-		return accountService.getByCondition(account);
+	public ArrayList<Leave> findByCondition(@RequestBody Leave leave) {
+		return leaveService.findByCondition(leave);
 	}
 
-	@PostMapping("/login")
-	public List<Account> login(@RequestBody Account account) {
-		return accountService.login(account);
-	}
 
 }

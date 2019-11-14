@@ -26,10 +26,10 @@ public class DepartController {
 	@Autowired
 	private DepartService departService;
 
-//	@GetMapping("departs")
-//	public ArrayList<Depart> getAllDepart() {
-//		return ((DepartService) departService).getAllDepart();
-//	}
+	@GetMapping("/getsAllDepart")
+	public ArrayList<Depart> getAllDepart() {
+		return ((DepartService) departService).getAllDepart();
+	}
 //
 //	@GetMapping("/departs/{id}")
 //	public Optional<Depart> getById(@PathVariable int id) {
