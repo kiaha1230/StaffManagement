@@ -36,10 +36,10 @@ public class StaffController {
 //		return list;
 //	}
 //
-//	@GetMapping("staffs/{id}")
-//	public Optional<Staff> getById(@PathVariable int id) {
-//		return staffService.getById(id);
-//	}
+	@GetMapping("get/{id}")
+	public Optional<Staff> getById(@PathVariable int id) {
+		return staffService.getById(id);
+	}
 
 	@PostMapping("/add")
 	public void addTask(@RequestBody Staff staff) {
