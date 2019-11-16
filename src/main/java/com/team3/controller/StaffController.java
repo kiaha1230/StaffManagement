@@ -73,13 +73,18 @@ public class StaffController {
 	}
 
 	@GetMapping("/getsStaffWithoutAccount")
-	public List<Staff> getsStaffDeactive() {
+	public List<Staff> getStaffsWithoutAccount() {
 		return staffService.getsStaffWithoutAccount();
 	}
+
 	@PostMapping("/getBirthdaysInMonth")
 	public List<Staff> getBirthdaysInMonth(@RequestBody Date currentDate) {
 		return staffService.getStaffHaveBirthday(currentDate);
 	}
 
+	@GetMapping("/getsStaffWithoutSalary")
+	public List<Staff> getStaffswithoutSalary() {
+		return staffService.getsStaffWithoutSalary();
+	}
 
 }

@@ -40,12 +40,31 @@ public class Attendance {
 	@Transient
 	private String staffName;
 	@Transient
-	private Date fromDate;
+	private Date fromAttendanceDate;
 	@Transient
-	private Date toDate;
+	private Date toAttendanceDate;
+
+
+	
+
+	public Date getFromAttendanceDate() {
+		return fromAttendanceDate;
+	}
+
+	public void setFromAttendanceDate(Date fromAttendanceDate) {
+		this.fromAttendanceDate = fromAttendanceDate;
+	}
+
+	public Date getToAttendanceDate() {
+		return toAttendanceDate;
+	}
+
+	public void setToAttendanceDate(Date toAttendanceDate) {
+		this.toAttendanceDate = toAttendanceDate;
+	}
 
 	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime,
-			String staffName, Date fromDate, Date toDate) {
+			String staffName, Date fromAttendanceDate, Date toAttendanceDate) {
 		super();
 		this.id = id;
 		this.staffId = staffId;
@@ -53,24 +72,8 @@ public class Attendance {
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 		this.staffName = staffName;
-		this.fromDate = fromDate;
-		this.toDate = toDate;
-	}
-
-	public Date getFromDate() {
-		return fromDate;
-	}
-
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
-	}
-
-	public Date getToDate() {
-		return toDate;
-	}
-
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
+		this.fromAttendanceDate = fromAttendanceDate;
+		this.toAttendanceDate = toAttendanceDate;
 	}
 
 	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime,

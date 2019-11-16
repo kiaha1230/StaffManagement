@@ -52,28 +52,29 @@ public class AttendanceService {
 		if (attendance.getStaffId() != null) {
 			query += " and  a.staffId = :staffId ";
 		}
-		if (attendance.getToDate() != null && attendance.getFromDate() != null) {
-			query += " and a.attendaceDate between :fromDate and :toDate ";
+		if (attendance.getToAttendanceDate() != null && attendance.getFromAttendanceDate() != null) {
+			query += " and a.attendanceDate between :fromAttendanceDate and :toAttendanceDate ";
 		}
-		if (attendance.getToDate() != null && attendance.getFromDate() == null) {
-			query += " and a.attendaceDate >= :fromDate ";
+		if (attendance.getToAttendanceDate() != null && attendance.getFromAttendanceDate() == null) {
+			query += " and a.attendanceDate <= :toAttendanceDate ";
 		}
-		if (attendance.getToDate() == null && attendance.getFromDate() != null) {
-			query += " and a.attendaceDate <= :fromDate ";
+		if (attendance.getToAttendanceDate() == null && attendance.getFromAttendanceDate() != null) {
+			query += " and a.attendanceDate >= :fromAttendanceDate ";
 		}
+		
 		Query q = em.createQuery(query);
 		if (attendance.getStaffId() != null) {
 			q.setParameter("staffId", attendance.getStaffId());
 		}
-		if (attendance.getToDate() != null && attendance.getFromDate() != null) {
-			q.setParameter("fromDate", attendance.getFromDate());
-			q.setParameter("toDate", attendance.getToDate());
+		if (attendance.getToAttendanceDate() != null && attendance.getFromAttendanceDate() != null) {
+			q.setParameter("fromAttendanceDate", attendance.getFromAttendanceDate());
+			q.setParameter("toAttendanceDate", attendance.getToAttendanceDate());
 		}
-		if (attendance.getToDate() != null && attendance.getFromDate() == null) {
-			q.setParameter("fromDate", attendance.getFromDate());
+		if (attendance.getToAttendanceDate() != null && attendance.getFromAttendanceDate() == null) {
+			q.setParameter("toAttendanceDate", attendance.getToAttendanceDate());
 		}
-		if (attendance.getToDate() == null && attendance.getFromDate() != null) {
-			q.setParameter("toDate", attendance.getToDate());
+		if (attendance.getToAttendanceDate() == null && attendance.getFromAttendanceDate() != null) {
+			q.setParameter("fromAttendanceDate", attendance.getFromAttendanceDate());
 		}
 
 		List<Object[]> obj = q.getResultList();

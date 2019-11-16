@@ -53,7 +53,7 @@ public class SalaryController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<SalaryCustom> getByCondition(@RequestBody SalaryCustom salaryCustom) {
+	public ArrayList<Salary> getByCondition(@RequestBody Salary salaryCustom) {
 		return salaryService.findByCondition(salaryCustom);
 	}
 
