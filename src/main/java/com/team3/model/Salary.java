@@ -43,6 +43,22 @@ public class Salary {
 	
 	
 
+	public Salary(Integer id, Integer staffId, Double grossSalary, Double tax, Double insurance, Double netSalary,
+			String staffName, Double fromGrossSalary, Double toGrossSalary, Double fromNetSalary, Double toNetSalary) {
+		super();
+		this.id = id;
+		this.staffId = staffId;
+		this.grossSalary = grossSalary;
+		this.tax = tax;
+		this.insurance = insurance;
+		this.netSalary = netSalary;
+		this.staffName = staffName;
+		this.fromGrossSalary = fromGrossSalary;
+		this.toGrossSalary = toGrossSalary;
+		this.fromNetSalary = fromNetSalary;
+		this.toNetSalary = toNetSalary;
+	}
+
 	public Double getFromGrossSalary() {
 		return fromGrossSalary;
 	}

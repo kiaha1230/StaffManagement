@@ -19,6 +19,7 @@ import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
 import com.team3.repository.AccountRepository;
+import com.team3.resources.UserInformation;
 
 @Service
 public class AccountService {
@@ -193,7 +194,11 @@ public class AccountService {
 		q.setParameter("username", account.getUsername());
 		q.setParameter("password", account.getPassword());
 		account1 = (Account) q.getResultList().stream().findFirst().orElse(null);
+		UserInformation.setACCOUNT(account1);
 		return account1;
+	}
+	public void logout() {
+		UserInformation.setACCOUNT(null);
 	}
 
 }

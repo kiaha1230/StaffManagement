@@ -69,4 +69,9 @@ public class AccountController {
 		return accountService.getByConditionPager(account);
 	}
 
+	@GetMapping("/logout")
+	public void logout() {
+		accountService.logout();
+	}
+
 }

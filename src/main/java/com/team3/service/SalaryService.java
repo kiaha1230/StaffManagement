@@ -48,28 +48,54 @@ public class SalaryService {
 		if (!(salary.getStaffId() == null)) {
 			query += " and  sa.staffId = :staffId";
 		}
-		if (!(salary.getGrossSalary() == null)) {
-			query += " and sa.grossSalary between :fromGross and :toGross  ";
+		if (salary.getFromGrossSalary() != null && salary.getToGrossSalary() != null) {
+			query += " and sa.grossSalary between :fromGross and :toGross ";
 		}
-		if (!(salary.getNetSalary() == null)) {
+		if (salary.getFromGrossSalary() != null && salary.getToGrossSalary() == null) {
+			query += " and sa.grossSalary >= :fromGross ";
+		}
+		if (salary.getFromGrossSalary() == null && salary.getToGrossSalary() != null) {
+			query += " and sa.grossSalary <= :toGross ";
+		}
+		////////
+
+		if (salary.getFromNetSalary() != null && salary.getToNetSalary() != null) {
 			query += " and sa.netSalary between :fromNet and :toNet ";
 		}
-		if (!(salary.getId() == null)) {
-			query += " and  sa.staffId = :staffId";
+		if (salary.getFromNetSalary() != null && salary.getToNetSalary() == null) {
+			query += " and sa.netSalary >= :fromNet ";
+		}
+		if (salary.getFromNetSalary() == null && salary.getToNetSalary() != null) {
+			query += " and sa.netSalary <= :toNet ";
 		}
 //		if (!(salary.getSalGrade() == null)) {
 //			query += "	and grossSalary between losal and hisal and grade = :grade ";
 //		}
 		Query q = em.createQuery(query);
-		if (!(salary.getId() == null)) {
+		if (!(salary.getStaffId() == null)) {
 			q.setParameter("staffId", salary.getStaffId());
 		}
-		if (!(salary.getGrossSalary() == null)) {
+		if (salary.getFromGrossSalary() != null && salary.getToGrossSalary() != null) {
 			q.setParameter("fromGross", salary.getFromGrossSalary());
 			q.setParameter("toGross", salary.getToGrossSalary());
 		}
-		if (!(salary.getNetSalary() == null)) {
+		if (salary.getFromGrossSalary() != null && salary.getToGrossSalary() == null) {
+			q.setParameter("fromGross", salary.getFromGrossSalary());
+		}
+		if (salary.getFromGrossSalary() == null && salary.getToGrossSalary() != null) {
+			q.setParameter("toGross", salary.getToGrossSalary());
+		}
+
+		/////
+
+		if (salary.getFromNetSalary() != null && salary.getToNetSalary() != null) {
 			q.setParameter("fromNet", salary.getFromNetSalary());
+			q.setParameter("toNet", salary.getToNetSalary());
+		}
+		if (salary.getFromNetSalary() != null && salary.getToNetSalary() == null) {
+			q.setParameter("fromNet", salary.getFromNetSalary());
+		}
+		if (salary.getFromNetSalary() == null && salary.getToNetSalary() != null) {
 			q.setParameter("toNet", salary.getToNetSalary());
 		}
 //		if (!(salary.getSalGrade() == null)) {

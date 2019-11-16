@@ -56,13 +56,13 @@ public class LeaveService {
 			query += " and  l.status = :status ";
 		}
 		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
-			query += " and l.date between :fromDate and :toDate ";
+			query += " and l.leaveDate between :fromDate and :toDate ";
 		}
 		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
-			query += " and l.date >= :fromDate ";
+			query += " and l.leaveDate <= :toDate ";
 		}
 		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
-			query += " and l.date <= :fromDate ";
+			query += " and l.leaveDate >= :fromDate ";
 		}
 		Query q = em.createQuery(query);
 
@@ -80,10 +80,10 @@ public class LeaveService {
 			q.setParameter("toDate", leave.getToLeaveDate());
 		}
 		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
-			q.setParameter("fromDate", leave.getFromLeaveDate());
+			q.setParameter("toDate", leave.getToLeaveDate());
 		}
 		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
-			q.setParameter("toDate", leave.getToLeaveDate());
+			q.setParameter("fromDate", leave.getFromLeaveDate());
 		}
 
 		List<Object[]> obj = q.getResultList();

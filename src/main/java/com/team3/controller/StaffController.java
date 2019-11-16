@@ -86,5 +86,10 @@ public class StaffController {
 	public List<Staff> getStaffswithoutSalary() {
 		return staffService.getsStaffWithoutSalary();
 	}
+	@GetMapping("/getsStaffWithoutAllowance")
+	public List<Staff> getsStaffWithoutAllowance() {
+		return staffService.getsStaffWithoutAllowance();
+	}
+	
 
 }

@@ -143,5 +143,12 @@ public class StaffService {
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
 	}
+	public ArrayList<Staff> getsStaffWithoutAllowance() {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String hql = "from Staff s where s.staffName not in ( select s.staffName from Allowance a, Staff s where a.staffId = s.id) ";
+		Query q = em.createQuery(hql);
+		list = (ArrayList<Staff>) q.getResultList();
+		return list;
+	}
 
 }
