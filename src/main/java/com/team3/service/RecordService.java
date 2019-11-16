@@ -54,6 +54,15 @@ public class RecordService {
 		if (record.isType() != null) {
 			query += " and r.type = :type ";
 		}
+		if (record.getFromCreateDate() != null && record.getToCreateDate() != null) {
+			query += " and a.createDate between :fromDate and :toDate ";
+		}
+		if (record.getFromCreateDate() != null && record.getToCreateDate() == null) {
+			query += " and a.createDate >= :fromDate ";
+		}
+		if (record.getFromCreateDate() == null && record.getToCreateDate() != null) {
+			query += " and a.createDate <= :toDate ";
+		}
 		Query q = em.createQuery(query);
 		if (!(record.getReason() == null)) {
 			q.setParameter("reason", record.getReason());
@@ -63,6 +72,16 @@ public class RecordService {
 		}
 		if (record.isType() != null) {
 			q.setParameter("type", record.isType());
+		}
+		if (record.getFromCreateDate() != null && record.getToCreateDate() != null) {
+			q.setParameter("fromDate", record.getFromCreateDate());
+			q.setParameter("toDate", record.getToCreateDate());
+		}
+		if (record.getFromCreateDate() != null && record.getToCreateDate() == null) {
+			q.setParameter("fromDate", record.getFromCreateDate());
+		}
+		if (record.getFromCreateDate() == null && record.getToCreateDate() != null) {
+			q.setParameter("toDate", record.getToCreateDate());
 		}
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((records) -> {

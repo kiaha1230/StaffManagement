@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.team3.customModel.Result;
 
 @Entity
 @Table(name = "STAFF")
@@ -44,7 +45,7 @@ public class Staff {
 	@Column(name = "EMAIL")
 	private String email;
 	@Column(name = "PHONE")
-	private String phone;
+	private String phoneNumber;
 	@Column(name = "STATUS")
 	private Boolean status;
 	@Transient
@@ -55,30 +56,17 @@ public class Staff {
 	private Long khenThuong;
 	@Transient
 	private Long diem;
+	@Transient
+	private Result result;
 
-	
 
-	
 
-	public Staff(Integer id, String staffCode, String staffName, Integer departId, Boolean gender, Date birthday,
-			String photo, String email, String phone, Boolean status, String departName, Long kiLuat, Long khenThuong,
-			Long diem, Integer positionId) {
-		super();
-		this.id = id;
-		this.staffCode = staffCode;
-		this.staffName = staffName;
-		this.departId = departId;
-		this.gender = gender;
-		this.birthday = birthday;
-		this.photo = photo;
-		this.email = email;
-		this.phone = phone;
-		this.status = status;
-		this.departName = departName;
-		this.kiLuat = kiLuat;
-		this.khenThuong = khenThuong;
-		this.diem = diem;
-		this.positionId = positionId;
+	public Result getResult() {
+		return result;
+	}
+
+	public void setResult(Result result) {
+		this.result = result;
 	}
 
 	public Long getKiLuat() {
@@ -188,12 +176,36 @@ public class Staff {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
+	
+
+	public Staff(Integer id, String staffCode, String staffName, Integer departId, Boolean gender, Date birthday,
+			String photo, String email, String phoneNumber, Boolean status, String departName, Long kiLuat,
+			Long khenThuong, Long diem, Result result, Integer positionId) {
+		super();
+		this.id = id;
+		this.staffCode = staffCode;
+		this.staffName = staffName;
+		this.departId = departId;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.photo = photo;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.status = status;
+		this.departName = departName;
+		this.kiLuat = kiLuat;
+		this.khenThuong = khenThuong;
+		this.diem = diem;
+		this.result = result;
+		this.positionId = positionId;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public Boolean isStatus() {

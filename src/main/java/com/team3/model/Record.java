@@ -40,22 +40,9 @@ public class Record {
 	@Transient
 	private String staffName;
 	@Transient
-	private Date fromDate;
+	private Date fromCreateDate;
 	@Transient
-	private Date toDate;
-
-	public Record(Integer id, Boolean type, String reason, Date createDate, Integer staffId, String staffName,
-			Date fromDate, Date toDate) {
-		super();
-		this.id = id;
-		this.type = type;
-		this.reason = reason;
-		this.createDate = createDate;
-		this.staffId = staffId;
-		this.staffName = staffName;
-		this.fromDate = fromDate;
-		this.toDate = toDate;
-	}
+	private Date toCreateDate;
 
 	public String getStaffName() {
 		return staffName;
@@ -65,20 +52,33 @@ public class Record {
 		this.staffName = staffName;
 	}
 
-	public Date getFromDate() {
-		return fromDate;
+	public Record(Integer id, Boolean type, String reason, Date createDate, Integer staffId, String staffName,
+			Date fromCreateDate, Date toCreateDate) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.reason = reason;
+		this.createDate = createDate;
+		this.staffId = staffId;
+		this.staffName = staffName;
+		this.fromCreateDate = fromCreateDate;
+		this.toCreateDate = toCreateDate;
 	}
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+	public Date getFromCreateDate() {
+		return fromCreateDate;
 	}
 
-	public Date getToDate() {
-		return toDate;
+	public void setFromCreateDate(Date fromCreateDate) {
+		this.fromCreateDate = fromCreateDate;
 	}
 
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
+	public Date getToCreateDate() {
+		return toCreateDate;
+	}
+
+	public void setToCreateDate(Date toCreateDate) {
+		this.toCreateDate = toCreateDate;
 	}
 
 	public Boolean getType() {

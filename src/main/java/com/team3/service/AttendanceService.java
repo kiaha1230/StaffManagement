@@ -30,7 +30,7 @@ public class AttendanceService {
 		return (ArrayList<Attendance>) list;
 	}
 
-	public Optional<Attendance> getById(int id) {
+	public Optional<Attendance> getById(Integer id) {
 		return attendanceRepository.findById(id);
 	}
 

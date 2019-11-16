@@ -32,6 +32,48 @@ public class Salary {
 	private Double netSalary;
 	@Transient
 	private String staffName;
+	@Transient
+	private Double fromGrossSalary;
+	@Transient
+	private Double toGrossSalary;
+	@Transient
+	private Double fromNetSalary;
+	@Transient
+	private Double toNetSalary;
+	
+	
+
+	public Double getFromGrossSalary() {
+		return fromGrossSalary;
+	}
+
+	public void setFromGrossSalary(Double fromGrossSalary) {
+		this.fromGrossSalary = fromGrossSalary;
+	}
+
+	public Double getToGrossSalary() {
+		return toGrossSalary;
+	}
+
+	public void setToGrossSalary(Double toGrossSalary) {
+		this.toGrossSalary = toGrossSalary;
+	}
+
+	public Double getFromNetSalary() {
+		return fromNetSalary;
+	}
+
+	public void setFromNetSalary(Double fromNetSalary) {
+		this.fromNetSalary = fromNetSalary;
+	}
+
+	public Double getToNetSalary() {
+		return toNetSalary;
+	}
+
+	public void setToNetSalary(Double toNetSalary) {
+		this.toNetSalary = toNetSalary;
+	}
 
 	public String getStaffName() {
 		return staffName;

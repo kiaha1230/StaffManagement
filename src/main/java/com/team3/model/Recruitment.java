@@ -15,24 +15,30 @@ public class Recruitment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Integer id;
-	@Column(name = "STAFF_ID")
-	private Integer staffId;
 	@Column(name = "RECRUITMENT_CODE")
 	private String recruitmentCode;
 	@Column(name = "TITLE")
 	private String title;
 	@Column(name = "DESCRIPTION")
 	private String description;
-	@Transient
-	private String staffName;
+	@Column(name = "STATUS")
+	private Boolean status;
 
-	public Recruitment(Integer id, Integer staffId, String recruitmentCode, String title, String description) {
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public Recruitment(Integer id, String recruitmentCode, String title, String description, Boolean status) {
 		super();
 		this.id = id;
-		this.staffId = staffId;
 		this.recruitmentCode = recruitmentCode;
 		this.title = title;
 		this.description = description;
+		this.status = status;
 	}
 
 	public Integer getId() {
@@ -41,14 +47,6 @@ public class Recruitment {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(Integer staffId) {
-		this.staffId = staffId;
 	}
 
 	public String getRecruitmentCode() {
@@ -77,25 +75,6 @@ public class Recruitment {
 
 	public Recruitment() {
 		super();
-	}
-
-	public String getStaffName() {
-		return staffName;
-	}
-
-	public void setStaffName(String staffName) {
-		this.staffName = staffName;
-	}
-
-	public Recruitment(Integer id, Integer staffId, String recruitmentCode, String title, String description,
-			String staffName) {
-		super();
-		this.id = id;
-		this.staffId = staffId;
-		this.recruitmentCode = recruitmentCode;
-		this.title = title;
-		this.description = description;
-		this.staffName = staffName;
 	}
 
 }

@@ -38,13 +38,13 @@ public class RecruitmentController {
 //	}
 
 	@PostMapping("/add")
-	public void addRecruitment(@RequestBody Recruitment depart) {
-		recruitmentService.addOrEditRecruitment(depart);
+	public void addRecruitment(@RequestBody Recruitment recruitment) {
+		recruitmentService.addOrEditRecruitment(recruitment);
 	}
 
 	@PutMapping("/edit")
-	public void editRecruitment(@RequestBody Recruitment depart) {
-		recruitmentService.addOrEditRecruitment(depart);
+	public void editRecruitment(@RequestBody Recruitment recruitment) {
+		recruitmentService.addOrEditRecruitment(recruitment);
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -53,8 +53,8 @@ public class RecruitmentController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public List<Recruitment> findByCondition(@RequestBody Recruitment depart) {
-		return recruitmentService.findByCondition(depart);
+	public List<Recruitment> findByCondition(@RequestBody Recruitment recruitment) {
+		return recruitmentService.findByCondition(recruitment);
 	}
 
 }

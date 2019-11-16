@@ -27,7 +27,7 @@ public class StaffService {
 	@PersistenceContext
 	private EntityManager em;
 	@Autowired
-	private	LogAuditService auditService;
+	private LogAuditService auditService;
 
 	public ArrayList<Staff> getAllStaff() {
 		List<Staff> list = new ArrayList<Staff>();
@@ -50,7 +50,7 @@ public class StaffService {
 
 	public ArrayList<Staff> findByCondition(Staff staff) {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phone,s.status from Depart d , Staff s where d.id = s.departId  ";
+		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status from Depart d , Staff s where d.id = s.departId  ";
 		if (!(staff.getStaffCode() == null)) {
 			query += " and  s.staffCode like :staffCode";
 		}
@@ -65,10 +65,10 @@ public class StaffService {
 		}
 		Query q = em.createQuery(query);
 		if (!(staff.getStaffCode() == null)) {
-			q.setParameter("staffCode","%"+ staff.getStaffCode()+"%");
+			q.setParameter("staffCode", "%" + staff.getStaffCode() + "%");
 		}
 		if (!(staff.getStaffName() == null)) {
-			q.setParameter("staffName", "%"+staff.getStaffName()+"%");
+			q.setParameter("staffName", "%" + staff.getStaffName() + "%");
 		}
 		if (staff.getDepartId() != null) {
 			q.setParameter("departId", staff.getDepartId());
@@ -106,12 +106,12 @@ public class StaffService {
 			custom.setStaffName((String) staffs[0]);
 			custom.setKhenThuong((Long) staffs[1]);
 			custom.setKiLuat((Long) staffs[2]);
-			custom.setDiem((Long) staffs[3]);	
+			custom.setDiem((Long) staffs[3]);
 			list.add(custom);
 		});
 		return list;
 	}
-	
+
 	public ArrayList<Staff> getByActive() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
 		String hql = "from Staff where status = 1";
@@ -119,10 +119,20 @@ public class StaffService {
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
 	}
+
 	public ArrayList<Staff> getsStaffWithoutAccount() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
 		String hql = "from Staff s where s.staffName not in ( select s.staffName from Account a, Staff s where a.staffId = s.id) ";
 		Query q = em.createQuery(hql);
+		list = (ArrayList<Staff>) q.getResultList();
+		return list;
+	}
+
+	public ArrayList<Staff> getStaffHaveBirthday(Date currentDate) {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String hql = "  select * from  STAFF where MONTH(BIRTHDAY) = MONTH(:currentDate)";
+		Query q = em.createQuery(hql);
+		q.setParameter("currentDate", currentDate);
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
 	}

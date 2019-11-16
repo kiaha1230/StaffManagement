@@ -1,6 +1,7 @@
 package com.team3.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +37,10 @@ public class StaffController {
 //		return list;
 //	}
 //
-//	@GetMapping("staffs/{id}")
-//	public Optional<Staff> getById(@PathVariable int id) {
-//		return staffService.getById(id);
-//	}
+	@GetMapping("get/{id}")
+	public Optional<Staff> getById(@PathVariable int id) {
+		return staffService.getById(id);
+	}
 
 	@PostMapping("/add")
 	public void addTask(@RequestBody Staff staff) {
@@ -70,11 +71,15 @@ public class StaffController {
 	public List<Staff> getsStaffActive() {
 		return staffService.getByActive();
 	}
+
 	@GetMapping("/getsStaffWithoutAccount")
 	public List<Staff> getsStaffDeactive() {
 		return staffService.getsStaffWithoutAccount();
 	}
-
+	@PostMapping("/getBirthdaysInMonth")
+	public List<Staff> getBirthdaysInMonth(@RequestBody Date currentDate) {
+		return staffService.getStaffHaveBirthday(currentDate);
+	}
 
 
 }

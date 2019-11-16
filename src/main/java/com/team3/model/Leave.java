@@ -21,7 +21,7 @@ public class Leave {
 	@Column(name = "STAFF_ID")
 	private Integer staffId;
 	@Column(name = "DATE")
-	private Date date;
+	private Date leaveDate;
 	@Column(name = "REASON")
 	private String reason;
 	@Column(name = "STATUS")
@@ -29,9 +29,17 @@ public class Leave {
 	@Transient
 	private String staffName;
 	@Transient
-	private Date fromDate;
+	private Date fromLeaveDate;
 	@Transient
-	private Date toDate;
+	private Date toLeaveDate;
+
+	public Date getLeaveDate() {
+		return leaveDate;
+	}
+
+	public void setLeaveDate(Date leaveDate) {
+		this.leaveDate = leaveDate;
+	}
 
 	public Integer getId() {
 		return id;
@@ -47,14 +55,6 @@ public class Leave {
 
 	public void setStaffId(Integer staffId) {
 		this.staffId = staffId;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getReason() {
@@ -81,43 +81,33 @@ public class Leave {
 		this.staffName = staffName;
 	}
 
-	public Leave(Integer id, Integer staffId, Date date, String reason, Boolean status, String staffName) {
+	public Leave(Integer id, Integer staffId, Date leaveDate, String reason, Boolean status, String staffName,
+			Date fromLeaveDate, Date toLeaveDate) {
 		super();
 		this.id = id;
 		this.staffId = staffId;
-		this.date = date;
+		this.leaveDate = leaveDate;
 		this.reason = reason;
 		this.status = status;
 		this.staffName = staffName;
+		this.fromLeaveDate = fromLeaveDate;
+		this.toLeaveDate = toLeaveDate;
 	}
 
-	public Date getFromDate() {
-		return fromDate;
+	public Date getFromLeaveDate() {
+		return fromLeaveDate;
 	}
 
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+	public void setFromLeaveDate(Date fromLeaveDate) {
+		this.fromLeaveDate = fromLeaveDate;
 	}
 
-	public Date getToDate() {
-		return toDate;
+	public Date getToLeaveDate() {
+		return toLeaveDate;
 	}
 
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
-	}
-
-	public Leave(Integer id, Integer staffId, Date date, String reason, Boolean status, String staffName, Date fromDate,
-			Date toDate) {
-		super();
-		this.id = id;
-		this.staffId = staffId;
-		this.date = date;
-		this.reason = reason;
-		this.status = status;
-		this.staffName = staffName;
-		this.fromDate = fromDate;
-		this.toDate = toDate;
+	public void setToLeaveDate(Date toLeaveDate) {
+		this.toLeaveDate = toLeaveDate;
 	}
 
 	public Leave() {

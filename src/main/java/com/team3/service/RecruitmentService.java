@@ -44,9 +44,12 @@ public class RecruitmentService {
 
 		// code like , title like
 		ArrayList<Recruitment> list = new ArrayList<Recruitment>();
-		String query = "select r.id, s.staffName,r.recruitmentCode,r.title, s.description from Recruitment r , Staff s where r.staffId = s.id ";
+		String query = "select r.id,r.recruitmentCode,r.title,r.status, r.description from Recruitment r  where id >0 ";
 		if (!(recruitment.getRecruitmentCode() == null)) {
 			query += " and  r.recruitmentCode like :recruitmentCode";
+		}
+		if (!(recruitment.getStatus() == null)) {
+			query += " and  r.status = :status";
 		}
 		if (!(recruitment.getTitle() == null)) {
 			query += " and  r.title like :title";
@@ -56,15 +59,18 @@ public class RecruitmentService {
 			q.setParameter("recruitmentCode", recruitment.getRecruitmentCode());
 		}
 		if (!(recruitment.getTitle() == null)) {
-			query += " and  r.title like :title";
+			q.setParameter("title", recruitment.getTitle());
+		}
+		if (!(recruitment.getStatus() == null)) {
+			q.setParameter("status", recruitment.getStatus());
 		}
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((recruitments) -> {
 			Recruitment custom = new Recruitment();
 			custom.setId((Integer) recruitments[0]);
-			custom.setStaffName((String) recruitments[1]);
-			custom.setRecruitmentCode((String) recruitments[2]);
-			custom.setTitle((String) recruitments[3]);
+			custom.setRecruitmentCode((String) recruitments[1]);
+			custom.setTitle((String) recruitments[2]);
+			custom.setStatus( (Boolean) recruitments[3]);
 			custom.setDescription(recruitments[4].toString());
 			list.add(custom);
 		});

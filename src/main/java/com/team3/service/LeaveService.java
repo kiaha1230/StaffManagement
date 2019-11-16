@@ -48,20 +48,20 @@ public class LeaveService {
 
 	public ArrayList<Leave> findByCondition(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.date , l.reason, l.status from Leave l , Staff s where l.staffId = s.id ";
+		String query = "select l.id , s.staffName , l.leaveDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id ";
 		if (leave.getStaffId() != null) {
 			query += " and  l.staffId = :staffId ";
 		}
 		if (leave.getStatus() != null) {
 			query += " and  l.status = :status ";
 		}
-		if (leave.getToDate() != null && leave.getFromDate() != null) {
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
 			query += " and l.date between :fromDate and :toDate ";
 		}
-		if (leave.getToDate() != null && leave.getFromDate() == null) {
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
 			query += " and l.date >= :fromDate ";
 		}
-		if (leave.getToDate() == null && leave.getFromDate() != null) {
+		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
 			query += " and l.date <= :fromDate ";
 		}
 		Query q = em.createQuery(query);
@@ -75,15 +75,15 @@ public class LeaveService {
 		if (leave.getStaffId() != null) {
 			q.setParameter("staffId", leave.getStaffId());
 		}
-		if (leave.getToDate() != null && leave.getFromDate() != null) {
-			q.setParameter("fromDate", leave.getFromDate());
-			q.setParameter("toDate", leave.getToDate());
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
+			q.setParameter("fromDate", leave.getFromLeaveDate());
+			q.setParameter("toDate", leave.getToLeaveDate());
 		}
-		if (leave.getToDate() != null && leave.getFromDate() == null) {
-			q.setParameter("fromDate", leave.getFromDate());
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
+			q.setParameter("fromDate", leave.getFromLeaveDate());
 		}
-		if (leave.getToDate() == null && leave.getFromDate() != null) {
-			q.setParameter("toDate", leave.getToDate());
+		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
+			q.setParameter("toDate", leave.getToLeaveDate());
 		}
 
 		List<Object[]> obj = q.getResultList();
@@ -91,7 +91,7 @@ public class LeaveService {
 			Leave custom = new Leave();
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
-			custom.setDate((Date) record[2]);
+			custom.setLeaveDate((Date) record[2]);
 			custom.setReason((String) record[3]);
 			custom.setStatus( (Boolean) record[4]);
 			list.add(custom);

@@ -42,14 +42,11 @@ public class SalaryService {
 		salaryRepository.deleteById(id);
 	}
 
-	public ArrayList<SalaryCustom> findByCondition(SalaryCustom salary) {
-		ArrayList<SalaryCustom> list = new ArrayList<SalaryCustom>();
+	public ArrayList<Salary> findByCondition(Salary salary) {
+		ArrayList<Salary> list = new ArrayList<Salary>();
 		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary from Salary sa , Staff s where sa.staffId = s.id ";
-		if (!(salary.getId() == null)) {
+		if (!(salary.getStaffId() == null)) {
 			query += " and  sa.staffId = :staffId";
-		}
-		if (!(salary.getSalGrade() == null)) {
-			query += " and ";
 		}
 		if (!(salary.getGrossSalary() == null)) {
 			query += " and sa.grossSalary between :fromGross and :toGross  ";
@@ -60,9 +57,9 @@ public class SalaryService {
 		if (!(salary.getId() == null)) {
 			query += " and  sa.staffId = :staffId";
 		}
-		if (!(salary.getSalGrade() == null)) {
-			query += "	and grossSalary between losal and hisal and grade = :grade ";
-		}
+//		if (!(salary.getSalGrade() == null)) {
+//			query += "	and grossSalary between losal and hisal and grade = :grade ";
+//		}
 		Query q = em.createQuery(query);
 		if (!(salary.getId() == null)) {
 			q.setParameter("staffId", salary.getStaffId());
@@ -75,12 +72,12 @@ public class SalaryService {
 			q.setParameter("fromNet", salary.getFromNetSalary());
 			q.setParameter("toNet", salary.getToNetSalary());
 		}
-		if (!(salary.getSalGrade() == null)) {
-			q.setParameter("toNet", salary.getToNetSalary());
-		}
+//		if (!(salary.getSalGrade() == null)) {
+//			q.setParameter("toNet", salary.getToNetSalary());
+//		}
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((records) -> {
-			SalaryCustom custom = new SalaryCustom();
+			Salary custom = new Salary();
 			custom.setId((Integer) records[0]);
 			custom.setStaffName((String) records[1]);
 			custom.setGrossSalary((Double) records[2]);

@@ -34,10 +34,10 @@ public class AccountController {
 //		return accountService.getAllAccount();
 //	}
 
-//	@GetMapping("/accounts/{id}")
-//	public Optional<Account> getById(@PathVariable int id) {
-//		return accountService.getById(id);
-//	}
+	@GetMapping("/accounts/{id}")
+	public Optional<Account> getById(@PathVariable int id) {
+		return accountService.getById(id);
+	}
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Account account) {
@@ -63,11 +63,10 @@ public class AccountController {
 	public Account login(@RequestBody Account account) {
 		return accountService.login(account);
 	}
+
 	@PostMapping("/getsByConditionsPager")
 	public Pager getByConditionPager(@RequestBody Account account) {
 		return accountService.getByConditionPager(account);
 	}
-	
-	
 
 }

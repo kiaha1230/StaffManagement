@@ -1,6 +1,7 @@
 package com.team3.customModel;
 
-public class Result {
+public class Result<T> {
+	private T t;
 	private String message;
 
 	public String getMessage() {
@@ -15,5 +16,9 @@ public class Result {
 		super();
 		this.message = message;
 	}
-	
+
+	public Result() {
+		super();
+	}
+
 }

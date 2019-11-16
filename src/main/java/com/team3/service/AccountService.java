@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.customModel.AccountCustom;
+import com.team3.customModel.Result;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
@@ -183,12 +184,15 @@ public class AccountService {
 	}
 
 	public Account login(Account account) {
+		if (account.getUsername() == null || account.getPassword() == null) {
+			return null;
+		}
 		Account account1 = new Account();
 		String hql = "FROM Account WHERE username = :username and password = :password ";
 		Query q = em.createQuery(hql);
 		q.setParameter("username", account.getUsername());
 		q.setParameter("password", account.getPassword());
-		account1 = (Account) q.getSingleResult();
+		account1 = (Account) q.getResultList().stream().findFirst().orElse(null);
 		return account1;
 	}
 
