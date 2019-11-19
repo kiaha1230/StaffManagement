@@ -78,8 +78,8 @@ public class StaffController {
 	}
 
 	@PostMapping("/getBirthdaysInMonth")
-	public List<Staff> getBirthdaysInMonth(@RequestBody Date currentDate) {
-		return staffService.getStaffHaveBirthday(currentDate);
+	public List<Staff> getBirthdaysInMonth() {
+		return staffService.getStaffHaveBirthday();
 	}
 
 	@GetMapping("/getsStaffWithoutSalary")

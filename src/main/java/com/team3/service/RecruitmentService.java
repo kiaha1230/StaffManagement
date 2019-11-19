@@ -56,10 +56,10 @@ public class RecruitmentService {
 		}
 		Query q = em.createQuery(query);
 		if (!(recruitment.getRecruitmentCode() == null)) {
-			q.setParameter("recruitmentCode", recruitment.getRecruitmentCode());
+			q.setParameter("recruitmentCode", "%" + recruitment.getRecruitmentCode() + "%");
 		}
 		if (!(recruitment.getTitle() == null)) {
-			q.setParameter("title", recruitment.getTitle());
+			q.setParameter("title", "%" + recruitment.getTitle() + "%");
 		}
 		if (!(recruitment.getStatus() == null)) {
 			q.setParameter("status", recruitment.getStatus());
@@ -70,7 +70,7 @@ public class RecruitmentService {
 			custom.setId((Integer) recruitments[0]);
 			custom.setRecruitmentCode((String) recruitments[1]);
 			custom.setTitle((String) recruitments[2]);
-			custom.setStatus( (Boolean) recruitments[3]);
+			custom.setStatus((Boolean) recruitments[3]);
 			custom.setDescription(recruitments[4].toString());
 			list.add(custom);
 		});

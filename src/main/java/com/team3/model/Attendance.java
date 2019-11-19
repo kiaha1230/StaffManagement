@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Attendance {
 	@Id
 	@Column(name = "ID")
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "STAFF_ID")
 	private Integer staffId;
@@ -34,18 +35,15 @@ public class Attendance {
 	@CreationTimestamp
 	private Date attendanceDate;
 	@Column(name = "CHECK_IN_TIME")
-	private Time checkInTime;
+	private String checkInTime;
 	@Column(name = "CHECK_OUT_TIME")
-	private Time checkOutTime;
+	private String checkOutTime;
 	@Transient
 	private String staffName;
 	@Transient
 	private Date fromAttendanceDate;
 	@Transient
 	private Date toAttendanceDate;
-
-
-	
 
 	public Date getFromAttendanceDate() {
 		return fromAttendanceDate;
@@ -61,30 +59,6 @@ public class Attendance {
 
 	public void setToAttendanceDate(Date toAttendanceDate) {
 		this.toAttendanceDate = toAttendanceDate;
-	}
-
-	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime,
-			String staffName, Date fromAttendanceDate, Date toAttendanceDate) {
-		super();
-		this.id = id;
-		this.staffId = staffId;
-		this.attendanceDate = attendanceDate;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.staffName = staffName;
-		this.fromAttendanceDate = fromAttendanceDate;
-		this.toAttendanceDate = toAttendanceDate;
-	}
-
-	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime,
-			String staffName) {
-		super();
-		this.id = id;
-		this.staffId = staffId;
-		this.attendanceDate = attendanceDate;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.staffName = staffName;
 	}
 
 	public String getStaffName() {
@@ -111,22 +85,6 @@ public class Attendance {
 		this.attendanceDate = attendanceDate;
 	}
 
-	public Time getCheckInTime() {
-		return checkInTime;
-	}
-
-	public void setCheckInTime(Time checkInTime) {
-		this.checkInTime = checkInTime;
-	}
-
-	public Time getCheckOutTime() {
-		return checkOutTime;
-	}
-
-	public void setCheckOutTime(Time checkOutTime) {
-		this.checkOutTime = checkOutTime;
-	}
-
 	public Integer getStaffId() {
 		return staffId;
 	}
@@ -135,12 +93,32 @@ public class Attendance {
 		this.staffId = staffId;
 	}
 
-	public Attendance(Integer id, Integer staffId, Date attendanceDate, Time checkInTime, Time checkOutTime) {
+	public Attendance(Integer id, Integer staffId, Date attendanceDate, String checkInTime, String checkOutTime,
+			String staffName, Date fromAttendanceDate, Date toAttendanceDate) {
 		super();
 		this.id = id;
 		this.staffId = staffId;
 		this.attendanceDate = attendanceDate;
 		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+		this.staffName = staffName;
+		this.fromAttendanceDate = fromAttendanceDate;
+		this.toAttendanceDate = toAttendanceDate;
+	}
+
+	public String getCheckInTime() {
+		return checkInTime;
+	}
+
+	public void setCheckInTime(String checkInTime) {
+		this.checkInTime = checkInTime;
+	}
+
+	public String getCheckOutTime() {
+		return checkOutTime;
+	}
+
+	public void setCheckOutTime(String checkOutTime) {
 		this.checkOutTime = checkOutTime;
 	}
 

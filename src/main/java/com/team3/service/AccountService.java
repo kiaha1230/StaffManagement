@@ -40,6 +40,7 @@ public class AccountService {
 
 	public void addAccount(Account account) {
 		accountRepository.save(account);
+
 	}
 
 	public void editAccount(Account account) {
@@ -52,7 +53,7 @@ public class AccountService {
 
 	public ArrayList<Account> getByCondition(Account account) {
 		ArrayList<Account> list = new ArrayList<Account>();
-		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId from Account a , Staff s where a.staffId = s.id ";
+		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId,s.id from Account a , Staff s where a.staffId = s.id ";
 		Date fromDate = new Date();
 		Date toDate = new Date();
 		Date createDate = new Date();
@@ -197,6 +198,7 @@ public class AccountService {
 		UserInformation.setACCOUNT(account1);
 		return account1;
 	}
+
 	public void logout() {
 		UserInformation.setACCOUNT(null);
 	}

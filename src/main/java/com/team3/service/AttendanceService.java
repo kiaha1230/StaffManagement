@@ -61,7 +61,7 @@ public class AttendanceService {
 		if (attendance.getToAttendanceDate() == null && attendance.getFromAttendanceDate() != null) {
 			query += " and a.attendanceDate >= :fromAttendanceDate ";
 		}
-		
+
 		Query q = em.createQuery(query);
 		if (attendance.getStaffId() != null) {
 			q.setParameter("staffId", attendance.getStaffId());
@@ -83,8 +83,8 @@ public class AttendanceService {
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
 			custom.setAttendanceDate((Date) record[2]);
-			custom.setCheckInTime((Time) record[3]);
-			custom.setCheckOutTime((Time) record[4]);
+			custom.setCheckInTime((String) record[3]);
+			custom.setCheckOutTime((String) record[4]);
 			list.add(custom);
 		});
 		return list;

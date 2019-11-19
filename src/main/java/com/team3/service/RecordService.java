@@ -44,7 +44,7 @@ public class RecordService {
 
 	public ArrayList<Record> findByCondition(Record record) {
 		ArrayList<Record> list = new ArrayList<Record>();
-		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName from Record r , Staff s where r.staffId = s.id ";
+		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName,r.staffId from Record r , Staff s where r.staffId = s.id ";
 		if (!(record.getReason() == null)) {
 			query += " and  r.reason like :reason";
 		}
@@ -55,17 +55,17 @@ public class RecordService {
 			query += " and r.type = :type ";
 		}
 		if (record.getFromCreateDate() != null && record.getToCreateDate() != null) {
-			query += " and a.createDate between :fromDate and :toDate ";
+			query += " and r.createDate between :fromDate and :toDate ";
 		}
 		if (record.getFromCreateDate() != null && record.getToCreateDate() == null) {
-			query += " and a.createDate >= :fromDate ";
+			query += " and r.createDate >= :fromDate ";
 		}
 		if (record.getFromCreateDate() == null && record.getToCreateDate() != null) {
-			query += " and a.createDate <= :toDate ";
+			query += " and r.createDate <= :toDate ";
 		}
 		Query q = em.createQuery(query);
 		if (!(record.getReason() == null)) {
-			q.setParameter("reason", record.getReason());
+			q.setParameter("reason", "%"+record.getReason()+"%");
 		}
 		if (!(record.getStaffId() == null)) {
 			q.setParameter("staffId", record.getStaffId());
@@ -91,6 +91,7 @@ public class RecordService {
 			custom.setReason((String) records[2]);
 			custom.setCreateDate((Date) records[3]);
 			custom.setStaffName(records[4].toString());
+			custom.setStaffId((Integer) records[5]);
 			list.add(custom);
 		});
 		return list;
