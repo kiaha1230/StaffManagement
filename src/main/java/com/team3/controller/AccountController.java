@@ -55,17 +55,17 @@ public class AccountController {
 		accountService.deleteAccount(id);
 	}
 
-	@PostMapping("/getsByConditions")
-	public ArrayList<Account> getByCondition(@RequestBody Account account) {
-		return accountService.getByCondition(account);
-	}
+//	@PostMapping("/getsByConditions")
+//	public ArrayList<Account> getByCondition(@RequestBody Account account) {
+//		return accountService.getByCondition(account);
+//	}
 
 	@PostMapping("/login")
 	public Account login(@RequestBody Account account) {
 		return accountService.login(account);
 	}
 
-	@PostMapping("/getsByConditionsPager")
+	@PostMapping("/getsByConditions")
 	public APIResponse getByConditionPager(@RequestBody Account account) {
 		return accountService.getByConditionPager(account);
 	}
