@@ -1,16 +1,16 @@
 package com.team3.model;
 
 public class Pager {
+	private Integer page;
 	private Integer pageSize;
-	private Integer pageIndex;
-	private Object object;
-	private Integer length;
-	public Pager(Integer pageSize, Integer pageIndex, Object object, Integer length) {
-		super();
-		this.pageSize = pageSize;
-		this.pageIndex = pageIndex;
-		this.object = object;
-		this.length = length;
+	private Integer totalRow;
+	private Integer firstPage;
+	private Integer lastPage;
+	public Integer getPage() {
+		return page;
+	}
+	public void setPage(Integer page) {
+		this.page = page;
 	}
 	public Integer getPageSize() {
 		return pageSize;
@@ -18,27 +18,37 @@ public class Pager {
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
-	public Integer getPageIndex() {
-		return pageIndex;
+	public Integer getTotalRow() {
+		return totalRow;
 	}
-	public void setPageIndex(Integer pageIndex) {
-		this.pageIndex = pageIndex;
+	public void setTotalRow(Integer totalRow) {
+		this.totalRow = totalRow;
 	}
-	public Object getObject() {
-		return object;
+	public Integer getFirstPage() {
+		return firstPage;
 	}
-	public void setObject(Object object) {
-		this.object = object;
+	public void setFirstPage(Integer firstPage) {
+		this.firstPage = firstPage;
 	}
-	public Integer getLength() {
-		return length;
+	public Integer getLastPage() {
+		return lastPage;
 	}
-	public void setLength(Integer length) {
-		this.length = length;
+	public void setLastPage(Integer lastPage) {
+		this.lastPage = lastPage;
+	}
+	public Pager(Integer page, Integer pageSize, Integer totalRow, Integer firstPage, Integer lastPage) {
+		super();
+		this.page = page;
+		this.pageSize = pageSize;
+		this.totalRow = totalRow;
+		this.firstPage = firstPage;
+		this.lastPage = lastPage;
 	}
 	public Pager() {
 		super();
 	}
 	
+	
+
 	
 }

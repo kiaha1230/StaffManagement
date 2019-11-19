@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.customModel.AccountCustom;
+import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
@@ -65,7 +66,7 @@ public class AccountController {
 	}
 
 	@PostMapping("/getsByConditionsPager")
-	public Pager getByConditionPager(@RequestBody Account account) {
+	public APIResponse getByConditionPager(@RequestBody Account account) {
 		return accountService.getByConditionPager(account);
 	}
 

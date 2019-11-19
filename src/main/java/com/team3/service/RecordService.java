@@ -12,11 +12,15 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.Ultilities.DateFormat;
+import com.team3.bean.Mailer;
 import com.team3.customModel.AccountCustom;
 import com.team3.customModel.RecordCustom;
 import com.team3.model.Depart;
 import com.team3.model.Record;
+import com.team3.model.Staff;
 import com.team3.repository.RecordRepository;
+import com.team3.repository.StaffRepository;
 
 @Service
 public class RecordService {
@@ -24,6 +28,10 @@ public class RecordService {
 	private RecordRepository recordRepository;
 	@PersistenceContext
 	private EntityManager em;
+	@Autowired
+	Mailer mailer;
+	@Autowired
+	private StaffRepository staffRepository;
 
 	public ArrayList<Record> getAllRecord() {
 		return (ArrayList<Record>) recordRepository.findAll();
@@ -34,6 +42,8 @@ public class RecordService {
 	}
 
 	public void addOrEditRecord(Record record) {
+
+		sendMail(record);
 		recordRepository.save(record);
 
 	}
@@ -65,7 +75,7 @@ public class RecordService {
 		}
 		Query q = em.createQuery(query);
 		if (!(record.getReason() == null)) {
-			q.setParameter("reason", "%"+record.getReason()+"%");
+			q.setParameter("reason", "%" + record.getReason() + "%");
 		}
 		if (!(record.getStaffId() == null)) {
 			q.setParameter("staffId", record.getStaffId());
@@ -95,6 +105,28 @@ public class RecordService {
 			list.add(custom);
 		});
 		return list;
+	}
+
+	public void sendMail(Record record) {
+		Optional<Staff> staff = staffRepository.findById(record.getStaffId());
+		String to = staff.get().getEmail();
+		String strDate = DateFormat.dateToString(new Date());
+		String from = "Vissoft";
+		String subject = "Khen thưởng và kỉ luật";
+		String loai = "";
+		String body = "";
+		if (record.getType() == true) {
+			loai = "Khen thưởng";
+			body += "- Bạn có một " + loai.toUpperCase() + " vào ngày " + strDate;
+			body += "\n - Lí do : " + record.getReason();
+			body += "\n - Thưởng : " + record.getBonus();
+
+		} else {
+			loai = "Kỉ luật";
+		}
+
+		mailer.send(from, to, subject, body);
+
 	}
 
 }

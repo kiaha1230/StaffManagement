@@ -67,9 +67,15 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.2.0.RELEASE</version>
 		</dependency>
+		
+		
+		<!-- mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
-
-
+		<!-- mail -->
 
 		<!-- LOG -->
 		<!--java differences -->

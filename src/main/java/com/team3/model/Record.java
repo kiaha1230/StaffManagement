@@ -43,6 +43,19 @@ public class Record {
 	private Date fromCreateDate;
 	@Transient
 	private Date toCreateDate;
+	@Column(name = "BONUS")
+	private Double bonus;
+	
+	
+	
+
+	public Double getBonus() {
+		return bonus;
+	}
+
+	public void setBonus(Double bonus) {
+		this.bonus = bonus;
+	}
 
 	public String getStaffName() {
 		return staffName;

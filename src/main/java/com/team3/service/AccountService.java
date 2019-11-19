@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.team3.customModel.AccountCustom;
 import com.team3.customModel.Result;
+import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
@@ -115,7 +116,8 @@ public class AccountService {
 		return list;
 	}
 
-	public Pager getByConditionPager(Account account) {
+	public APIResponse getByConditionPager(Account account) {
+		APIResponse response = new APIResponse();
 		Pager pager = new Pager();
 		ArrayList<Account> list = new ArrayList<Account>();
 		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId from Account a , Staff s where a.staffId = s.id ";
@@ -167,6 +169,8 @@ public class AccountService {
 		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
 			q.setParameter("toDate", account.getToCreateDate());
 		}
+		q.setFirstResult(account.getPager().getPage() * account.getPager().getPageSize());
+		q.setMaxResults(account.getPager().getPageSize());
 
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((record) -> {
@@ -180,9 +184,12 @@ public class AccountService {
 			custom.setStaffId((Integer) record[6]);
 			list.add(custom);
 		});
-		pager.setObject(list);
-		pager.setLength(list.size());
-		return pager;
+		pager.setTotalRow(list.size());
+		pager.setPageSize(account.getPager().getPageSize());
+		pager.setPage(account.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
 	}
 
 	public Account login(Account account) {
