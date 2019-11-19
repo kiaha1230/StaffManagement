@@ -19,6 +19,7 @@ import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
+import com.team3.model.Staff;
 import com.team3.repository.AccountRepository;
 import com.team3.resources.UserInformation;
 
@@ -149,6 +150,7 @@ public class AccountService {
 			query += " and a.accountRole = :accountRole ";
 		}
 		Query q = em.createQuery(query);
+
 		// set parameter
 		if (account.getUsername() != null) {
 			q.setParameter("username", "%" + account.getUsername() + "%");
@@ -169,6 +171,10 @@ public class AccountService {
 		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
 			q.setParameter("toDate", account.getToCreateDate());
 		}
+
+		List<Object[]> obj1 = q.getResultList();
+		pager.setTotalRow(obj1.size());
+
 		q.setFirstResult(account.getPager().getPage() * account.getPager().getPageSize());
 		q.setMaxResults(account.getPager().getPageSize());
 
@@ -184,7 +190,7 @@ public class AccountService {
 			custom.setStaffId((Integer) record[6]);
 			list.add(custom);
 		});
-		pager.setTotalRow(list.size());
+
 		pager.setPageSize(account.getPager().getPageSize());
 		pager.setPage(account.getPager().getPage());
 		response.setPager(pager);
