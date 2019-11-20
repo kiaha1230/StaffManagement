@@ -40,8 +40,16 @@ public class Salary {
 	private Double fromNetSalary;
 	@Transient
 	private Double toNetSalary;
-	
-	
+	@Transient
+	private Pager pager;
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Salary(Integer id, Integer staffId, Double grossSalary, Double tax, Double insurance, Double netSalary,
 			String staffName, Double fromGrossSalary, Double toGrossSalary, Double fromNetSalary, Double toNetSalary) {

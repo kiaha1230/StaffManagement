@@ -23,6 +23,16 @@ public class Recruitment {
 	private String description;
 	@Column(name = "STATUS")
 	private Boolean status;
+	@Transient
+	private Pager pager;
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Boolean getStatus() {
 		return status;

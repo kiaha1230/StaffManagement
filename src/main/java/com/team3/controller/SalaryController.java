@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.customModel.AccountCustom;
 import com.team3.customModel.SalaryCustom;
+import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Salary;
 import com.team3.service.SalaryService;
@@ -53,7 +54,7 @@ public class SalaryController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Salary> getByCondition(@RequestBody Salary salaryCustom) {
+	public APIResponse getByCondition(@RequestBody Salary salaryCustom) {
 		return salaryService.findByCondition(salaryCustom);
 	}
 

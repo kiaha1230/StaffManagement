@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import com.team3.customModel.StaffCustom;
+import com.team3.model.APIResponse;
+import com.team3.model.Pager;
 import com.team3.model.Record;
 import com.team3.model.Staff;
 import com.team3.repository.StaffRepository;
@@ -48,53 +50,53 @@ public class StaffService {
 		staffRepository.deleteById(id);
 	}
 
-	public ArrayList<Staff> findByCondition(Staff staff) {
-		ArrayList<Staff> list = new ArrayList<Staff>();
-		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status,s.departId from Depart d , Staff s where d.id = s.departId  ";
-		if (!(staff.getStaffCode() == null)) {
-			query += " and  s.staffCode like :staffCode";
-		}
-		if (!(staff.getStaffName() == null)) {
-			query += " and s.staffName like :staffName ";
-		}
-		if (staff.getDepartId() != null) {
-			query += " and s.departId = :departId ";
-		}
-		if (staff.isStatus() != null) {
-			query += " and s.status = :status ";
-		}
-		query += " order by status desc";
-		Query q = em.createQuery(query);
-		if (!(staff.getStaffCode() == null)) {
-			q.setParameter("staffCode", "%" + staff.getStaffCode() + "%");
-		}
-		if (!(staff.getStaffName() == null)) {
-			q.setParameter("staffName", "%" + staff.getStaffName() + "%");
-		}
-		if (staff.getDepartId() != null) {
-			q.setParameter("departId", staff.getDepartId());
-		}
-		if (staff.isStatus() != null) {
-			q.setParameter("status", staff.isStatus());
-		}
-		List<Object[]> obj = q.getResultList();
-		obj.stream().forEach((staffs) -> {
-			Staff custom = new Staff();
-			custom.setId((Integer) staffs[0]);
-			custom.setStaffCode((String) staffs[1]);
-			custom.setStaffName((String) staffs[2]);
-			custom.setDepartName((String) staffs[3]);
-			custom.setGender((Boolean) staffs[4]);
-			custom.setBirthday((Date) staffs[5]);
-			custom.setPhoto((String) staffs[6]);
-			custom.setEmail((String) staffs[7]);
-			custom.setPhoneNumber((String) staffs[8]);
-			custom.setStatus((Boolean) staffs[9]);
-			custom.setDepartId((Integer) staffs[10]);
-			list.add(custom);
-		});
-		return list;
-	}
+//	public ArrayList<Staff> findByCondition(Staff staff) {
+//		ArrayList<Staff> list = new ArrayList<Staff>();
+//		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status,s.departId from Depart d , Staff s where d.id = s.departId  ";
+//		if (!(staff.getStaffCode() == null)) {
+//			query += " and  s.staffCode like :staffCode";
+//		}
+//		if (!(staff.getStaffName() == null)) {
+//			query += " and s.staffName like :staffName ";
+//		}
+//		if (staff.getDepartId() != null) {
+//			query += " and s.departId = :departId ";
+//		}
+//		if (staff.isStatus() != null) {
+//			query += " and s.status = :status ";
+//		}
+//		query += " order by status desc";
+//		Query q = em.createQuery(query);
+//		if (!(staff.getStaffCode() == null)) {
+//			q.setParameter("staffCode", "%" + staff.getStaffCode() + "%");
+//		}
+//		if (!(staff.getStaffName() == null)) {
+//			q.setParameter("staffName", "%" + staff.getStaffName() + "%");
+//		}
+//		if (staff.getDepartId() != null) {
+//			q.setParameter("departId", staff.getDepartId());
+//		}
+//		if (staff.isStatus() != null) {
+//			q.setParameter("status", staff.isStatus());
+//		}
+//		List<Object[]> obj = q.getResultList();
+//		obj.stream().forEach((staffs) -> {
+//			Staff custom = new Staff();
+//			custom.setId((Integer) staffs[0]);
+//			custom.setStaffCode((String) staffs[1]);
+//			custom.setStaffName((String) staffs[2]);
+//			custom.setDepartName((String) staffs[3]);
+//			custom.setGender((Boolean) staffs[4]);
+//			custom.setBirthday((Date) staffs[5]);
+//			custom.setPhoto((String) staffs[6]);
+//			custom.setEmail((String) staffs[7]);
+//			custom.setPhoneNumber((String) staffs[8]);
+//			custom.setStatus((Boolean) staffs[9]);
+//			custom.setDepartId((Integer) staffs[10]);
+//			list.add(custom);
+//		});
+//		return list;
+//	}
 
 	public ArrayList<Staff> top10Staff() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
@@ -154,6 +156,70 @@ public class StaffService {
 		Query q = em.createQuery(hql);
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
+	}
+
+	// API
+
+	public APIResponse findByCondition(Staff staff) {
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status,s.departId from Depart d , Staff s where d.id = s.departId  ";
+		if (!(staff.getStaffCode() == null)) {
+			query += " and  s.staffCode like :staffCode";
+		}
+		if (!(staff.getStaffName() == null)) {
+			query += " and s.staffName like :staffName ";
+		}
+		if (staff.getDepartId() != null) {
+			query += " and s.departId = :departId ";
+		}
+		if (staff.isStatus() != null) {
+			query += " and s.status = :status ";
+		}
+		query += " order by status desc";
+		Query q = em.createQuery(query);
+		if (!(staff.getStaffCode() == null)) {
+			q.setParameter("staffCode", "%" + staff.getStaffCode() + "%");
+		}
+		if (!(staff.getStaffName() == null)) {
+			q.setParameter("staffName", "%" + staff.getStaffName() + "%");
+		}
+		if (staff.getDepartId() != null) {
+			q.setParameter("departId", staff.getDepartId());
+		}
+		if (staff.isStatus() != null) {
+			q.setParameter("status", staff.isStatus());
+		}
+
+		APIResponse response = new APIResponse();
+		Pager pager = new Pager();
+		List<Object[]> totalRow = q.getResultList();
+		pager.setTotalRow(totalRow.size());
+		q.setFirstResult(staff.getPager().getPage() * staff.getPager().getPageSize());
+		q.setMaxResults(staff.getPager().getPageSize());
+
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((staffs) -> {
+			Staff custom = new Staff();
+			custom.setId((Integer) staffs[0]);
+			custom.setStaffCode((String) staffs[1]);
+			custom.setStaffName((String) staffs[2]);
+			custom.setDepartName((String) staffs[3]);
+			custom.setGender((Boolean) staffs[4]);
+			custom.setBirthday((Date) staffs[5]);
+			custom.setPhoto((String) staffs[6]);
+			custom.setEmail((String) staffs[7]);
+			custom.setPhoneNumber((String) staffs[8]);
+			custom.setStatus((Boolean) staffs[9]);
+			custom.setDepartId((Integer) staffs[10]);
+			list.add(custom);
+		});
+		
+		
+		pager.setPageSize(staff.getPager().getPageSize());
+		pager.setPage(staff.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
 	}
 
 }

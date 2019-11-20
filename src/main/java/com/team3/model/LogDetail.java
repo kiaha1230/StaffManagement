@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "LOG_DETAIL")
@@ -26,6 +27,17 @@ public class LogDetail {
 	private String oldValue;
 	@Column(name = "NEW_VALUE")
 	private String newValue;
+
+	@Transient
+	private Pager pager;
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Integer getId() {
 		return id;

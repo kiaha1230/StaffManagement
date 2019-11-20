@@ -1,4 +1,4 @@
-package com.team3.service;
+package com.team3.dumb;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -13,10 +13,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.team3.model.Account;
-import com.team3.model.Salgrade;
-
 import com.team3.repository.SalgradeRepository;
 
 @Service

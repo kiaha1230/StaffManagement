@@ -33,6 +33,18 @@ public class Leave {
 	@Transient
 	private Date toLeaveDate;
 
+	@Transient
+	private Pager pager;
+	
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
+
 	public Date getLeaveDate() {
 		return leaveDate;
 	}

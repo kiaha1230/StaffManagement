@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import com.team3.model.APIResponse;
+import com.team3.model.Pager;
 import com.team3.model.Recruitment;
 import com.team3.repository.RecruitmentRepository;
 
@@ -40,7 +42,46 @@ public class RecruitmentService {
 		recruitmentRepository.deleteById(id);
 	}
 
-	public ArrayList<Recruitment> findByCondition(Recruitment recruitment) {
+//	public ArrayList<Recruitment> findByCondition(Recruitment recruitment) {
+//
+//		// code like , title like
+//		ArrayList<Recruitment> list = new ArrayList<Recruitment>();
+//		String query = "select r.id,r.recruitmentCode,r.title,r.status, r.description from Recruitment r  where id >0 ";
+//		if (!(recruitment.getRecruitmentCode() == null)) {
+//			query += " and  r.recruitmentCode like :recruitmentCode";
+//		}
+//		if (!(recruitment.getStatus() == null)) {
+//			query += " and  r.status = :status";
+//		}
+//		if (!(recruitment.getTitle() == null)) {
+//			query += " and  r.title like :title";
+//		}
+//		Query q = em.createQuery(query);
+//		if (!(recruitment.getRecruitmentCode() == null)) {
+//			q.setParameter("recruitmentCode", "%" + recruitment.getRecruitmentCode() + "%");
+//		}
+//		if (!(recruitment.getTitle() == null)) {
+//			q.setParameter("title", "%" + recruitment.getTitle() + "%");
+//		}
+//		if (!(recruitment.getStatus() == null)) {
+//			q.setParameter("status", recruitment.getStatus());
+//		}
+//		List<Object[]> obj = q.getResultList();
+//		obj.stream().forEach((recruitments) -> {
+//			Recruitment custom = new Recruitment();
+//			custom.setId((Integer) recruitments[0]);
+//			custom.setRecruitmentCode((String) recruitments[1]);
+//			custom.setTitle((String) recruitments[2]);
+//			custom.setStatus((Boolean) recruitments[3]);
+//			custom.setDescription(recruitments[4].toString());
+//			list.add(custom);
+//		});
+//		return list;
+//	}
+
+	// API
+
+	public APIResponse findByCondition(Recruitment recruitment) {
 
 		// code like , title like
 		ArrayList<Recruitment> list = new ArrayList<Recruitment>();
@@ -64,6 +105,14 @@ public class RecruitmentService {
 		if (!(recruitment.getStatus() == null)) {
 			q.setParameter("status", recruitment.getStatus());
 		}
+
+		APIResponse response = new APIResponse();
+		Pager pager = new Pager();
+		List<Object[]> totalRow = q.getResultList();
+		pager.setTotalRow(totalRow.size());
+		q.setFirstResult(recruitment.getPager().getPage() * recruitment.getPager().getPageSize());
+		q.setMaxResults(recruitment.getPager().getPageSize());
+
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((recruitments) -> {
 			Recruitment custom = new Recruitment();
@@ -74,7 +123,12 @@ public class RecruitmentService {
 			custom.setDescription(recruitments[4].toString());
 			list.add(custom);
 		});
-		return list;
+
+		pager.setPageSize(recruitment.getPager().getPageSize());
+		pager.setPage(recruitment.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
 	}
 
 }

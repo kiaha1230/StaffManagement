@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "LOG_AUDIT")
@@ -28,6 +28,17 @@ public class LogAudit {
 	private String tableName;
 	@Column(name = "ACTION_TYPE")
 	private Integer actionType;
+
+	@Transient
+	private Pager pager;
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Integer getId() {
 		return id;

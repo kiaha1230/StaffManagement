@@ -1,4 +1,4 @@
-package com.team3.model;
+package com.team3.dumb;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.customModel.AccountCustom;
+import com.team3.model.APIResponse;
 import com.team3.model.Depart;
+import com.team3.model.Pager;
 import com.team3.repository.DepartRepository;
 
 @Service
@@ -46,7 +48,31 @@ public class DepartService {
 		departRepository.deleteById(id);
 	}
 
-	public ArrayList<Depart> findByCondition(Depart depart) {
+//	public ArrayList<Depart> findByCondition(Depart depart) {
+//		ArrayList<Depart> list = new ArrayList<Depart>();
+//		String query = "from Depart where id >0 ";
+//		if (!(depart.getDepartCode() == null)) {
+//			query += " and  departCode like :departCode";
+//		}
+//		if (!(depart.getDepartName() == null)) {
+//			query += " and departName like :departName  ";
+//		}
+//		Query q = em.createQuery(query);
+//		if (!(depart.getDepartCode() == null)) {
+//			q.setParameter("departCode", "%" + depart.getDepartCode() + "%");
+//		}
+//		if (!(depart.getDepartName() == null)) {
+//			q.setParameter("departName", "%" + depart.getDepartName() + "%");
+//		}
+//		
+//
+//		list = (ArrayList<Depart>) q.getResultList();
+//		return list;
+//	}
+
+	// API
+
+	public APIResponse findByCondition(Depart depart) {
 		ArrayList<Depart> list = new ArrayList<Depart>();
 		String query = "from Depart where id >0 ";
 		if (!(depart.getDepartCode() == null)) {
@@ -63,8 +89,21 @@ public class DepartService {
 			q.setParameter("departName", "%" + depart.getDepartName() + "%");
 		}
 
+		APIResponse response = new APIResponse();
+		Pager pager = new Pager();
+		List<Object[]> totalRow = q.getResultList();
+		pager.setTotalRow(totalRow.size());
+		q.setFirstResult(depart.getPager().getPage() * depart.getPager().getPageSize());
+		q.setMaxResults(depart.getPager().getPageSize());
+
 		list = (ArrayList<Depart>) q.getResultList();
-		return list;
+		
+		
+		pager.setPageSize(depart.getPager().getPageSize());
+		pager.setPage(depart.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Attendance;
 
@@ -47,7 +48,7 @@ public class AttendanceController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Attendance> getByCondition(@RequestBody Attendance attendance) {
+	public APIResponse getByCondition(@RequestBody Attendance attendance) {
 		return attendanceService.getByCondition(attendance);
 	}
 

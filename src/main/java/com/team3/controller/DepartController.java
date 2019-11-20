@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.service.DepartService;
 
@@ -52,7 +53,7 @@ public class DepartController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public List<Depart> findByCondition(@RequestBody Depart depart) {
+	public APIResponse findByCondition(@RequestBody Depart depart) {
 		return departService.findByCondition(depart);
 	}
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.customModel.RecordCustom;
+import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.model.Record;
 import com.team3.service.RecordService;
@@ -53,7 +54,7 @@ public class RecordController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public List<Record> findByCondition(@RequestBody Record record) {
+	public APIResponse findByCondition(@RequestBody Record record) {
 		return recordService.findByCondition(record);
 	}
 }

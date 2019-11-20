@@ -45,9 +45,16 @@ public class Record {
 	private Date toCreateDate;
 	@Column(name = "BONUS")
 	private Double bonus;
-	
-	
-	
+	@Transient
+	private Pager pager;
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Double getBonus() {
 		return bonus;

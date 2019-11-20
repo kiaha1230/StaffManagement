@@ -1,4 +1,4 @@
-package com.team3.controller;
+package com.team3.dumb;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team3.customModel.AccountCustom;
 import com.team3.model.Account;
 import com.team3.model.Depart;
-import com.team3.model.Salgrade;
 import com.team3.service.AccountService;
-import com.team3.service.SalgradeService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController

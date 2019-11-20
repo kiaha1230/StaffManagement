@@ -20,7 +20,6 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.team3.customModel.Result;
 
 @Entity
 @Table(name = "STAFF")
@@ -56,17 +55,16 @@ public class Staff {
 	private Long khenThuong;
 	@Transient
 	private Long diem;
+
 	@Transient
-	private Result result;
+	private Pager pager;
 
-
-
-	public Result getResult() {
-		return result;
+	public Pager getPager() {
+		return pager;
 	}
 
-	public void setResult(Result result) {
-		this.result = result;
+	public void setPager(Pager pager) {
+		this.pager = pager;
 	}
 
 	public Long getKiLuat() {
@@ -176,30 +174,6 @@ public class Staff {
 		this.email = email;
 	}
 
-	
-
-	public Staff(Integer id, String staffCode, String staffName, Integer departId, Boolean gender, Date birthday,
-			String photo, String email, String phoneNumber, Boolean status, String departName, Long kiLuat,
-			Long khenThuong, Long diem, Result result, Integer positionId) {
-		super();
-		this.id = id;
-		this.staffCode = staffCode;
-		this.staffName = staffName;
-		this.departId = departId;
-		this.gender = gender;
-		this.birthday = birthday;
-		this.photo = photo;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.status = status;
-		this.departName = departName;
-		this.kiLuat = kiLuat;
-		this.khenThuong = khenThuong;
-		this.diem = diem;
-		this.result = result;
-		this.positionId = positionId;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -226,6 +200,28 @@ public class Staff {
 
 	public void setDepartId(Integer departId) {
 		this.departId = departId;
+	}
+
+	public Staff(Integer id, String staffCode, String staffName, Integer departId, Boolean gender, Date birthday,
+			String photo, String email, String phoneNumber, Boolean status, String departName, Long kiLuat,
+			Long khenThuong, Long diem, Pager pager, Integer positionId) {
+		super();
+		this.id = id;
+		this.staffCode = staffCode;
+		this.staffName = staffName;
+		this.departId = departId;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.photo = photo;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.status = status;
+		this.departName = departName;
+		this.kiLuat = kiLuat;
+		this.khenThuong = khenThuong;
+		this.diem = diem;
+		this.pager = pager;
+		this.positionId = positionId;
 	}
 
 }

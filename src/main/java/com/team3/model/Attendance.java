@@ -44,6 +44,17 @@ public class Attendance {
 	private Date fromAttendanceDate;
 	@Transient
 	private Date toAttendanceDate;
+	@Transient
+	private Pager pager;
+	
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Date getFromAttendanceDate() {
 		return fromAttendanceDate;

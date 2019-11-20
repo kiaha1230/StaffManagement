@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.customModel.StaffCustom;
+import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Staff;
@@ -58,7 +59,7 @@ public class StaffController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public List<Staff> findByCondition(@RequestBody Staff staff) {
+	public APIResponse findByCondition(@RequestBody Staff staff) {
 		return staffService.findByCondition(staff);
 	}
 
@@ -86,10 +87,10 @@ public class StaffController {
 	public List<Staff> getStaffswithoutSalary() {
 		return staffService.getsStaffWithoutSalary();
 	}
+
 	@GetMapping("/getsStaffWithoutAllowance")
 	public List<Staff> getsStaffWithoutAllowance() {
 		return staffService.getsStaffWithoutAllowance();
 	}
-	
 
 }

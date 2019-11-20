@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.model.APIResponse;
 import com.team3.model.Recruitment;
 import com.team3.service.RecruitmentService;
 import com.team3.service.RecruitmentService;
@@ -53,7 +54,7 @@ public class RecruitmentController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public List<Recruitment> findByCondition(@RequestBody Recruitment recruitment) {
+	public APIResponse findByCondition(@RequestBody Recruitment recruitment) {
 		return recruitmentService.findByCondition(recruitment);
 	}
 

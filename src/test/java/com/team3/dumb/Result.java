@@ -1,4 +1,4 @@
-package com.team3.customModel;
+package com.team3.dumb;
 
 public class Result<T> {
 	private T t;

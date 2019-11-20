@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.model.APIResponse;
 import com.team3.model.Allowance;
 import com.team3.service.AllowanceService;
 import com.team3.service.AllowanceService;
@@ -39,7 +40,7 @@ public class AllowanceController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Allowance> getByCondition(@RequestBody Allowance allowance) {
+	public APIResponse getByCondition(@RequestBody Allowance allowance) {
 		return allowanceService.getByCondition(allowance);
 	}
 

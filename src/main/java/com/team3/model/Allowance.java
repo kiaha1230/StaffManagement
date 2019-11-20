@@ -37,6 +37,18 @@ public class Allowance {
 	private Double fromMeal;
 	@Transient
 	private Double toMeal;
+	@Transient
+	private Pager pager;
+	
+	
+
+	public Pager getPager() {
+		return pager;
+	}
+
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 
 	public Integer getId() {
 		return id;

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.team3.model.Leave;
+import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.service.LeaveService;
 
@@ -54,9 +54,8 @@ public class LeaveController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Leave> findByCondition(@RequestBody Leave leave) {
+	public APIResponse findByCondition(@RequestBody Leave leave) {
 		return leaveService.findByCondition(leave);
 	}
-
 
 }
