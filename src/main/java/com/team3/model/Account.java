@@ -1,4 +1,4 @@
-	package com.team3.model;
+package com.team3.model;
 
 import java.util.Date;
 
@@ -42,9 +42,7 @@ public class Account {
 	private Integer staffId;
 	@Column(name = "ACCOUNT_ROLE")
 	private Integer accountRole;
-	
-	
-	
+
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fromCreateDate;
@@ -117,10 +115,6 @@ public class Account {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	public Account() {
-		super();
 	}
 
 	public Integer getStaffId() {

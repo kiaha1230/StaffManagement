@@ -49,7 +49,7 @@ public class AttendanceService {
 
 //	public ArrayList<Attendance> getByCondition(Attendance attendance) {
 //		ArrayList<Attendance> list = new ArrayList<Attendance>();
-//		String query = "select a.id , s.staffName , a.attendanceDate , a.checkInTime, a.checkOutTime from Attendance a , Staff s where a.staffId = s.id ";
+//		String query = "select a.id , s.staffName , a.attendanceDate , a.checkinTime, a.checkoutTime from Attendance a , Staff s where a.staffId = s.id ";
 //		if (attendance.getStaffId() != null) {
 //			query += " and  a.staffId = :staffId ";
 //		}
@@ -95,7 +95,7 @@ public class AttendanceService {
 
 	public APIResponse getByCondition(Attendance attendance) {
 		ArrayList<Attendance> list = new ArrayList<Attendance>();
-		String query = "select a.id , s.staffName , a.attendanceDate , a.checkInTime, a.checkOutTime from Attendance a , Staff s where a.staffId = s.id ";
+		String query = "select a.id , s.staffName , a.attendanceDate , a.checkinTime, a.checkoutTime from Attendance a , Staff s where a.staffId = s.id ";
 		if (attendance.getStaffId() != null) {
 			query += " and  a.staffId = :staffId ";
 		}
@@ -137,16 +137,24 @@ public class AttendanceService {
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
 			custom.setAttendanceDate((Date) record[2]);
-			custom.setCheckInTime((String) record[3]);
-			custom.setCheckOutTime((String) record[4]);
+			custom.setCheckinTime((String) record[3]);
+			custom.setCheckoutTime((String) record[4]);
 			list.add(custom);
 		});
-		
-		
+
 		pager.setPageSize(attendance.getPager().getPageSize());
 		pager.setPage(attendance.getPager().getPage());
 		response.setPager(pager);
 		response.setData(list);
 		return response;
+	}
+
+	public Attendance getByStaffId(Integer staffId) {
+		Attendance attendance = new Attendance();
+		String query = "from Attendance where staffId = :staffID";
+		Query q = em.createQuery(query);
+		q.setParameter("staffId", staffId);
+		attendance = (Attendance) q.getSingleResult();
+		return attendance;
 	}
 }

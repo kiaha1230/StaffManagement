@@ -46,18 +46,22 @@ public class AccountController {
 
 	@PostMapping("/add")
 	public void addAccount(@RequestBody Account account) {
+		Integer i = 0;
+		logAuditService.addDiff(account, i);
 		accountService.addAccount(account);
 	}
 
 	@PutMapping("/edit")
 	public void editAccount(@RequestBody Account account) {
-		Integer i = 0;
+		Integer i = 1;
 		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account, i);
 		accountService.editAccount(account);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteAccount(@PathVariable Integer id) {
+//		Integer i = 2;
+//		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account, i);
 		accountService.deleteAccount(id);
 	}
 

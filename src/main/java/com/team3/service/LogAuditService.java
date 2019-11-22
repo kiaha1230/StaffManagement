@@ -1,5 +1,6 @@
 package com.team3.service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,6 +91,28 @@ public class LogAuditService {
 			logDetailRepository.save(logDetails.get(i));
 		}
 
+	}
+
+	public void addDiff(Object addObj, Integer actionType) {
+		LogAudit logAudit = new LogAudit();
+		logAudit.setActionDatetime(new Date());
+		logAudit.setAccountId(UserInformation.getACCOUNT().getId());
+		logAudit.setTableName(addObj.getClass().getSimpleName().toUpperCase());
+		logAudit.setActionType(actionType);
+		logAuditRepository.save(logAudit);
+		
+
+//		Field[] elements = addObj.getClass().getDeclaredFields();
+//		for (Field a : elements) {
+//			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
+//					|| a.getName().contains("to"))) {
+//				LogDetail logDetail = new LogDetail();
+//				logDetail.setLogAuditId(logAudit.getId());
+//				logDetail.setColumnName(Ultilities.getColNameWithoutEC(a.getName()));
+//				logDetail.setNewValue(addObj.getClass().);
+//			}
+//
+//		}
 	}
 
 }

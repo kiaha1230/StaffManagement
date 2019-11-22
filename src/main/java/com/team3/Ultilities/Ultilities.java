@@ -29,5 +29,18 @@ public class Ultilities {
 		return returnStr;
 
 	}
+	public static String getColNameWithoutEC(String start) {
+		String[] split = start.split("(?=\\p{Upper})");
+		String returnStr = "";
+		for (int i = 0; i <= split.length - 1; i++) {
+			if (i == split.length - 1) {
+				returnStr += split[i].toUpperCase();
+				break;
+			}
+			returnStr += split[i].toUpperCase() + "_";
+		}
+		return returnStr;
+
+	}
 
 }

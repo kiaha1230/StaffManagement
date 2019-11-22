@@ -35,9 +35,9 @@ public class Attendance {
 	@CreationTimestamp
 	private Date attendanceDate;
 	@Column(name = "CHECK_IN_TIME")
-	private String checkInTime;
+	private String checkinTime;
 	@Column(name = "CHECK_OUT_TIME")
-	private String checkOutTime;
+	private String checkoutTime;
 	@Transient
 	private String staffName;
 	@Transient
@@ -47,6 +47,24 @@ public class Attendance {
 	@Transient
 	private Pager pager;
 	
+	
+	
+
+	public String getCheckinTime() {
+		return checkinTime;
+	}
+
+	public void setCheckinTime(String checkinTime) {
+		this.checkinTime = checkinTime;
+	}
+
+	public String getCheckoutTime() {
+		return checkoutTime;
+	}
+
+	public void setCheckoutTime(String checkoutTime) {
+		this.checkoutTime = checkoutTime;
+	}
 
 	public Pager getPager() {
 		return pager;
@@ -104,34 +122,9 @@ public class Attendance {
 		this.staffId = staffId;
 	}
 
-	public Attendance(Integer id, Integer staffId, Date attendanceDate, String checkInTime, String checkOutTime,
-			String staffName, Date fromAttendanceDate, Date toAttendanceDate) {
-		super();
-		this.id = id;
-		this.staffId = staffId;
-		this.attendanceDate = attendanceDate;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.staffName = staffName;
-		this.fromAttendanceDate = fromAttendanceDate;
-		this.toAttendanceDate = toAttendanceDate;
-	}
 
-	public String getCheckInTime() {
-		return checkInTime;
-	}
 
-	public void setCheckInTime(String checkInTime) {
-		this.checkInTime = checkInTime;
-	}
 
-	public String getCheckOutTime() {
-		return checkOutTime;
-	}
-
-	public void setCheckOutTime(String checkOutTime) {
-		this.checkOutTime = checkOutTime;
-	}
 
 	public Attendance() {
 		super();
