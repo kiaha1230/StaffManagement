@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.Ultilities.LogFunction;
 import com.team3.customModel.AccountCustom;
 
 import com.team3.model.APIResponse;
@@ -47,10 +48,21 @@ public class AccountService {
 
 	public void editAccount(Account account) {
 		accountRepository.save(account);
+
 	}
 
 	public void deleteAccount(int id) {
 		accountRepository.deleteById(id);
+	}
+
+	public Account getByIdSQL(Integer id) {
+		Account account = new Account();
+		String query = "from Account where id = :id ";
+		Query q = em.createQuery(query);
+		q.setParameter("id", id);
+		account = (Account) q.getSingleResult();
+		return account;
+
 	}
 
 //	public ArrayList<Account> getByCondition(Account account) {
@@ -166,8 +178,7 @@ public class AccountService {
 		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
 			q.setParameter("toDate", account.getToCreateDate());
 		}
-		
-		
+
 		APIResponse response = new APIResponse();
 		Pager pager = new Pager();
 		List<Object[]> totalRow = q.getResultList();

@@ -42,6 +42,9 @@ public class Account {
 	private Integer staffId;
 	@Column(name = "ACCOUNT_ROLE")
 	private Integer accountRole;
+	
+	
+	
 	@Transient
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fromCreateDate;

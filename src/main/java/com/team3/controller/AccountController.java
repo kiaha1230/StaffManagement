@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.Ultilities.LogFunction;
 import com.team3.customModel.AccountCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
 import com.team3.service.AccountService;
+import com.team3.service.LogAuditService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -29,6 +31,8 @@ import com.team3.service.AccountService;
 public class AccountController {
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 //	@GetMapping("accounts")
 //	public ArrayList<Account> getAllAccount() {
@@ -41,12 +45,14 @@ public class AccountController {
 	}
 
 	@PostMapping("/add")
-	public void addDepart(@RequestBody Account account) {
+	public void addAccount(@RequestBody Account account) {
 		accountService.addAccount(account);
 	}
 
 	@PutMapping("/edit")
-	public void editDepart(@RequestBody Account account) {
+	public void editAccount(@RequestBody Account account) {
+		Integer i = 0;
+		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account, i);
 		accountService.editAccount(account);
 	}
 

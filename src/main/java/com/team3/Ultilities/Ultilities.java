@@ -14,9 +14,20 @@ public class Ultilities {
 		Date date = new Date();
 		return date;
 	}
-	 public static void getLastDot(String start) {
-	        String [] returnStr =  start.split("\\.");
-	        System.out.println(returnStr[returnStr.length-1]);
-	    }
+
+	public static String getColName(String start) {
+		String start1 = start.substring(1);
+		String[] split = start1.split("(?=\\p{Upper})");
+		String returnStr = "";
+		for (int i = 0; i <= split.length - 1; i++) {
+			if (i == split.length - 1) {
+				returnStr += split[i].toUpperCase();
+				break;
+			}
+			returnStr += split[i].toUpperCase() + "_";
+		}
+		return returnStr;
+
+	}
 
 }
