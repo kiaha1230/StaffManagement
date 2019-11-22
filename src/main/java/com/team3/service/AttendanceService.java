@@ -1,7 +1,9 @@
 package com.team3.service;
 
+import java.sql.ResultSet;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.Ultilities.Ultilities;
 import com.team3.model.APIResponse;
 import com.team3.model.Attendance;
 import com.team3.model.Pager;
@@ -95,7 +98,7 @@ public class AttendanceService {
 
 	public APIResponse getByCondition(Attendance attendance) {
 		ArrayList<Attendance> list = new ArrayList<Attendance>();
-		String query = "select a.id , s.staffName , a.attendanceDate , a.checkinTime, a.checkoutTime from Attendance a , Staff s where a.staffId = s.id ";
+		String query = "select a.id , s.staffName , a.attendanceDate , a.checkinTime, a.checkoutTime,a.staffId from Attendance a , Staff s where a.staffId = s.id ";
 		if (attendance.getStaffId() != null) {
 			query += " and  a.staffId = :staffId ";
 		}
@@ -137,8 +140,9 @@ public class AttendanceService {
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
 			custom.setAttendanceDate((Date) record[2]);
-			custom.setCheckinTime((String) record[3]);
-			custom.setCheckoutTime((String) record[4]);
+			custom.setCheckinTime((Time) record[3]);
+			custom.setCheckoutTime((Time) record[4]);
+			custom.setStaffId((Integer) record[5]);
 			list.add(custom);
 		});
 
@@ -150,11 +154,20 @@ public class AttendanceService {
 	}
 
 	public Attendance getByStaffId(Integer staffId) {
-		Attendance attendance = new Attendance();
-		String query = "from Attendance where staffId = :staffID";
-		Query q = em.createQuery(query);
+		Attendance custom = new Attendance();
+		String query = "select * from Attendance where STAFF_ID = :staffId and ATTENDANCE_DATE = :date";
+		Query q = em.createNativeQuery(query);
 		q.setParameter("staffId", staffId);
-		attendance = (Attendance) q.getSingleResult();
-		return attendance;
+		q.setParameter("date", Ultilities.dateToStringUSFormat(new Date()));
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((record) -> {
+			custom.setId((Integer) record[0]);
+			custom.setStaffId((Integer) record[1]);
+			custom.setAttendanceDate((Date) record[2]);
+			custom.setCheckinTime((Time) record[3]);
+			custom.setCheckoutTime((Time) record[4]);
+		});
+
+		return custom;
 	}
 }

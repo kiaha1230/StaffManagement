@@ -35,9 +35,9 @@ public class Attendance {
 	@CreationTimestamp
 	private Date attendanceDate;
 	@Column(name = "CHECK_IN_TIME")
-	private String checkinTime;
+	private Time checkinTime;
 	@Column(name = "CHECK_OUT_TIME")
-	private String checkoutTime;
+	private Time checkoutTime;
 	@Transient
 	private String staffName;
 	@Transient
@@ -46,23 +46,20 @@ public class Attendance {
 	private Date toAttendanceDate;
 	@Transient
 	private Pager pager;
-	
-	
-	
 
-	public String getCheckinTime() {
+	public Time getCheckinTime() {
 		return checkinTime;
 	}
 
-	public void setCheckinTime(String checkinTime) {
+	public void setCheckinTime(Time checkinTime) {
 		this.checkinTime = checkinTime;
 	}
 
-	public String getCheckoutTime() {
+	public Time getCheckoutTime() {
 		return checkoutTime;
 	}
 
-	public void setCheckoutTime(String checkoutTime) {
+	public void setCheckoutTime(Time checkoutTime) {
 		this.checkoutTime = checkoutTime;
 	}
 
@@ -121,10 +118,6 @@ public class Attendance {
 	public void setStaffId(Integer staffId) {
 		this.staffId = staffId;
 	}
-
-
-
-
 
 	public Attendance() {
 		super();

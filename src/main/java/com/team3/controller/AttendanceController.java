@@ -51,7 +51,7 @@ public class AttendanceController {
 	public APIResponse getByCondition(@RequestBody Attendance attendance) {
 		return attendanceService.getByCondition(attendance);
 	}
-	@GetMapping("/getByStaffId/{id}")
+	@GetMapping("/getByStaffId/{staffId}")
 	public Attendance getByStaffId(@PathVariable Integer staffId) {
 		return attendanceService.getByStaffId(staffId);
 	}

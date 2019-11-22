@@ -9,6 +9,11 @@ public class Ultilities {
 		String strDate = sdf.format(date);
 		return strDate;
 	}
+	public static String dateToStringUSFormat(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String strDate = sdf.format(date);
+		return strDate;
+	}
 
 	public static Date stringToDate(String dateString) {
 		Date date = new Date();
