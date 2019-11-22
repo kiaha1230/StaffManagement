@@ -1,6 +1,5 @@
 package com.team3.model;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -35,9 +34,9 @@ public class Attendance {
 	@CreationTimestamp
 	private Date attendanceDate;
 	@Column(name = "CHECK_IN_TIME")
-	private Time checkinTime;
+	private String checkinTime;
 	@Column(name = "CHECK_OUT_TIME")
-	private Time checkoutTime;
+	private String checkoutTime;
 	@Transient
 	private String staffName;
 	@Transient
@@ -46,22 +45,6 @@ public class Attendance {
 	private Date toAttendanceDate;
 	@Transient
 	private Pager pager;
-
-	public Time getCheckinTime() {
-		return checkinTime;
-	}
-
-	public void setCheckinTime(Time checkinTime) {
-		this.checkinTime = checkinTime;
-	}
-
-	public Time getCheckoutTime() {
-		return checkoutTime;
-	}
-
-	public void setCheckoutTime(Time checkoutTime) {
-		this.checkoutTime = checkoutTime;
-	}
 
 	public Pager getPager() {
 		return pager;
@@ -121,6 +104,22 @@ public class Attendance {
 
 	public Attendance() {
 		super();
+	}
+
+	public String getCheckinTime() {
+		return checkinTime;
+	}
+
+	public void setCheckinTime(String checkinTime) {
+		this.checkinTime = checkinTime;
+	}
+
+	public String getCheckoutTime() {
+		return checkoutTime;
+	}
+
+	public void setCheckoutTime(String checkoutTime) {
+		this.checkoutTime = checkoutTime;
 	}
 
 }

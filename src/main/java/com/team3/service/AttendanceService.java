@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.aspectj.weaver.reflect.Java14GenericSignatureInformationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -140,8 +141,8 @@ public class AttendanceService {
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
 			custom.setAttendanceDate((Date) record[2]);
-			custom.setCheckinTime((Time) record[3]);
-			custom.setCheckoutTime((Time) record[4]);
+			custom.setCheckinTime((String) record[3]);
+			custom.setCheckoutTime((String) record[4]);
 			custom.setStaffId((Integer) record[5]);
 			list.add(custom);
 		});
@@ -164,10 +165,28 @@ public class AttendanceService {
 			custom.setId((Integer) record[0]);
 			custom.setStaffId((Integer) record[1]);
 			custom.setAttendanceDate((Date) record[2]);
-			custom.setCheckinTime((Time) record[3]);
-			custom.setCheckoutTime((Time) record[4]);
+			custom.setCheckinTime((String) record[3]);
+			custom.setCheckoutTime((String) record[4]);
 		});
 
 		return custom;
 	}
+
+	public void checkIn(Integer staffId) {
+		Attendance attendance = new Attendance();
+		attendance.setAttendanceDate(new Date());
+		attendance.setCheckinTime(Ultilities.getStringTimeFromDate(new Date()));
+		attendance.setStaffId(staffId);
+		attendanceRepository.save(attendance);
+	}
+
+	public void checkOut(Integer staffId) {
+		Attendance attendance = new Attendance();
+		attendance = getByStaffId(staffId);
+		if (attendance != null) {
+			attendance.setCheckoutTime(Ultilities.getStringTimeFromDate(new Date()));
+			attendanceRepository.save(attendance);
+		}
+	}
+
 }

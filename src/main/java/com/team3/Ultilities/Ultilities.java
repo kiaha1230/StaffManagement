@@ -9,6 +9,7 @@ public class Ultilities {
 		String strDate = sdf.format(date);
 		return strDate;
 	}
+
 	public static String dateToStringUSFormat(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String strDate = sdf.format(date);
@@ -18,6 +19,12 @@ public class Ultilities {
 	public static Date stringToDate(String dateString) {
 		Date date = new Date();
 		return date;
+	}
+
+	public static String getStringTimeFromDate(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+		String strDate = sdf.format(date);
+		return strDate;
 	}
 
 	public static String getColName(String start) {
@@ -34,6 +41,7 @@ public class Ultilities {
 		return returnStr;
 
 	}
+
 	public static String getColNameWithoutEC(String start) {
 		String[] split = start.split("(?=\\p{Upper})");
 		String returnStr = "";

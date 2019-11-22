@@ -102,17 +102,17 @@ public class LogAuditService {
 		logAuditRepository.save(logAudit);
 		
 
-//		Field[] elements = addObj.getClass().getDeclaredFields();
-//		for (Field a : elements) {
-//			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
-//					|| a.getName().contains("to"))) {
-//				LogDetail logDetail = new LogDetail();
-//				logDetail.setLogAuditId(logAudit.getId());
-//				logDetail.setColumnName(Ultilities.getColNameWithoutEC(a.getName()));
-//				logDetail.setNewValue(addObj.getClass().);
-//			}
-//
-//		}
+		Field[] elements = addObj.getClass().getDeclaredFields();
+		for (Field a : elements) {
+			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
+					|| a.getName().contains("to"))) {
+				LogDetail logDetail = new LogDetail();
+				logDetail.setLogAuditId(logAudit.getId());
+				logDetail.setColumnName(Ultilities.getColNameWithoutEC(a.getName()));
+//				logDetail.setNewValue(Ultilities);
+			}
+
+		}
 	}
 
 }
