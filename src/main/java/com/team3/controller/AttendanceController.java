@@ -57,13 +57,13 @@ public class AttendanceController {
 		return attendanceService.getByStaffId(staffId);
 	}
 
-	@GetMapping("/checkIn/{staffId}")
-	public void checkIn(@PathVariable Integer staffId) {
+	@PostMapping("/checkIn")
+	public void checkIn(@RequestBody Integer staffId) {
 		attendanceService.checkIn(staffId);
 	}
 
-	@GetMapping("/checkOut/{staffId}")
-	public void checkOut(@PathVariable Integer staffId) {
+	@PostMapping("/checkOut")
+	public void checkOut(@RequestBody Integer staffId) {
 		attendanceService.checkOut(staffId);
 	}
 
