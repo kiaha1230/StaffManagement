@@ -149,18 +149,7 @@ public class Account {
 		this.accountRole = accountRole;
 	}
 
-	public Account(Integer id, String username, String password, Date createDate, Integer staffId, Integer accountRole,
-			Date fromCreateDate, Date toCreateDate, String staffName) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.createDate = createDate;
-		this.staffId = staffId;
-		this.accountRole = accountRole;
-		this.fromCreateDate = fromCreateDate;
-		this.toCreateDate = toCreateDate;
-		this.staffName = staffName;
+	public Account() {
 	}
 
 }
