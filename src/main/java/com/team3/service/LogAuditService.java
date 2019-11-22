@@ -100,16 +100,16 @@ public class LogAuditService {
 		logAudit.setTableName(addObj.getClass().getSimpleName().toUpperCase());
 		logAudit.setActionType(actionType);
 		logAuditRepository.save(logAudit);
-		
-
-		Field[] elements = addObj.getClass().getDeclaredFields();
+		Class<?> cls = addObj.getClass();
+		Field[] elements = cls.getClass().getDeclaredFields();
 		for (Field a : elements) {
 			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
 					|| a.getName().contains("to"))) {
-				LogDetail logDetail = new LogDetail();
-				logDetail.setLogAuditId(logAudit.getId());
-				logDetail.setColumnName(Ultilities.getColNameWithoutEC(a.getName()));
-//				logDetail.setNewValue(Ultilities);
+//				Field field  =a.ge
+//				LogDetail logDetail = new LogDetail();
+//				logDetail.setLogAuditId(logAudit.getId());
+//				logDetail.setColumnName(Ultilities.getColNameWithoutEC(a.getName()));
+//				logDetail.setNewValue(a.get);
 			}
 
 		}
