@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.model.APIResponse;
 import com.team3.model.Position;
 import com.team3.service.PositionService;
 
@@ -40,8 +41,8 @@ public class PostitionController {
 	}
 
 	@PostMapping("/getsByConditions")
-	public ArrayList<Position> getByCondition(@RequestBody Position position) {
-		return positionService.getByCondition(position);
+	public APIResponse getByCondition(@RequestBody Position position) {
+		return positionService.findByCondition(position);
 	}
 
 	@GetMapping("/getsAllPosition")
