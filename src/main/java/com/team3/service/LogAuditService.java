@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,8 @@ public class LogAuditService {
 		return list;
 	}
 
-	public void getDiff(Object oldObj, Object newObj, Integer actionType) {
+	public void getDiff(Object oldObj, Object newObj) {
+		Integer actionType = 1;
 		List<LogDetail> logDetails = new ArrayList<LogDetail>();
 		LogAudit logAudit = new LogAudit();
 		logAudit.setActionDatetime(new Date());
@@ -93,26 +95,78 @@ public class LogAuditService {
 
 	}
 
-	public void addDiff(Object addObj, Integer actionType) {
+	public void addDiff(Object addObj) {
+		Integer actionType = 0;
 		LogAudit logAudit = new LogAudit();
 		logAudit.setActionDatetime(new Date());
 		logAudit.setAccountId(UserInformation.getACCOUNT().getId());
 		logAudit.setTableName(addObj.getClass().getSimpleName().toUpperCase());
 		logAudit.setActionType(actionType);
 		logAuditRepository.save(logAudit);
-		Class<?> cls = addObj.getClass();
-		Field[] elements = cls.getClass().getDeclaredFields();
+		Field[] elements = addObj.getClass().getDeclaredFields();
 		for (Field a : elements) {
-			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
-					|| a.getName().contains("to"))) {
-//				Field field  =a.ge
-//				LogDetail logDetail = new LogDetail();
-//				logDetail.setLogAuditId(logAudit.getId());
-//				logDetail.setColumnName(Ultilities.getColNameWithoutEC(a.getName()));
-//				logDetail.setNewValue(a.get);
-			}
 
+			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
+					|| a.getName().contains("to") || a.getName().contains("id"))) {
+
+				Integer logAuditId = logAudit.getId();
+				String colName = Ultilities.getColNameWithoutEC(a.getName());
+				LogDetail logDetail = new LogDetail();
+				logDetail.setLogAuditId(logAuditId);
+				logDetail.setColumnName(colName);
+				if (a.getName().contains("Date")) {
+					logDetail.setNewValue(Ultilities.dateToStringUSFormat(new Date()));
+				} else {
+					try {
+						a.setAccessible(true);
+						Object fieldVal = a.get(addObj);
+						logDetail.setNewValue(fieldVal.toString());
+					} catch (Exception e) {
+
+						e.printStackTrace();
+					}
+
+				}
+				logDetailRepository.save(logDetail);
+
+			}
 		}
 	}
 
+	public void deleteDiff(Object addObj) {
+		Integer actionType = 2;
+		LogAudit logAudit = new LogAudit();
+		logAudit.setActionDatetime(new Date());
+		logAudit.setAccountId(UserInformation.getACCOUNT().getId());
+		logAudit.setTableName(addObj.getClass().getSimpleName().toUpperCase());
+		logAudit.setActionType(actionType);
+		logAuditRepository.save(logAudit);
+		Field[] elements = addObj.getClass().getDeclaredFields();
+		for (Field a : elements) {
+			if (!(a.getName().contains("Name") || a.getName().contains("pager") || a.getName().contains("from")
+					|| a.getName().contains("to") || a.getName().contains("id"))) {
+
+				Integer logAuditId = logAudit.getId();
+				String colName = Ultilities.getColNameWithoutEC(a.getName());
+				LogDetail logDetail = new LogDetail();
+				logDetail.setLogAuditId(logAuditId);
+				logDetail.setColumnName(colName);
+				if (a.getName().contains("Date")) {
+					logDetail.setOldValue(Ultilities.dateToStringUSFormat(new Date()));
+				} else {
+					try {
+						a.setAccessible(true);
+						Object fieldVal = a.get(addObj);
+						logDetail.setOldValue(fieldVal.toString());
+					} catch (Exception e) {
+
+						e.printStackTrace();
+					}
+
+				}
+				logDetailRepository.save(logDetail);
+
+			}
+		}
+	}
 }

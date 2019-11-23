@@ -18,6 +18,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -47,6 +49,8 @@ public class Staff {
 	private String phoneNumber;
 	@Column(name = "STATUS")
 	private Boolean status;
+	@Column(name = "POSITION_ID")
+	private Integer positionId;
 	@Transient
 	private String departName;
 	@Transient
@@ -55,9 +59,38 @@ public class Staff {
 	private Long khenThuong;
 	@Transient
 	private Long diem;
+	@Transient
+	private MultipartFile photoObj;
+	@Transient
+	private String positionName;
+	
+
+	public Integer getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(Integer positionId) {
+		this.positionId = positionId;
+	}
+
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
+	}
 
 	@Transient
 	private Pager pager;
+
+	public MultipartFile getPhotoObj() {
+		return photoObj;
+	}
+
+	public void setPhotoObj(MultipartFile photoObj) {
+		this.photoObj = photoObj;
+	}
 
 	public Pager getPager() {
 		return pager;
@@ -98,17 +131,6 @@ public class Staff {
 	public void setDepartName(String departName) {
 		this.departName = departName;
 	}
-
-	public Integer getPositionId() {
-		return positionId;
-	}
-
-	public void setPositionId(Integer positionId) {
-		this.positionId = positionId;
-	}
-
-	@Column(name = "POSITION_ID")
-	private Integer positionId;
 
 	public Boolean getGender() {
 		return gender;
@@ -221,7 +243,6 @@ public class Staff {
 		this.khenThuong = khenThuong;
 		this.diem = diem;
 		this.pager = pager;
-		this.positionId = positionId;
 	}
 
 }

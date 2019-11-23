@@ -44,10 +44,8 @@ public class RecordService {
 	}
 
 	public void addOrEditRecord(Record record) {
-
-		sendMail(record);
 		recordRepository.save(record);
-
+		sendMail(record);
 	}
 
 	public void deleteRecord(Integer id) {

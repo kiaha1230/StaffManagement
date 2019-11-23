@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sun.xml.messaging.saaj.packaging.mime.util.QEncoderStream;
+import com.team3.Ultilities.Ultilities;
 import com.team3.customModel.SalaryCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
@@ -37,6 +38,12 @@ public class SalaryService {
 	}
 
 	public void addOrEditSalary(Salary salary) {
+		Double Insurance = salary.getGrossSalary() *0.105;
+		Double Tax = salary.getGrossSalary()*Ultilities.getPercentSalGrade(salary.getGrossSalary());
+		salary.setInsurance(Insurance);
+		salary.setTax(Tax);
+		Double netSal = salary.getGrossSalary() - Insurance - Tax ;
+		salary.setNetSalary(netSal);
 		salaryRepository.save(salary);
 	}
 
@@ -197,8 +204,7 @@ public class SalaryService {
 			custom.setNetSalary((Double) records[5]);
 			list.add(custom);
 		});
-		
-		
+
 		pager.setPageSize(salary.getPager().getPageSize());
 		pager.setPage(salary.getPager().getPage());
 		response.setPager(pager);

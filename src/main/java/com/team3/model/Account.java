@@ -150,6 +150,7 @@ public class Account {
 	}
 
 	public Account() {
+		this.createDate = new Date();
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team3.model.APIResponse;
 import com.team3.model.Allowance;
 import com.team3.service.AllowanceService;
+import com.team3.service.LogAuditService;
 import com.team3.service.AllowanceService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,14 +24,18 @@ import com.team3.service.AllowanceService;
 public class AllowanceController {
 	@Autowired
 	private AllowanceService allowanceService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Allowance allowance) {
+		logAuditService.addDiff(allowance);
 		allowanceService.addAllowance(allowance);
 	}
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Allowance allowance) {
+		logAuditService.getDiff(allowanceService.getById(allowance.getId()), allowance);
 		allowanceService.editAllowance(allowance);
 	}
 

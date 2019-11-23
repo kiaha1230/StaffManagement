@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.team3.customModel.StaffCustom;
 import com.team3.model.APIResponse;
@@ -44,7 +45,8 @@ public class StaffController {
 	}
 
 	@PostMapping("/add")
-	public void addTask(@RequestBody Staff staff) {
+	public void addTask(@RequestBody Staff staff, @RequestBody MultipartFile multipartFile) {
+		staff.setPhoto(multipartFile.getName());
 		staffService.addOrEditStaff(staff);
 	}
 

@@ -56,4 +56,22 @@ public class Ultilities {
 
 	}
 
+	public static Double getPercentSalGrade(Double amount) {
+		if (amount <= 5000000) {
+			return 0.05;
+		} else if (amount > 5000000 && amount <= 10000000) {
+			return 0.1;
+		} else if (amount > 10000000 && amount <= 18000000) {
+			return 0.15;
+		} else if (amount > 18000000 && amount <= 32000000) {
+			return 0.2;
+		} else if (amount > 32000000 && amount <= 52000000) {
+			return 0.25;
+		} else if (amount > 52000000 && amount <= 80000000) {
+			return 0.3;
+		} else {
+			return 0.35;
+		}
+	}
+
 }

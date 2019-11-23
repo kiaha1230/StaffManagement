@@ -142,7 +142,7 @@ public class AllowanceService {
 	// API
 	public APIResponse getByCondition(Allowance allowance) {
 		ArrayList<Allowance> list = new ArrayList<Allowance>();
-		String query = "select a.id, s.staffName,a.travelAllowance,a.deviceAllowance, a.mealAllowance from Allowance a , Staff s where a.staffId = s.id ";
+		String query = "select a.id, s.staffName,a.travelAllowance,a.deviceAllowance, a.mealAllowance,a.staffId from Allowance a , Staff s where a.staffId = s.id ";
 		if ((allowance.getStaffId() != null)) {
 			query += " and  a.staffId = :staffId";
 		}
@@ -235,6 +235,7 @@ public class AllowanceService {
 			custom.setTravelAllowance((Double) record[2]);
 			custom.setDeviceAllowance((Double) record[3]);
 			custom.setMealAllowance((Double) record[4]);
+			custom.setStaffId( (Integer) record[5]);
 			list.add(custom);
 		});
 

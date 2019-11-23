@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.team3.Ultilities.LogFunction;
 import com.team3.customModel.AccountCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
@@ -46,22 +45,20 @@ public class AccountController {
 
 	@PostMapping("/add")
 	public void addAccount(@RequestBody Account account) {
-		Integer i = 0;
-		logAuditService.addDiff(account, i);
+		logAuditService.addDiff(account);
 		accountService.addAccount(account);
 	}
 
 	@PutMapping("/edit")
 	public void editAccount(@RequestBody Account account) {
-		Integer i = 1;
-		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account, i);
+
+		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account);
 		accountService.editAccount(account);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteAccount(@PathVariable Integer id) {
-//		Integer i = 2;
-//		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account, i);
+		logAuditService.deleteDiff(accountService.getByIdSQL(id));
 		accountService.deleteAccount(id);
 	}
 
