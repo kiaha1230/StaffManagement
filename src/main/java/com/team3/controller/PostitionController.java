@@ -44,7 +44,7 @@ public class PostitionController {
 		return positionService.getByCondition(position);
 	}
 
-	@GetMapping("/getAllPosition")
+	@GetMapping("/getsAllPosition")
 	public ArrayList<Position> getAllPosition() {
 		return positionService.getAllPosition();
 	}

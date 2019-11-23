@@ -35,7 +35,8 @@ public class AllowanceController {
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Allowance allowance) {
-		logAuditService.getDiff(allowanceService.getById(allowance.getId()), allowance);
+		Allowance allowance2 =  allowanceService.getByIdSQL(allowance.getId());
+		logAuditService.getDiff(allowance2, allowance);
 		allowanceService.editAllowance(allowance);
 	}
 

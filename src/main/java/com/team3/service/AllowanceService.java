@@ -235,7 +235,7 @@ public class AllowanceService {
 			custom.setTravelAllowance((Double) record[2]);
 			custom.setDeviceAllowance((Double) record[3]);
 			custom.setMealAllowance((Double) record[4]);
-			custom.setStaffId( (Integer) record[5]);
+			custom.setStaffId((Integer) record[5]);
 			list.add(custom);
 		});
 
@@ -245,6 +245,15 @@ public class AllowanceService {
 		response.setData(list);
 		return response;
 
+	}
+
+	public Allowance getByIdSQL(Integer id) {
+		Allowance allowance = new Allowance();
+		String hql = "From Allowance where id = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		allowance = (Allowance) q.getSingleResult();
+		return allowance;
 	}
 
 }
