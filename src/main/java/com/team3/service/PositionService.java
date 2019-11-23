@@ -12,6 +12,9 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.model.APIResponse;
+import com.team3.model.Position;
+import com.team3.model.Pager;
 import com.team3.model.Position;
 import com.team3.repository.PositionRepository;
 import com.team3.repository.PositionRepository;
@@ -45,12 +48,37 @@ public class PositionService {
 		positionRepository.deleteById(id);
 	}
 
-	public ArrayList<Position> getByCondition(Position position) {
+	public APIResponse findByCondition(Position position) {
 		ArrayList<Position> list = new ArrayList<Position>();
-		String query = "FROM Position";
+		String query = "from Position where id >0 ";
+		if (!(position.getDescription() == null)) {
+			query += " and  description like :description";
+		}
+		if (!(position.getPositionName() == null)) {
+			query += " and positionName like :positionName  ";
+		}
 		Query q = em.createQuery(query);
+		if (!(position.getDescription() == null)) {
+			q.setParameter("description", "%" + position.getDescription() + "%");
+		}
+		if (!(position.getPositionName() == null)) {
+			q.setParameter("positionName", "%" + position.getPositionName() + "%");
+		}
+
+		APIResponse response = new APIResponse();
+		Pager pager = new Pager();
+		List<Object[]> totalRow = q.getResultList();
+		pager.setTotalRow(totalRow.size());
+		q.setFirstResult(position.getPager().getPage() * position.getPager().getPageSize());
+		q.setMaxResults(position.getPager().getPageSize());
+
 		list = (ArrayList<Position>) q.getResultList();
-		return list;
+
+		pager.setPageSize(position.getPager().getPageSize());
+		pager.setPage(position.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
 	}
 
 }

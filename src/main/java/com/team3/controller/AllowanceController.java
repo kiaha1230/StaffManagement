@@ -35,13 +35,14 @@ public class AllowanceController {
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Allowance allowance) {
-		Allowance allowance2 =  allowanceService.getByIdSQL(allowance.getId());
+		Allowance allowance2 = allowanceService.getByIdSQL(allowance.getId());
 		logAuditService.getDiff(allowance2, allowance);
 		allowanceService.editAllowance(allowance);
 	}
 
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{id}")
 	public void deleteAllowance(@PathVariable Integer id) {
+		logAuditService.deleteDiff(allowanceService.getByIdSQL(id));
 		allowanceService.deleteAllowance(id);
 	}
 

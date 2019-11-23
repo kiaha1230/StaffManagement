@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.team3.customModel.AccountCustom;
 import com.team3.model.APIResponse;
+import com.team3.model.Allowance;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
 import com.team3.repository.DepartRepository;
@@ -104,6 +105,14 @@ public class DepartService {
 		response.setPager(pager);
 		response.setData(list);
 		return response;
+	}
+	public Depart getByIdSQL(Integer id) {
+		Depart depart = new Depart();
+		String hql = "From Depart where id = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		depart = (Depart) q.getSingleResult();
+		return depart;
 	}
 
 }

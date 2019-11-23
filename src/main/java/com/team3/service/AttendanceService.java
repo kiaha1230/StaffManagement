@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.team3.Ultilities.Ultilities;
 import com.team3.model.APIResponse;
+import com.team3.model.Allowance;
 import com.team3.model.Attendance;
 import com.team3.model.Pager;
 import com.team3.repository.AttendanceRepository;

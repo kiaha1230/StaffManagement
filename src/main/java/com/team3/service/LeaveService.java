@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.model.APIResponse;
+import com.team3.model.Allowance;
 import com.team3.model.Attendance;
 import com.team3.model.Leave;
 import com.team3.model.Pager;
@@ -150,7 +151,6 @@ public class LeaveService {
 		q.setFirstResult(leave.getPager().getPage() * leave.getPager().getPageSize());
 		q.setMaxResults(leave.getPager().getPageSize());
 
-		
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((record) -> {
 			Leave custom = new Leave();
@@ -158,7 +158,7 @@ public class LeaveService {
 			custom.setStaffName(record[1].toString());
 			custom.setLeaveDate((Date) record[2]);
 			custom.setReason((String) record[3]);
-			custom.setStatus( (Boolean) record[4]);
+			custom.setStatus((Boolean) record[4]);
 			list.add(custom);
 		});
 
@@ -168,4 +168,14 @@ public class LeaveService {
 		response.setData(list);
 		return response;
 	}
+
+	public Leave getByIdSQL(Integer id) {
+		Leave leave = new Leave();
+		String hql = "From Leave where id = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		leave = (Leave) q.getSingleResult();
+		return leave;
+	}
+
 }

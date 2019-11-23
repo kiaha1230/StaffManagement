@@ -20,6 +20,7 @@ import com.team3.model.Leave;
 import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.service.LeaveService;
+import com.team3.service.LogAuditService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,6 +28,8 @@ import com.team3.service.LeaveService;
 public class LeaveController {
 	@Autowired
 	private LeaveService leaveService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 	@GetMapping("getsAllLeave")
 	public ArrayList<Leave> getAllLeave() {
@@ -40,16 +43,19 @@ public class LeaveController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Leave leave) {
+		logAuditService.addDiff(leave);
 		leaveService.addLeave(leave);
 	}
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Leave leave) {
+		logAuditService.getDiff(leaveService.getByIdSQL(leave.getId()), leave);
 		leaveService.editLeave(leave);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteLeave(@PathVariable Integer id) {
+		logAuditService.deleteDiff(leaveService.getByIdSQL(id));
 		leaveService.deleteLeave(id);
 	}
 

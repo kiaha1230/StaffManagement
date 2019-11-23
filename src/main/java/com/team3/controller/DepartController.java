@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.service.DepartService;
+import com.team3.service.LogAuditService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -26,6 +27,8 @@ import com.team3.service.DepartService;
 public class DepartController {
 	@Autowired
 	private DepartService departService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 	@GetMapping("/getsAllDepart")
 	public ArrayList<Depart> getAllDepart() {
@@ -39,16 +42,19 @@ public class DepartController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Depart depart) {
+		logAuditService.addDiff(depart);
 		departService.addDepart(depart);
 	}
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Depart depart) {
+		logAuditService.getDiff(departService.getByIdSQL(depart.getId()), depart);
 		departService.editDepart(depart);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteDepart(@PathVariable Integer id) {
+		logAuditService.deleteDiff(departService.getByIdSQL(id));
 		departService.deleteDepart(id);
 	}
 
