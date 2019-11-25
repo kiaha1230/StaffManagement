@@ -19,7 +19,7 @@ import com.team3.service.LogAuditService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/logaudit")
+@RequestMapping("/log-audit")
 public class LogAuditController {
 	@Autowired
 	private LogAuditService logAuditService;

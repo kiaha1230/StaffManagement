@@ -18,7 +18,7 @@ import com.team3.service.LogDetailService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/logdetail")
+@RequestMapping("/log-detail")
 public class LogDetailController {
 	@Autowired
 	private LogDetailService logDetailService;
