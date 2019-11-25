@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -221,6 +222,20 @@ public class AccountService {
 
 	public void logout() {
 		UserInformation.setACCOUNT(null);
+	}
+
+	public List<Account> getAccountByStaff() {
+		List<Account> list = new ArrayList<Account>();
+		String hql = "select a.id,s.staffName  from Staff s, Account a where s.id = a.staffId ";
+		Query q = em.createQuery(hql);
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((record) -> {
+			Account custom = new Account();
+			custom.setId((Integer) record[0]);
+			custom.setStaffName(record[1].toString());
+			list.add(custom);
+		});
+		return list;
 	}
 
 }

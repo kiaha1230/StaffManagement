@@ -82,4 +82,8 @@ public class AccountController {
 		accountService.logout();
 	}
 
+	@GetMapping("/getAccountByStaff")
+	public List<Account> getAccountByStaff() {
+		return accountService.getAccountByStaff();
+	}
 }
