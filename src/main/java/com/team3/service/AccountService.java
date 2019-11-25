@@ -226,13 +226,14 @@ public class AccountService {
 
 	public List<Account> getAccountByStaff() {
 		List<Account> list = new ArrayList<Account>();
-		String hql = "select a.id,s.staffName  from Staff s, Account a where s.id = a.staffId ";
+		String hql = "select a.id,s.staffName,s.staffCode  from Staff s, Account a where s.id = a.staffId ";
 		Query q = em.createQuery(hql);
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((record) -> {
 			Account custom = new Account();
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
+			custom.setStaffCode(record[2].toString());
 			list.add(custom);
 		});
 		return list;

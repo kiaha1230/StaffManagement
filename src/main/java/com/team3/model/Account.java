@@ -53,6 +53,16 @@ public class Account {
 	private String staffName;
 	@Transient
 	private Pager pager;
+	@Transient
+	private String staffCode;
+
+	public String getStaffCode() {
+		return staffCode;
+	}
+
+	public void setStaffCode(String staffCode) {
+		this.staffCode = staffCode;
+	}
 
 	public Account(Integer id, String username, String password, Date createDate, Integer staffId, Integer accountRole,
 			Date fromCreateDate, Date toCreateDate, String staffName, Pager pager) {
