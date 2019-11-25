@@ -31,6 +31,36 @@ public class LogAudit {
 
 	@Transient
 	private Pager pager;
+	@Transient
+	private String staffName;
+	@Transient
+	private Date fromDate;
+	@Transient
+	private Date toDate;
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
 
 	public Pager getPager() {
 		return pager;

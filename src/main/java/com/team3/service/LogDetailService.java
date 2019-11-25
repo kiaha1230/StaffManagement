@@ -12,10 +12,10 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.model.Depart;
 import com.team3.model.LogDetail;
 import com.team3.repository.LogDetailRepository;
 import com.team3.model.LogDetail;
-
 
 @Service
 public class LogDetailService {
@@ -47,7 +47,7 @@ public class LogDetailService {
 	}
 
 	public ArrayList<LogDetail> getByCondition(LogDetail logDetail) {
-	ArrayList<LogDetail> list = new ArrayList<LogDetail>();
+		ArrayList<LogDetail> list = new ArrayList<LogDetail>();
 //		String query = "select a.id, a.username,a.password,a.createDate, s.staffName,a.logDetailRole from LogDetail a , Staff s where a.staffId = s.id ";
 //		Date fromDate = new Date();
 //		Date toDate = new Date();
@@ -89,10 +89,16 @@ public class LogDetailService {
 //			custom.setLogDetailRole((Boolean) record[5]);
 //			list.add(custom);
 //		});
-	return list;
+		return list;
 	}
 
-
-
+	public List<LogDetail> getByLogAuditId(Integer logAuditId) {
+		List<LogDetail> list = new ArrayList<LogDetail>();
+		String hql = "From LogDetail where logAuditId = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", logAuditId);
+		list = q.getResultList();
+		return list;
+	}
 
 }

@@ -38,11 +38,11 @@ public class SalaryService {
 	}
 
 	public void addOrEditSalary(Salary salary) {
-		Double Insurance = salary.getGrossSalary() *0.105;
-		Double Tax = salary.getGrossSalary()*Ultilities.getPercentSalGrade(salary.getGrossSalary());
+		Double Insurance = salary.getGrossSalary() * 0.105;
+		Double Tax = salary.getGrossSalary() * Ultilities.getPercentSalGrade(salary.getGrossSalary());
 		salary.setInsurance(Insurance);
 		salary.setTax(Tax);
-		Double netSal = salary.getGrossSalary() - Insurance - Tax ;
+		Double netSal = salary.getGrossSalary() - Insurance - Tax;
 		salary.setNetSalary(netSal);
 		salaryRepository.save(salary);
 	}

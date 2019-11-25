@@ -13,7 +13,6 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.team3.Ultilities.LogFunction;
 import com.team3.customModel.AccountCustom;
 
 import com.team3.model.APIResponse;
