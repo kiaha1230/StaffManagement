@@ -74,7 +74,7 @@ public class PayrollController {
 			int year = localDate.getYear();
 			int month = localDate.getMonthValue();
 //			int day = localDate.getDayOfMonth();
-			Integer workingDays = payrollService.getWorkingDayOfMonth(month - 1, year);
+			Integer workingDays = payrollService.getWorkingDayOfMonth();
 			List<Payroll> listPayroll = new ArrayList<Payroll>();
 			List<Staff> listStaff = staffService.getAllStaff();
 			for (Staff s : listStaff) {

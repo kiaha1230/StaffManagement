@@ -177,21 +177,24 @@ public class PayrollService {
 //		return list;
 //	}
 
-	public Integer getWorkingDayOfMonth(Integer month, Integer year) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.MONTH, month);
-		calendar.set(Calendar.YEAR, year);
-		List<Date> count = new ArrayList<Date>();
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
-		int myMonth = calendar.get(Calendar.MONTH);
-		while (myMonth == calendar.get(Calendar.MONTH)) {
-			calendar.add(Calendar.DAY_OF_MONTH, 1);
-			if (calendar.getTime().getDay() != 0 && calendar.getTime().getDay() != 6
-					&& calendar.getTime().getMonth() == month) {
-				count.add(calendar.getTime());
+	public Integer getWorkingDayOfMonth() {
+		Calendar cal = Calendar.getInstance();
+		/* set the 1st date of ongoing month */
+		cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1, 0, 0, 1);
+		Calendar cal1 = Calendar.getInstance();
+		/* set the last date of ongoing month */
+		cal1.set(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.getMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
+		int workingDays = 0;
+		/* run the while loop until the months are same */
+		while (cal.get(Calendar.MONTH) != cal1.get(Calendar.MONTH)) {
+			if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
+					&& cal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				System.out.println("Check >> " + cal.getTime());
+				workingDays++;
 			}
+			cal.add(Calendar.DAY_OF_MONTH, 1);
 		}
-		return count.size();
+		return workingDays;
 
 	}
 
