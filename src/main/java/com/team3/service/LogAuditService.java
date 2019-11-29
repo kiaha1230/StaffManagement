@@ -1,6 +1,7 @@
 package com.team3.service;
 
 import java.lang.reflect.Field;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,50 +61,122 @@ public class LogAuditService {
 		logAuditRepository.deleteById(id);
 	}
 
-
 	public void getDiff(Object oldObj, Object newObj) {
 		Integer actionType = 1;
-		List<LogDetail> logDetails = new ArrayList<LogDetail>();
 		LogAudit logAudit = new LogAudit();
-		logAudit.setActionDatetime(new Date());
-		logAudit.setAccountId(UserInformation.getACCOUNT().getId());
-		logAudit.setTableName(oldObj.getClass().getSimpleName().toUpperCase());
-		logAudit.setActionType(actionType);
-		logAuditRepository.save(logAudit);
-
-		DiffNode diff = ObjectDifferBuilder.buildDefault().compare(newObj, oldObj);
-		diff.visit(new DiffNode.Visitor() {
-			public void node(DiffNode node, Visit visit) {
-				final Object baseValue = node.canonicalGet(oldObj);
-				final Object workingValue = node.canonicalGet(newObj);
-				LogDetail logDetail = new LogDetail();
-				logDetail.setOldValue(baseValue.toString());
-				logDetail.setNewValue(workingValue.toString());
-				logDetail.setColumnName(Ultilities.getColName(node.getPath().toString()));
-				logDetail.setLogAuditId(logAudit.getId());
-				logDetails.add(logDetail);
+		List<LogDetail> logDetails = new ArrayList<LogDetail>();
+		Field[] elements = oldObj.getClass().getDeclaredFields();
+		boolean checkNull = checkDiffOrNot(elements, newObj, oldObj);
+		if (checkNull) {
+			logAudit.setActionDatetime(new Date());
+			logAudit.setAccountId(UserInformation.getACCOUNT().getId());
+			logAudit.setTableName(oldObj.getClass().getSimpleName().toUpperCase());
+			logAudit.setActionType(actionType);
+			logAuditRepository.save(logAudit);
+			DiffNode diff = ObjectDifferBuilder.buildDefault().compare(newObj, oldObj);
+			diff.visit(new DiffNode.Visitor() {
+				public void node(DiffNode node, Visit visit) {
+					final Object baseValue = node.canonicalGet(oldObj);
+					final Object workingValue = node.canonicalGet(newObj);
+					LogDetail logDetail = new LogDetail();
+					logDetail.setOldValue(baseValue.toString());
+					logDetail.setNewValue(workingValue.toString());
+					logDetail.setColumnName(Ultilities.getColName(node.getPath().toString()));
+					logDetail.setLogAuditId(logAudit.getId());
+					logDetails.add(logDetail);
+				}
+			});
+			for (int i = 1; i <= logDetails.size() - 1; i++) {
+				logDetailRepository.save(logDetails.get(i));
 			}
-		});
-		for (int i = 1; i <= logDetails.size() - 1; i++) {
-			logDetailRepository.save(logDetails.get(i));
 		}
 
 	}
+
+	// at least one difference
+
+	public Boolean checkDiffOrNot(Field[] elements, Object newObj, Object oldObj) {
+		boolean returnBol = false;
+		for (Field a : elements) {
+			a.setAccessible(true);
+			try {
+				String oldVal = a.get(oldObj).toString();
+				String newVal = a.get(newObj).toString();
+				if (!oldVal.equals(newVal)) {
+					returnBol = true;
+					break;
+				} else {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return returnBol;
+	}
+
+	// you're the one who suffer.
+
+	// custom getDiff
+
+	public void getDiffCustom(Object oldObj, Object newObj) {
+		Integer actionType = 1;
+		Field[] elements = oldObj.getClass().getDeclaredFields();
+		String tableName = oldObj.getClass().getSimpleName().toUpperCase();
+		LogAudit logAudit = new LogAudit();
+		if (checkDiffOrNot(elements, newObj, oldObj)) {
+			logAudit.setActionDatetime(new Date());
+			logAudit.setAccountId(UserInformation.getACCOUNT().getId());
+			logAudit.setTableName(tableName);
+			logAudit.setActionType(actionType);
+			logAuditRepository.save(logAudit);
+			for (Field a : elements) {
+				a.setAccessible(true);
+				try {
+					if (!checkName(a)) {
+						if (!(a.get(oldObj).equals(a.get(newObj)))) {
+							LogDetail logDetail = new LogDetail();
+							String colName = Ultilities.getColNameWithoutEC(a.getName());
+							if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")) {
+								continue;
+							}
+							logDetail.setOldValue(a.get(oldObj).toString());
+							logDetail.setNewValue(a.get(newObj).toString());
+							logDetail.setColumnName(colName);
+							logDetail.setLogAuditId(logAudit.getId());
+							logDetailRepository.save(logDetail);
+
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		} else {
+
+		}
+
+	}
+
+	//
 
 	public void addDiff(Object addObj) {
 		Integer actionType = 0;
 		LogAudit logAudit = new LogAudit();
 		logAudit.setActionDatetime(new Date());
 		logAudit.setAccountId(UserInformation.getACCOUNT().getId());
-		logAudit.setTableName(addObj.getClass().getSimpleName().toUpperCase());
+		String tableName = addObj.getClass().getSimpleName().toUpperCase();
+		logAudit.setTableName(tableName);
 		logAudit.setActionType(actionType);
 		logAuditRepository.save(logAudit);
 		Field[] elements = addObj.getClass().getDeclaredFields();
 		for (Field a : elements) {
-
 			if (!checkName(a)) {
 				Integer logAuditId = logAudit.getId();
 				String colName = Ultilities.getColNameWithoutEC(a.getName());
+				if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")) {
+					continue;
+				}
 				LogDetail logDetail = new LogDetail();
 				logDetail.setLogAuditId(logAuditId);
 				logDetail.setColumnName(colName);
@@ -140,7 +213,8 @@ public class LogAuditService {
 		LogAudit logAudit = new LogAudit();
 		logAudit.setActionDatetime(new Date());
 		logAudit.setAccountId(UserInformation.getACCOUNT().getId());
-		logAudit.setTableName(delelteObj.getClass().getSimpleName().toUpperCase());
+		String tableName = delelteObj.getClass().getSimpleName().toUpperCase();
+		logAudit.setTableName(tableName);
 		logAudit.setActionType(actionType);
 		logAuditRepository.save(logAudit);
 		Field[] elements = delelteObj.getClass().getDeclaredFields();
@@ -148,6 +222,9 @@ public class LogAuditService {
 			if (!checkName(a)) {
 				Integer logAuditId = logAudit.getId();
 				String colName = Ultilities.getColNameWithoutEC(a.getName());
+				if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")) {
+					continue;
+				}
 				LogDetail logDetail = new LogDetail();
 				logDetail.setLogAuditId(logAuditId);
 				logDetail.setColumnName(colName);
@@ -170,6 +247,8 @@ public class LogAuditService {
 		}
 	}
 
+	// check name here
+
 	public Boolean checkName(Field a) {
 		if ((a.getName().contains("Name") && !(a.getName().contains("logAuditName"))
 				&& !(a.getName().contains("departName")) && !(a.getName().contains("username"))
@@ -180,11 +259,13 @@ public class LogAuditService {
 		return false;
 	}
 
+	//
+
 	public APIResponse findByCondition(LogAudit logAudit) {
 		ArrayList<LogAudit> list = new ArrayList<LogAudit>();
 		String query = "select l.id,l.actionDatetime,l.tableName,l.actionType, s.staffName from LogAudit l , Account a , Staff s where l.accountId = a.id and a.staffId = s.id  ";
-		if (!(logAudit.getStaffName() == null)) {
-			query += " and  s.staffName like :staffName ";
+		if (!(logAudit.getAccountId() == null)) {
+			query += " and  l.accountId = :id ";
 		}
 		if (!(logAudit.getTableName() == null)) {
 			query += " and l.tableName like :tableName ";
@@ -197,29 +278,37 @@ public class LogAuditService {
 			query += " and l.actionDatetime between :fromDate and :toDate ";
 		}
 		if (logAudit.getFromDate() != null && logAudit.getToDate() == null) {
-			query += " and r.createDate >= :fromDate ";
+			query += " and l.actionDatetime >= :fromDate ";
 		}
 		if (logAudit.getFromDate() == null && logAudit.getToDate() != null) {
-			query += " and r.createDate <= :toDate ";
+			query += " and l.actionDatetime <= :toDate ";
 		}
 		query += " order by l.actionDatetime desc";
 
 		Query q = em.createQuery(query);
-		if (!(logAudit.getStaffName() == null)) {
-			q.setParameter("staffName", "%" + logAudit.getStaffName() + "%");
+		if (!(logAudit.getAccountId() == null)) {
+			q.setParameter("id", logAudit.getAccountId());
 		}
 		if (!(logAudit.getTableName() == null)) {
 			q.setParameter("tableName", logAudit.getTableName());
 		}
 		if (logAudit.getFromDate() != null && logAudit.getToDate() != null) {
 			q.setParameter("fromDate", logAudit.getFromDate());
-			q.setParameter("toDate", logAudit.getToDate());
+			Date todate = logAudit.getToDate();
+			todate.setHours(23);
+			todate.setMinutes(59);
+			todate.setSeconds(59);
+			q.setParameter("toDate", todate);
 		}
 		if (logAudit.getFromDate() != null && logAudit.getToDate() == null) {
 			q.setParameter("fromDate", logAudit.getFromDate());
 		}
 		if (logAudit.getFromDate() == null && logAudit.getToDate() != null) {
-			q.setParameter("toDate", logAudit.getToDate());
+			Date todate = logAudit.getToDate();
+			todate.setHours(23);
+			todate.setMinutes(59);
+			todate.setSeconds(59);
+			q.setParameter("toDate", todate);
 		}
 		if (!(logAudit.getActionType() == null)) {
 			q.setParameter("actionType", logAudit.getActionType());

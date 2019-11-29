@@ -31,13 +31,14 @@ public class StaffController {
 	@Autowired
 	private StaffService staffService;
 
-//	@GetMapping("staffs")
-//	public ArrayList<Staff> getAllStaff() {
-//
-//		ArrayList<Staff> list = new ArrayList<Staff>();
-//		list = staffService.getAllStaff();
-//		return list;
-//	}
+	@GetMapping("staffs")
+	public ArrayList<Staff> getAllStaff() {
+
+		ArrayList<Staff> list = new ArrayList<Staff>();
+		list = staffService.getAllStaff();
+		return list;
+	}
+
 //
 	@GetMapping("get/{id}")
 	public Optional<Staff> getById(@PathVariable int id) {

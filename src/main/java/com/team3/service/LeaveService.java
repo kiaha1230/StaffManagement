@@ -178,4 +178,14 @@ public class LeaveService {
 		return leave;
 	}
 
+	public List<Leave> getLeavesByStatusAndStaffId(Boolean status, Integer staffId) {
+		List<Leave> leaves = new ArrayList<Leave>();
+		String hql = "From Leave where staffId = :staffId and status = :status";
+		Query q = em.createQuery(hql);
+		q.setParameter("staffId", staffId);
+		q.setParameter("status", status);
+		leaves = q.getResultList();
+		return leaves;
+	}
+
 }

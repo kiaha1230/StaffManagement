@@ -249,10 +249,13 @@ public class AllowanceService {
 
 	public Allowance getByIdSQL(Integer id) {
 		Allowance allowance = new Allowance();
-		String hql = "From Allowance where id = :id";
+		String hql = "From Allowance where staffId = :id";
 		Query q = em.createQuery(hql);
 		q.setParameter("id", id);
 		allowance = (Allowance) q.getSingleResult();
+		if (allowance == null) {
+			return null;
+		}
 		return allowance;
 	}
 

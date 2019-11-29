@@ -192,4 +192,17 @@ public class AttendanceService {
 		}
 	}
 
+	public Integer getWorkingDayOfStaff(Integer staffId) {
+		List<Attendance> list = new ArrayList<Attendance>();
+		String query = "from Attendance where staffId = :staffId and checkoutTime is not null";
+		Query q = em.createQuery(query);
+		q.setParameter("staffId", staffId);
+		list = q.getResultList();
+		if (list == null) {
+			return null;
+		}
+		return list.size();
+
+	}
+
 }

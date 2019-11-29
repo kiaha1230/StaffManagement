@@ -47,19 +47,21 @@ public class AccountController {
 	public void addAccount(@RequestBody Account account) {
 		logAuditService.addDiff(account);
 		accountService.addAccount(account);
+
 	}
 
 	@PutMapping("/edit")
 	public void editAccount(@RequestBody Account account) {
-
 		logAuditService.getDiff(accountService.getByIdSQL(account.getId()), account);
 		accountService.editAccount(account);
+
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteAccount(@PathVariable Integer id) {
 		logAuditService.deleteDiff(accountService.getByIdSQL(id));
 		accountService.deleteAccount(id);
+
 	}
 
 //	@PostMapping("/getsByConditions")

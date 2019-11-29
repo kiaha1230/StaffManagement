@@ -111,7 +111,7 @@ public class RecordService {
 
 	public APIResponse findByCondition(Record record) {
 		ArrayList<Record> list = new ArrayList<Record>();
-		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName,r.staffId from Record r , Staff s where r.staffId = s.id ";
+		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName,r.staffId,r.bonus from Record r , Staff s where r.staffId = s.id ";
 		if (!(record.getReason() == null)) {
 			query += " and  r.reason like :reason";
 		}
@@ -167,6 +167,7 @@ public class RecordService {
 			custom.setCreateDate((Date) records[3]);
 			custom.setStaffName(records[4].toString());
 			custom.setStaffId((Integer) records[5]);
+			custom.setBonus((Double) records[6]);
 			list.add(custom);
 		});
 
@@ -193,10 +194,22 @@ public class RecordService {
 
 		} else {
 			loai = "Kỉ luật";
+			body += "- Bạn có một " + loai.toUpperCase() + " vào ngày " + strDate;
+			body += "\n - Lí do : " + record.getReason();
+			body += "\n - Phạt : " + record.getBonus();
 		}
 
 		mailer.send(from, to, subject, body);
 
+	}
+
+	public List<Record> getByStaffId(Integer staffId) {
+		List<Record> records = new ArrayList<Record>();
+		String hql = "From Record where staffId = :staffId";
+		Query q = em.createQuery(hql);
+		q.setParameter("staffId", staffId);
+		records = q.getResultList();
+		return records;
 	}
 
 }
