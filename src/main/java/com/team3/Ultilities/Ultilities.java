@@ -3,7 +3,14 @@ package com.team3.Ultilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.team3.service.RecordService;
+
 public class Ultilities {
+	@Autowired
+	private RecordService recordService;
+	
 	public static String dateToString(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 		String strDate = sdf.format(date);
@@ -73,5 +80,6 @@ public class Ultilities {
 			return 0.35;
 		}
 	}
+
 
 }

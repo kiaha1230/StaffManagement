@@ -82,20 +82,21 @@ public class PayrollService {
 
 	public APIResponse getByConditionPager(Payroll payroll) {
 		ArrayList<Payroll> list = new ArrayList<Payroll>();
-		Integer month = payroll.getDatetime().getMonth();
-		Integer year = payroll.getDatetime().getYear();
+		Integer month = 0;
+		Integer year = 0;
 		String query = "select p.id, p.staffId,s.staffName, p.datetime, p.grossSal, p.netSal, p.bonus, p.leaveDate , p.allowance, p.netPay, s.staffCode   from Payroll p , Staff s where p.staffId = s.id ";
 
 		if (!(payroll.getStaffId() == null)) {
 			query += " and  p.staffId = :staffId";
 		}
 
-		if (payroll.getMonth() != null) {
+		if (payroll.getDatetime() != null) {
+			month = payroll.getDatetime().getMonth();
+			year = payroll.getDatetime().getYear();
 			query += " and month(p.datetime) = :month ";
-		}
-		if (payroll.getYear() != null) {
 			query += " and year(p.datetime) = :year ";
 		}
+
 		if (payroll.getFromNetPay() != null && payroll.getToNetPay() != null) {
 			query += " and a.netPay between :from and :to ";
 		}
@@ -113,12 +114,11 @@ public class PayrollService {
 		if (!(payroll.getStaffId() == null)) {
 			q.setParameter("staffId", payroll.getStaffId());
 		}
-		if (payroll.getMonth() != null) {
+		if (payroll.getDatetime() != null) {
 			q.setParameter("month", month);
-		}
-		if (payroll.getYear() != null) {
 			q.setParameter("year", year);
 		}
+
 		if (payroll.getFromNetPay() != null && payroll.getToNetPay() != null) {
 			q.setParameter("from", payroll.getFromNetPay());
 			q.setParameter("to", payroll.getToNetPay());

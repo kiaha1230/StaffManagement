@@ -192,11 +192,13 @@ public class AttendanceService {
 		}
 	}
 
-	public Integer getWorkingDayOfStaff(Integer staffId) {
+	public Integer getWorkingDayOfStaff(Integer staffId, Integer month, Integer year) {
 		List<Attendance> list = new ArrayList<Attendance>();
-		String query = "from Attendance where staffId = :staffId and checkoutTime is not null";
+		String query = "from Attendance where staffId = :staffId and checkoutTime is not null and MONTH(attendanceDate) = :month and YEAR(attendanceDate) = :year";
 		Query q = em.createQuery(query);
 		q.setParameter("staffId", staffId);
+		q.setParameter("month", month);
+		q.setParameter("year", year);
 		list = q.getResultList();
 		if (list == null) {
 			return null;

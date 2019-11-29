@@ -203,12 +203,17 @@ public class RecordService {
 
 	}
 
-	public List<Record> getByStaffId(Integer staffId) {
+	public List<Record> getByStaffId(Integer staffId, Integer month, Integer year) {
 		List<Record> records = new ArrayList<Record>();
-		String hql = "From Record where staffId = :staffId";
+		String hql = "From Record where staffId = :staffId and MONTH(createDate) = :month and YEAR(createDate) = :year";
 		Query q = em.createQuery(hql);
 		q.setParameter("staffId", staffId);
+		q.setParameter("month", month);
+		q.setParameter("year", year);
 		records = q.getResultList();
+		if (records == null) {
+			return null;
+		}
 		return records;
 	}
 

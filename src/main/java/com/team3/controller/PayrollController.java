@@ -88,7 +88,7 @@ public class PayrollController {
 				payroll.setNetSal(salary.getNetSalary());
 				// bonus
 				List<Record> records = new ArrayList<Record>();
-				records = recordService.getByStaffId(s.getId());
+				records = recordService.getByStaffId(s.getId(),month,year);
 				Double bonus = (double) 0;
 				for (Record r : records) {
 					if (r.getType() == true) {
@@ -99,10 +99,10 @@ public class PayrollController {
 				}
 				payroll.setBonus(bonus);
 				// get leave date
-				Integer staffWorkingDays = attendanceService.getWorkingDayOfStaff(s.getId());
+				Integer staffWorkingDays = attendanceService.getWorkingDayOfStaff(s.getId(),month,year);
 				Integer leaveDate = workingDays - staffWorkingDays;
 				payroll.setLeaveDate(leaveDate);
-
+//Double isAnnualLeave = l
 				Double moneyPerDay = payroll.getGrossSal() / workingDays;
 
 				Double netMoneyCount = salaryService

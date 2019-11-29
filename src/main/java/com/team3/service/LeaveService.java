@@ -186,6 +186,11 @@ public class LeaveService {
 		q.setParameter("status", status);
 		leaves = q.getResultList();
 		return leaves;
-	}
 
+	}
+//
+//	public Boolean isAnAnnualLeaveInMonth(Integer staffId, Integer month, Integer year) {
+//		Leave leave = new Leave();
+//		
+//	}
 }
