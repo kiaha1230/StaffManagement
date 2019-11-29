@@ -211,7 +211,7 @@ public class RecordService {
 		q.setParameter("month", month);
 		q.setParameter("year", year);
 		records = q.getResultList();
-		if (records == null) {
+		if (records.size() == 0) {
 			return null;
 		}
 		return records;

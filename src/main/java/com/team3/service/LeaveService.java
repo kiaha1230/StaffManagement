@@ -188,9 +188,20 @@ public class LeaveService {
 		return leaves;
 
 	}
-//
-//	public Boolean isAnAnnualLeaveInMonth(Integer staffId, Integer month, Integer year) {
-//		Leave leave = new Leave();
-//		
-//	}
+
+	public Boolean isAnAnnualLeaveInMonth(Integer staffId, Integer month, Integer year) {
+		List<Leave> leave = new ArrayList<Leave>();
+		String hql = "From Leave where staffId = :staffId and MONTH(leaveDate) = :month and YEAR(leaveDate) = :year and status=1";
+		Query q = em.createQuery(hql);
+		q.setParameter("staffId", staffId);
+		q.setParameter("month", month);
+		q.setParameter("year", year);
+		leave = q.getResultList();
+		if (leave.size() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+
+	}
 }

@@ -200,9 +200,6 @@ public class AttendanceService {
 		q.setParameter("month", month);
 		q.setParameter("year", year);
 		list = q.getResultList();
-		if (list == null) {
-			return null;
-		}
 		return list.size();
 
 	}

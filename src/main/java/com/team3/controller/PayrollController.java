@@ -84,37 +84,56 @@ public class PayrollController {
 				// get sal and add to GROSS_SAL, NET_SAL
 				Salary salary = new Salary();
 				salary = salaryService.getByStaffId(s.getId());
-				payroll.setGrossSal(salary.getGrossSalary());
-				payroll.setNetSal(salary.getNetSalary());
+				if (salary == null) {
+					payroll.setGrossSal((double) 0);
+					payroll.setNetSal((double) 0);
+				} else {
+					payroll.setGrossSal(salary.getGrossSalary());
+					payroll.setNetSal(salary.getNetSalary());
+				}
+
 				// bonus
 				List<Record> records = new ArrayList<Record>();
-				records = recordService.getByStaffId(s.getId(),month,year);
+				records = recordService.getByStaffId(s.getId(), month, year);
 				Double bonus = (double) 0;
-				for (Record r : records) {
-					if (r.getType() == true) {
-						bonus += r.getBonus();
-					} else {
-						bonus -= r.getBonus();
+				if (records == null) {
+					bonus += 0;
+				} else {
+					for (Record r : records) {
+						if (r.getType() == true) {
+							bonus += r.getBonus();
+						} else {
+							bonus -= r.getBonus();
+						}
 					}
 				}
 				payroll.setBonus(bonus);
 				// get leave date
-				Integer staffWorkingDays = attendanceService.getWorkingDayOfStaff(s.getId(),month,year);
+				Integer staffWorkingDays = attendanceService.getWorkingDayOfStaff(s.getId(), month, year);
 				Integer leaveDate = workingDays - staffWorkingDays;
 				payroll.setLeaveDate(leaveDate);
-//Double isAnnualLeave = l
 				Double moneyPerDay = payroll.getGrossSal() / workingDays;
-
+				Boolean isAnAnnualLeave = leaveService.isAnAnnualLeaveInMonth(s.getId(), month, year);
+				Double annualSal = (double) 0;
+				if (isAnAnnualLeave) {
+					annualSal += moneyPerDay;
+				}
 				Double netMoneyCount = salaryService
-						.taxNInsuranceCount(payroll.getGrossSal() - moneyPerDay * leaveDate);
+						.taxNInsuranceCount(payroll.getGrossSal() - moneyPerDay * leaveDate + annualSal);
 
 				// get Allowance
 
 				Allowance allowance = new Allowance();
 				allowance = allowanceService.getByIdSQL(s.getId());
-				Double allowanceMoney = allowance.getTravelAllowance() + allowance.getDeviceAllowance()
-						+ allowance.getMealAllowance();
-				payroll.setAllowance(allowanceMoney);
+				Double allowanceMoney = (double) 0;
+				if (allowance == null) {
+					allowanceMoney += 0;
+					payroll.setAllowance(allowanceMoney);
+				} else {
+					allowanceMoney = allowance.getTravelAllowance() + allowance.getDeviceAllowance()
+							+ allowance.getMealAllowance();
+					payroll.setAllowance(allowanceMoney);
+				}
 
 				// set NetPay
 				Double netPay = netMoneyCount + bonus + allowanceMoney;

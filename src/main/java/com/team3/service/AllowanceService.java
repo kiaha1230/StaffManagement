@@ -252,10 +252,7 @@ public class AllowanceService {
 		String hql = "From Allowance where staffId = :id";
 		Query q = em.createQuery(hql);
 		q.setParameter("id", id);
-		allowance = (Allowance) q.getSingleResult();
-		if (allowance == null) {
-			return null;
-		}
+		allowance = (Allowance) q.getResultList().stream().findFirst().orElse(null);
 		return allowance;
 	}
 

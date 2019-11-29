@@ -321,7 +321,7 @@ public class SalaryService {
 		String hql = "From Salary where staffId = :staffId";
 		Query q = em.createQuery(hql);
 		q.setParameter("staffId", staffId);
-		salary = (Salary) q.getSingleResult();
+		salary = (Salary) q.getResultList().stream().findFirst().orElse(null);
 		return salary;
 	}
 
