@@ -67,12 +67,13 @@ public class LeaveController {
 		return leaveService.findByCondition(leave);
 	}
 
-	@PostMapping("/dontAgree")
-	public void dontAgree(@RequestBody Leave leave) {
-		recordService.notAllowedToLeave(leave.getStaffId());
-		leave.setStatus(false);
-		leave.setAccept(0);
-		leaveService.editLeave(leave);
+	@PostMapping("/test")
+	public void isAnnualLeaveInMonth(@RequestBody Leave leave) {
+		leaveService.isAnAnnualLeaveInMonth(leave.getStaffId(), 12, 2019);
 	}
 
+	@PostMapping("/getsPendingByConditions")
+	public APIResponse findByConditionPending(@RequestBody Leave leave) {
+		return leaveService.findByConditionPending(leave);
+	}
 }

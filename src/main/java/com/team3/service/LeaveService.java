@@ -106,7 +106,10 @@ public class LeaveService {
 
 	public APIResponse findByCondition(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
+		if (leave.getAccept() != null) {
+			query += " and  l.accept = :accept ";
+		}
 		if (leave.getStaffId() != null) {
 			query += " and  l.staffId = :staffId ";
 		}
@@ -142,6 +145,9 @@ public class LeaveService {
 		}
 		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
 			q.setParameter("fromDate", leave.getFromLeaveDate());
+		}
+		if (leave.getAccept() != null) {
+			q.setParameter("accept", leave.getAccept());
 		}
 
 		APIResponse response = new APIResponse();
@@ -204,5 +210,71 @@ public class LeaveService {
 			return true;
 		}
 
+	}
+
+	public APIResponse findByConditionPending(Leave leave) {
+		ArrayList<Leave> list = new ArrayList<Leave>();
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id and l.accept = 1 ";
+		if (leave.getStaffId() != null) {
+			query += " and  l.staffId = :staffId ";
+		}
+		if (leave.getStatus() != null) {
+			query += " and  l.status = :status ";
+		}
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
+			query += " and l.fromDate >= :fromDate  and l.toDate <= :toDate ";
+		}
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
+			query += " and l.toDate <= :toDate ";
+		}
+		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
+			query += " and l.fromDate >= :fromDate ";
+		}
+		Query q = em.createQuery(query);
+
+		if (leave.getStaffId() != null) {
+			q.setParameter("staffId", leave.getStaffId());
+		}
+		if (leave.getStatus() != null) {
+			q.setParameter("status", leave.getStatus());
+		}
+		if (leave.getStaffId() != null) {
+			q.setParameter("staffId", leave.getStaffId());
+		}
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
+			q.setParameter("fromDate", leave.getFromLeaveDate());
+			q.setParameter("toDate", leave.getToLeaveDate());
+		}
+		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
+			q.setParameter("toDate", leave.getToLeaveDate());
+		}
+		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
+			q.setParameter("fromDate", leave.getFromLeaveDate());
+		}
+
+		APIResponse response = new APIResponse();
+		Pager pager = new Pager();
+		List<Object[]> totalRow = q.getResultList();
+		pager.setTotalRow(totalRow.size());
+		q.setFirstResult(leave.getPager().getPage() * leave.getPager().getPageSize());
+		q.setMaxResults(leave.getPager().getPageSize());
+
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((record) -> {
+			Leave custom = new Leave();
+			custom.setId((Integer) record[0]);
+			custom.setStaffName(record[1].toString());
+			custom.setFromDate((Date) record[2]);
+			custom.setToDate((Date) record[3]);
+			custom.setReason((String) record[4]);
+			custom.setStatus((Boolean) record[5]);
+			list.add(custom);
+		});
+
+		pager.setPageSize(leave.getPager().getPageSize());
+		pager.setPage(leave.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
 	}
 }
