@@ -66,7 +66,7 @@ public class PayrollController {
 //		return payrollService.getById(id);
 //	}
 //
-	@PostMapping("/add")
+	@GetMapping("/add")
 	public void addPayroll() {
 		try {
 			Date date = new Date();

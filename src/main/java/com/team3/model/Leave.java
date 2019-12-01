@@ -20,13 +20,18 @@ public class Leave {
 	private Integer id;
 	@Column(name = "STAFF_ID")
 	private Integer staffId;
-	@Column(name = "DATE")
-	private Date leaveDate;
+	@Column(name = "FROM_DATE")
+	private Date fromDate;
+	@Column(name = "TO_DATE")
+	private Date toDate;
 	@Column(name = "REASON")
 	private String reason;
 	@Column(name = "STATUS")
 	private Boolean status;
+	@Column(name = "ACCEPT")
+	private Integer accept;
 	@Transient
+
 	private String staffName;
 	@Transient
 	private Date fromLeaveDate;
@@ -35,7 +40,30 @@ public class Leave {
 
 	@Transient
 	private Pager pager;
-	
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public Integer getAccept() {
+		return accept;
+	}
+
+	public void setAccept(Integer accept) {
+		this.accept = accept;
+	}
 
 	public Pager getPager() {
 		return pager;
@@ -43,14 +71,6 @@ public class Leave {
 
 	public void setPager(Pager pager) {
 		this.pager = pager;
-	}
-
-	public Date getLeaveDate() {
-		return leaveDate;
-	}
-
-	public void setLeaveDate(Date leaveDate) {
-		this.leaveDate = leaveDate;
 	}
 
 	public Integer getId() {
@@ -91,19 +111,6 @@ public class Leave {
 
 	public void setStaffName(String staffName) {
 		this.staffName = staffName;
-	}
-
-	public Leave(Integer id, Integer staffId, Date leaveDate, String reason, Boolean status, String staffName,
-			Date fromLeaveDate, Date toLeaveDate) {
-		super();
-		this.id = id;
-		this.staffId = staffId;
-		this.leaveDate = leaveDate;
-		this.reason = reason;
-		this.status = status;
-		this.staffName = staffName;
-		this.fromLeaveDate = fromLeaveDate;
-		this.toLeaveDate = toLeaveDate;
 	}
 
 	public Date getFromLeaveDate() {

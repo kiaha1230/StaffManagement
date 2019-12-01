@@ -106,7 +106,7 @@ public class LeaveService {
 
 	public APIResponse findByCondition(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.leaveDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id ";
 		if (leave.getStaffId() != null) {
 			query += " and  l.staffId = :staffId ";
 		}
@@ -114,13 +114,13 @@ public class LeaveService {
 			query += " and  l.status = :status ";
 		}
 		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
-			query += " and l.leaveDate between :fromDate and :toDate ";
+			query += " and l.fromDate >= :fromDate  and l.toDate <= :toDate ";
 		}
 		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
-			query += " and l.leaveDate <= :toDate ";
+			query += " and l.toDate <= :toDate ";
 		}
 		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
-			query += " and l.leaveDate >= :fromDate ";
+			query += " and l.fromDate >= :fromDate ";
 		}
 		Query q = em.createQuery(query);
 
@@ -156,9 +156,10 @@ public class LeaveService {
 			Leave custom = new Leave();
 			custom.setId((Integer) record[0]);
 			custom.setStaffName(record[1].toString());
-			custom.setLeaveDate((Date) record[2]);
-			custom.setReason((String) record[3]);
-			custom.setStatus((Boolean) record[4]);
+			custom.setFromDate((Date) record[2]);
+			custom.setToDate((Date) record[3]);
+			custom.setReason((String) record[4]);
+			custom.setStatus((Boolean) record[5]);
 			list.add(custom);
 		});
 

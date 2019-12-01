@@ -21,6 +21,7 @@ import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.service.LeaveService;
 import com.team3.service.LogAuditService;
+import com.team3.service.RecordService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -30,6 +31,8 @@ public class LeaveController {
 	private LeaveService leaveService;
 	@Autowired
 	private LogAuditService logAuditService;
+	@Autowired
+	private RecordService recordService;
 
 	@GetMapping("getsAllLeave")
 	public ArrayList<Leave> getAllLeave() {
@@ -62,6 +65,14 @@ public class LeaveController {
 	@PostMapping("/getsByConditions")
 	public APIResponse findByCondition(@RequestBody Leave leave) {
 		return leaveService.findByCondition(leave);
+	}
+
+	@PostMapping("/dontAgree")
+	public void dontAgree(@RequestBody Leave leave) {
+		recordService.notAllowedToLeave(leave.getStaffId());
+		leave.setStatus(false);
+		leave.setAccept(0);
+		leaveService.editLeave(leave);
 	}
 
 }

@@ -19,7 +19,9 @@ import com.team3.customModel.RecordCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.model.Record;
+import com.team3.model.Staff;
 import com.team3.service.RecordService;
+import com.team3.service.StaffService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -27,6 +29,8 @@ import com.team3.service.RecordService;
 public class RecordController {
 	@Autowired
 	private RecordService recordService;
+	@Autowired
+	private StaffService staffService;
 
 //	@GetMapping("records")
 //	public ArrayList<Record> getAllRecord() {
@@ -56,5 +60,13 @@ public class RecordController {
 	@PostMapping("/getsByConditions")
 	public APIResponse findByCondition(@RequestBody Record record) {
 		return recordService.findByCondition(record);
+	}
+
+	@GetMapping("/test")
+	public void test() {
+		List<Staff> list = staffService.getAllStaff();
+		for (Staff s : list) {
+			recordService.noCheckInNoLeave(s.getId());
+		}
 	}
 }
