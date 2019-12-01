@@ -106,7 +106,7 @@ public class LeaveService {
 
 	public APIResponse findByCondition(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
 		if (leave.getAccept() != null) {
 			query += " and  l.accept = :accept ";
 		}
@@ -166,6 +166,7 @@ public class LeaveService {
 			custom.setToDate((Date) record[3]);
 			custom.setReason((String) record[4]);
 			custom.setStatus((Boolean) record[5]);
+			custom.setAccept((Integer) record[6]);
 			list.add(custom);
 		});
 
@@ -214,7 +215,7 @@ public class LeaveService {
 
 	public APIResponse findByConditionPending(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id and l.accept = 1 ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept from Leave l , Staff s where l.staffId = s.id and l.accept = 1 ";
 		if (leave.getStaffId() != null) {
 			query += " and  l.staffId = :staffId ";
 		}
@@ -268,6 +269,7 @@ public class LeaveService {
 			custom.setToDate((Date) record[3]);
 			custom.setReason((String) record[4]);
 			custom.setStatus((Boolean) record[5]);
+			custom.setAccept((Integer) record[6]);
 			list.add(custom);
 		});
 
