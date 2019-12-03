@@ -1,13 +1,22 @@
 package com.team3.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.swing.text.TabableView;
 
+import org.checkerframework.checker.units.qual.m2;
+import org.checkerframework.checker.units.qual.s;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,10 +27,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
 
+import com.team3.Ultilities.Ultilities;
 import com.team3.customModel.StaffCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
@@ -35,6 +46,8 @@ import com.team3.service.StaffService;
 public class StaffController {
 	@Autowired
 	private StaffService staffService;
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	@GetMapping("staffs")
 	public ArrayList<Staff> getAllStaff() {
@@ -44,28 +57,42 @@ public class StaffController {
 		return list;
 	}
 
-//	@Bean
-//	public MultipartConfigElement multipartConfigElement() {
-//		return new MultipartConfigElement("");
-//	}
-//
-//	@Bean
-//	public MultipartResolver multipartResolver() {
-//		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
-//		multipartResolver.setMaxUploadSize(1000000);
-//		return multipartResolver;
-//	}
-
-//
 	@GetMapping("get/{id}")
 	public Optional<Staff> getById(@PathVariable int id) {
 		return staffService.getById(id);
 	}
 
 	@PostMapping("/add")
-	public void addTask(@RequestParam("staff") Staff staff, @RequestParam("multipartFile") MultipartFile multipartFile) {
-		staff.setPhoto(multipartFile.getResource().getFilename());
-		staffService.addOrEditStaff(staff);
+	public void addTask(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
+			@RequestParam("departId") String departId, @RequestParam("gender") String gender,
+			@RequestParam("birthday") String birthday, @RequestParam("email") String email,
+			@RequestParam("phone") String phoneNumber, @RequestParam("positionId") String positionId,
+			@RequestParam("address") String address, @RequestParam("photoObj") MultipartFile photoObj) {
+		Staff staff = new Staff();
+		staff.setStatus(true);
+		staff.setStaffCode(staffCode);
+		staff.setStaffName(staffName);
+		staff.setDepartId(Integer.valueOf(departId));
+		staff.setGender(Boolean.valueOf(gender));
+		staff.setBirthday(Ultilities.stringToDate(birthday));
+		staff.setEmail(email);
+		staff.setPhoneNumber(phoneNumber);
+		staff.setPositionId(Integer.valueOf(positionId));
+		staff.setAddress(address);
+	}
+
+	@PostMapping("/testPhoto")
+	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj) {
+		String photoPath = Paths.get("").toAbsolutePath().toString() + "\\images\\" + photoObj.getOriginalFilename();
+		try {
+			photoObj.transferTo(new File(photoPath));
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@PutMapping("/edit")

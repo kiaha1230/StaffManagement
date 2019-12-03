@@ -51,6 +51,8 @@ public class Staff {
 	private Boolean status;
 	@Column(name = "POSITION_ID")
 	private Integer positionId;
+	@Column(name = "ADDRESS")
+	private String address;
 	@Transient
 	private String departName;
 	@Transient
@@ -64,6 +66,14 @@ public class Staff {
 	@Transient
 	private String positionName;
 	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public Integer getPositionId() {
 		return positionId;

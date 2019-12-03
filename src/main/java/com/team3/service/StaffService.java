@@ -162,7 +162,7 @@ public class StaffService {
 
 	public APIResponse findByCondition(Staff staff) {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status,s.departId,p.positionName,s.positionId from Depart d , Staff s,Position p where d.id = s.departId and p.id = s.positionId  ";
+		String query = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status,s.departId,p.positionName,s.positionId, s.address from Depart d , Staff s,Position p where d.id = s.departId and p.id = s.positionId  ";
 		if (!(staff.getStaffCode() == null)) {
 			query += " and  s.staffCode like :staffCode";
 		}
@@ -211,8 +211,9 @@ public class StaffService {
 			custom.setPhoneNumber((String) staffs[8]);
 			custom.setStatus((Boolean) staffs[9]);
 			custom.setDepartId((Integer) staffs[10]);
-			custom.setPositionName( (String) staffs[11]);
-			custom.setPositionId( (Integer) staffs[12]);
+			custom.setPositionName((String) staffs[11]);
+			custom.setPositionId((Integer) staffs[12]);
+			custom.setAddress((String) staffs[13]);
 			list.add(custom);
 		});
 

@@ -1,5 +1,6 @@
 package com.team3.Ultilities;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,6 +34,12 @@ public class Ultilities {
 
 	public static Date stringToDate(String dateString) {
 		Date date = new Date();
+		try {
+			date = new SimpleDateFormat("dd/MM/yyyy").parse(dateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return date;
 	}
 
