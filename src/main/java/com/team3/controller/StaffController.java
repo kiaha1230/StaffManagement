@@ -81,6 +81,16 @@ public class StaffController {
 		staff.setAddress(address);
 	}
 
+	@PostMapping("/testAdd")
+	public void addTaskTest(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
+			@RequestParam("photoObj") MultipartFile photoObj) {
+		Staff staff = new Staff();
+		staff.setStatus(true);
+		staff.setStaffCode(staffCode);
+		staff.setStaffName(staffName);
+		staff.setPhoto(photoObj.getOriginalFilename());
+	}
+
 	@PostMapping("/testPhoto")
 	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj) {
 		String photoPath = Paths.get("").toAbsolutePath().toString() + "\\images\\" + photoObj.getOriginalFilename();
