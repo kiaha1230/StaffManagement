@@ -92,6 +92,7 @@ public class StaffController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		staffService.addOrEditStaff(staff);
 
 	}
 
