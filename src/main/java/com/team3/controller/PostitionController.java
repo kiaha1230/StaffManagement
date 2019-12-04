@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.model.APIResponse;
 import com.team3.model.Position;
+import com.team3.service.LogAuditService;
 import com.team3.service.PositionService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -24,6 +25,8 @@ import com.team3.service.PositionService;
 public class PostitionController {
 	@Autowired
 	private PositionService positionService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Position position) {
@@ -37,6 +40,7 @@ public class PostitionController {
 
 	@DeleteMapping("/delete/{id}")
 	public void deletePosition(@PathVariable Integer id) {
+		logAuditService.deleteDiff
 		positionService.deletePosition(id);
 	}
 

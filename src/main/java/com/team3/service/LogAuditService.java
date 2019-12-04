@@ -93,8 +93,7 @@ public class LogAuditService {
 
 	}
 
-	// at least one difference
-
+	// at least one difference, return true if there's a difference between two obj
 	public Boolean checkDiffOrNot(Field[] elements, Object newObj, Object oldObj) {
 		boolean returnBol = false;
 		for (Field a : elements) {

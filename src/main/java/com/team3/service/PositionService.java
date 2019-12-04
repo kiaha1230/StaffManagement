@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3.model.APIResponse;
+import com.team3.model.Account;
 import com.team3.model.Position;
 import com.team3.model.Pager;
 import com.team3.model.Position;
 import com.team3.repository.PositionRepository;
+import com.team3.resources.UserInformation;
 import com.team3.repository.PositionRepository;
 
 @Service
@@ -80,5 +82,15 @@ public class PositionService {
 		response.setData(list);
 		return response;
 	}
+
+//	public Account getPositionById(Integer id) {
+//		Position position = new Position();
+//		String hql = "FROM Position WHERE id = :id ";
+//		Query q = em.createQuery(hql);
+//		q.setParameter("id", id);
+//		position = (Position) q.getResultList().stream().findFirst().orElse(null);
+//
+//		return account1;
+//	}
 
 }
