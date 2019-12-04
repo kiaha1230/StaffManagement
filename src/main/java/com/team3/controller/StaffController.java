@@ -66,7 +66,7 @@ public class StaffController {
 	public void addTask(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
 			@RequestParam("departId") String departId, @RequestParam("gender") String gender,
 			@RequestParam("birthday") String birthday, @RequestParam("email") String email,
-			@RequestParam("phone") String phoneNumber, @RequestParam("positionId") String positionId,
+			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("positionId") String positionId,
 			@RequestParam("address") String address, @RequestParam("photoObj") MultipartFile photoObj) {
 		File file = new File("");
 		String currentDirectory = file.getAbsolutePath();
