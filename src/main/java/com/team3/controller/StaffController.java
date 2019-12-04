@@ -68,6 +68,8 @@ public class StaffController {
 			@RequestParam("birthday") String birthday, @RequestParam("email") String email,
 			@RequestParam("phone") String phoneNumber, @RequestParam("positionId") String positionId,
 			@RequestParam("address") String address, @RequestParam("photoObj") MultipartFile photoObj) {
+		File file = new File("");
+		String currentDirectory = file.getAbsolutePath();
 		Staff staff = new Staff();
 		staff.setStatus(true);
 		staff.setStaffCode(staffCode);
@@ -79,23 +81,10 @@ public class StaffController {
 		staff.setPhoneNumber(phoneNumber);
 		staff.setPositionId(Integer.valueOf(positionId));
 		staff.setAddress(address);
-	}
-
-	@PostMapping("/testAdd")
-	public void addTaskTest(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
-			@RequestParam("photoObj") MultipartFile photoObj) {
-		Staff staff = new Staff();
-		staff.setStatus(true);
-		staff.setStaffCode(staffCode);
-		staff.setStaffName(staffName);
-		staff.setPhoto(photoObj.getOriginalFilename());
-	}
-
-	@PostMapping("/testPhoto")
-	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj) {
-		String photoPath = Paths.get("").toAbsolutePath().toString() + "\\images\\" + photoObj.getOriginalFilename();
+		String photoPath = currentDirectory + "\\images" + photoObj.getOriginalFilename();
 		try {
 			photoObj.transferTo(new File(photoPath));
+			staff.setPhoto(photoObj.getOriginalFilename());
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +92,33 @@ public class StaffController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
+
+//	@PostMapping("/testAdd")
+//	public void addTaskTest(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
+//			@RequestParam("photoObj") MultipartFile photoObj) {
+//		Staff staff = new Staff();
+//		staff.setStatus(true);
+//		staff.setStaffCode(staffCode);
+//		staff.setStaffName(staffName);
+//		staff.setPhoto(photoObj.getOriginalFilename());
+//	}
+//
+//	@PostMapping("/testPhoto")
+//	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj) {
+//		String photoPath = "C:\\Users\\Anonymous_\\eclipse-workspace\\StaffManagement\\src"
+//				+ photoObj.getOriginalFilename();
+//		try {
+//			photoObj.transferTo(new File(photoPath));
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	@PutMapping("/edit")
 	public void editTask(@RequestBody Staff staff) {
