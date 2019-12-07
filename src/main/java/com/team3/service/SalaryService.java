@@ -138,6 +138,7 @@ public class SalaryService {
 			custom.setTax((Double) records[3]);
 			custom.setInsurance((Double) records[4]);
 			custom.setNetSalary((Double) records[5]);
+			custom.setStaffCode((String) records[6]);
 			list.add(custom);
 		});
 

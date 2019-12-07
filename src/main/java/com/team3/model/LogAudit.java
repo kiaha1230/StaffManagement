@@ -37,6 +37,16 @@ public class LogAudit {
 	private Date fromDate;
 	@Transient
 	private Date toDate;
+	@Transient
+	private String staffCode;
+
+	public String getStaffCode() {
+		return staffCode;
+	}
+
+	public void setStaffCode(String staffCode) {
+		this.staffCode = staffCode;
+	}
 
 	public Date getFromDate() {
 		return fromDate;

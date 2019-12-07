@@ -31,12 +31,21 @@ public class Leave {
 	@Column(name = "ACCEPT")
 	private Integer accept;
 	@Transient
-
 	private String staffName;
 	@Transient
 	private Date fromLeaveDate;
 	@Transient
 	private Date toLeaveDate;
+	@Transient
+	private String staffCode;
+
+	public String getStaffCode() {
+		return staffCode;
+	}
+
+	public void setStaffCode(String staffCode) {
+		this.staffCode = staffCode;
+	}
 
 	@Transient
 	private Pager pager;

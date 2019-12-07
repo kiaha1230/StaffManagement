@@ -42,50 +42,13 @@ public class RecruitmentService {
 		recruitmentRepository.deleteById(id);
 	}
 
-//	public ArrayList<Recruitment> findByCondition(Recruitment recruitment) {
-//
-//		// code like , title like
-//		ArrayList<Recruitment> list = new ArrayList<Recruitment>();
-//		String query = "select r.id,r.recruitmentCode,r.title,r.status, r.description from Recruitment r  where id >0 ";
-//		if (!(recruitment.getRecruitmentCode() == null)) {
-//			query += " and  r.recruitmentCode like :recruitmentCode";
-//		}
-//		if (!(recruitment.getStatus() == null)) {
-//			query += " and  r.status = :status";
-//		}
-//		if (!(recruitment.getTitle() == null)) {
-//			query += " and  r.title like :title";
-//		}
-//		Query q = em.createQuery(query);
-//		if (!(recruitment.getRecruitmentCode() == null)) {
-//			q.setParameter("recruitmentCode", "%" + recruitment.getRecruitmentCode() + "%");
-//		}
-//		if (!(recruitment.getTitle() == null)) {
-//			q.setParameter("title", "%" + recruitment.getTitle() + "%");
-//		}
-//		if (!(recruitment.getStatus() == null)) {
-//			q.setParameter("status", recruitment.getStatus());
-//		}
-//		List<Object[]> obj = q.getResultList();
-//		obj.stream().forEach((recruitments) -> {
-//			Recruitment custom = new Recruitment();
-//			custom.setId((Integer) recruitments[0]);
-//			custom.setRecruitmentCode((String) recruitments[1]);
-//			custom.setTitle((String) recruitments[2]);
-//			custom.setStatus((Boolean) recruitments[3]);
-//			custom.setDescription(recruitments[4].toString());
-//			list.add(custom);
-//		});
-//		return list;
-//	}
-
 	// API
 
 	public APIResponse findByCondition(Recruitment recruitment) {
 
 		// code like , title like
 		ArrayList<Recruitment> list = new ArrayList<Recruitment>();
-		String query = "select r.id,r.recruitmentCode,r.title,r.status, r.description from Recruitment r  where id >0 ";
+		String query = "select r.id,r.recruitmentCode,r.title,r.status, r.description,r.staffId,s.staffName,s.staffCode from Recruitment r , Staff s  where r.staffId = s.id ";
 		if (!(recruitment.getRecruitmentCode() == null)) {
 			query += " and  r.recruitmentCode like :recruitmentCode";
 		}
@@ -121,6 +84,10 @@ public class RecruitmentService {
 			custom.setTitle((String) recruitments[2]);
 			custom.setStatus((Boolean) recruitments[3]);
 			custom.setDescription(recruitments[4].toString());
+			custom.setStaffId((Integer) recruitments[5]);
+			custom.setStaffName((String) recruitments[6]);
+			custom.setStaffCode( (String) recruitments[7]);
+
 			list.add(custom);
 		});
 

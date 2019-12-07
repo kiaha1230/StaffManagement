@@ -131,7 +131,7 @@ public class AccountService {
 
 	public APIResponse getByConditionPager(Account account) {
 		ArrayList<Account> list = new ArrayList<Account>();
-		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId from Account a , Staff s where a.staffId = s.id ";
+		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId,s.staffCode from Account a , Staff s where a.staffId = s.id ";
 		Date fromDate = new Date();
 		Date toDate = new Date();
 		Date createDate = new Date();
@@ -196,6 +196,7 @@ public class AccountService {
 			custom.setStaffName(record[4].toString());
 			custom.setAccountRole((Integer) record[5]);
 			custom.setStaffId((Integer) record[6]);
+			custom.setStaffCode( (String) record[7]);
 			list.add(custom);
 		});
 

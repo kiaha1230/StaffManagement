@@ -49,64 +49,11 @@ public class LeaveService {
 		leaveRepository.deleteById(id);
 	}
 
-//	public ArrayList<Leave> findByCondition(Leave leave) {
-//		ArrayList<Leave> list = new ArrayList<Leave>();
-//		String query = "select l.id , s.staffName , l.leaveDate , l.reason, l.status from Leave l , Staff s where l.staffId = s.id ";
-//		if (leave.getStaffId() != null) {
-//			query += " and  l.staffId = :staffId ";
-//		}
-//		if (leave.getStatus() != null) {
-//			query += " and  l.status = :status ";
-//		}
-//		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
-//			query += " and l.leaveDate between :fromDate and :toDate ";
-//		}
-//		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
-//			query += " and l.leaveDate <= :toDate ";
-//		}
-//		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
-//			query += " and l.leaveDate >= :fromDate ";
-//		}
-//		Query q = em.createQuery(query);
-//
-//		if (leave.getStaffId() != null) {
-//			q.setParameter("staffId", leave.getStaffId());
-//		}
-//		if (leave.getStatus() != null) {
-//			q.setParameter("status", leave.getStatus());
-//		}
-//		if (leave.getStaffId() != null) {
-//			q.setParameter("staffId", leave.getStaffId());
-//		}
-//		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() != null) {
-//			q.setParameter("fromDate", leave.getFromLeaveDate());
-//			q.setParameter("toDate", leave.getToLeaveDate());
-//		}
-//		if (leave.getToLeaveDate() != null && leave.getFromLeaveDate() == null) {
-//			q.setParameter("toDate", leave.getToLeaveDate());
-//		}
-//		if (leave.getToLeaveDate() == null && leave.getFromLeaveDate() != null) {
-//			q.setParameter("fromDate", leave.getFromLeaveDate());
-//		}
-//
-//		List<Object[]> obj = q.getResultList();
-//		obj.stream().forEach((record) -> {
-//			Leave custom = new Leave();
-//			custom.setId((Integer) record[0]);
-//			custom.setStaffName(record[1].toString());
-//			custom.setLeaveDate((Date) record[2]);
-//			custom.setReason((String) record[3]);
-//			custom.setStatus( (Boolean) record[4]);
-//			list.add(custom);
-//		});
-//		return list;
-//	}
-
 	// API
 
 	public APIResponse findByCondition(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.staffCode from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
 		if (leave.getAccept() != null) {
 			query += " and  l.accept = :accept ";
 		}
@@ -167,6 +114,7 @@ public class LeaveService {
 			custom.setReason((String) record[4]);
 			custom.setStatus((Boolean) record[5]);
 			custom.setAccept((Integer) record[6]);
+			custom.setStaffCode((String) record[7]);
 			list.add(custom);
 		});
 

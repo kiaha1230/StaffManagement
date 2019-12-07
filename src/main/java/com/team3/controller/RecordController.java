@@ -61,12 +61,14 @@ public class RecordController {
 	public APIResponse findByCondition(@RequestBody Record record) {
 		return recordService.findByCondition(record);
 	}
+	
+	// test khong check in trong 24h
 
-	@GetMapping("/test")
-	public void test() {
-		List<Staff> list = staffService.getAllStaff();
-		for (Staff s : list) {
-			recordService.noCheckInNoLeave(s.getId());
-		}
-	}
+//	@GetMapping("/test")
+//	public void test() {
+//		List<Staff> list = staffService.getAllStaff();
+//		for (Staff s : list) {
+//			recordService.noCheckInNoLeave(s.getId());
+//		}
+//	}
 }

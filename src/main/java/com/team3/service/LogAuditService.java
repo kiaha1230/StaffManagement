@@ -262,7 +262,7 @@ public class LogAuditService {
 
 	public APIResponse findByCondition(LogAudit logAudit) {
 		ArrayList<LogAudit> list = new ArrayList<LogAudit>();
-		String query = "select l.id,l.actionDatetime,l.tableName,l.actionType, s.staffName from LogAudit l , Account a , Staff s where l.accountId = a.id and a.staffId = s.id  ";
+		String query = "select l.id,l.actionDatetime,l.tableName,l.actionType, s.staffName,s.staffCode from LogAudit l , Account a , Staff s where l.accountId = a.id and a.staffId = s.id  ";
 		if (!(logAudit.getAccountId() == null)) {
 			query += " and  l.accountId = :id ";
 		}
@@ -328,6 +328,7 @@ public class LogAuditService {
 			custom.setTableName((String) logAudits[2]);
 			custom.setActionType((Integer) logAudits[3]);
 			custom.setStaffName((String) logAudits[4]);
+			custom.setStaffCode((String) logAudits[5]);
 			list.add(custom);
 		});
 

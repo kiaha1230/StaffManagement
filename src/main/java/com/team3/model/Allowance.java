@@ -39,8 +39,16 @@ public class Allowance {
 	private Double toMeal;
 	@Transient
 	private Pager pager;
-	
-	
+	@Transient
+	private String staffCode;
+
+	public String getStaffCode() {
+		return staffCode;
+	}
+
+	public void setStaffCode(String staffCode) {
+		this.staffCode = staffCode;
+	}
 
 	public Pager getPager() {
 		return pager;

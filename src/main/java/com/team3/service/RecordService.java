@@ -113,7 +113,7 @@ public class RecordService {
 
 	public APIResponse findByCondition(Record record) {
 		ArrayList<Record> list = new ArrayList<Record>();
-		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName,r.staffId,r.bonus from Record r , Staff s where r.staffId = s.id ";
+		String query = "select r.id, r.type,r.reason,r.createDate, s.staffName,r.staffId,r.bonus,s.staffCode from Record r , Staff s where r.staffId = s.id ";
 		if (!(record.getReason() == null)) {
 			query += " and  r.reason like :reason";
 		}
@@ -170,6 +170,7 @@ public class RecordService {
 			custom.setStaffName(records[4].toString());
 			custom.setStaffId((Integer) records[5]);
 			custom.setBonus((Double) records[6]);
+			custom.setStaffCode((String) records[7]);
 			list.add(custom);
 		});
 
@@ -219,65 +220,65 @@ public class RecordService {
 		return records;
 	}
 
-	public Boolean addStaffWithoutCheckIn(Integer staffId) {
-		Boolean isCheckIn = null;
-		Boolean isLeave = null;
-		Date date = new Date();
-		String hql = "from Attendance where attendanceDate= :date and staffId = :staffId";
-		Query q = em.createQuery(hql);
-		q.setParameter("date", date);
-		q.setParameter("staffId", staffId);
-		Attendance attendance = new Attendance();
-		attendance = (Attendance) q.getResultList().stream().findFirst().orElse(null);
-		if (attendance == null) {
-			isCheckIn = false;
-		} else {
-			isCheckIn = true;
-		}
-		String hql2 = "from Leave where leaveDate= :date and staffId = :staffId";
-		Query q2 = em.createQuery(hql2);
-		q2.setParameter("date", date);
-		q2.setParameter("staffId", staffId);
-		Leave leave = new Leave();
-		leave = (Leave) q.getResultList().stream().findFirst().orElse(null);
-		if (leave == null) {
-			isLeave = false;
-		} else {
-			isLeave = true;
-		}
-		if (isCheckIn == false && isLeave == false) {
-			return false;
-		} else {
-			return true;
-		}
+//	public Boolean addStaffWithoutCheckIn(Integer staffId) {
+//		Boolean isCheckIn = null;
+//		Boolean isLeave = null;
+//		Date date = new Date();
+//		String hql = "from Attendance where attendanceDate= :date and staffId = :staffId";
+//		Query q = em.createQuery(hql);
+//		q.setParameter("date", date);
+//		q.setParameter("staffId", staffId);
+//		Attendance attendance = new Attendance();
+//		attendance = (Attendance) q.getResultList().stream().findFirst().orElse(null);
+//		if (attendance == null) {
+//			isCheckIn = false;
+//		} else {
+//			isCheckIn = true;
+//		}
+//		String hql2 = "from Leave where leaveDate= :date and staffId = :staffId";
+//		Query q2 = em.createQuery(hql2);
+//		q2.setParameter("date", date);
+//		q2.setParameter("staffId", staffId);
+//		Leave leave = new Leave();
+//		leave = (Leave) q.getResultList().stream().findFirst().orElse(null);
+//		if (leave == null) {
+//			isLeave = false;
+//		} else {
+//			isLeave = true;
+//		}
+//		if (isCheckIn == false && isLeave == false) {
+//			return false;
+//		} else {
+//			return true;
+//		}
+//
+//	}
 
-	}
-	// khong check in, khong xin nghi
-	public void noCheckInNoLeave(Integer staffId) {
-		if (!addStaffWithoutCheckIn(staffId)) {
-			Record record = new Record();
-			record.setType(false);
-			record.setReason("Nghỉ không phép");
-			record.setCreateDate(new Date());
-			record.setStaffId(staffId);
-			record.setBonus(100000.0);
-			addOrEditRecord(record);
-			sendMail(record);
-		}
-	}
-	
+//	// khong check in, khong xin nghi
+//	public void noCheckInNoLeave(Integer staffId) {
+//		if (!addStaffWithoutCheckIn(staffId)) {
+//			Record record = new Record();
+//			record.setType(false);
+//			record.setReason("Nghỉ không phép");
+//			record.setCreateDate(new Date());
+//			record.setStaffId(staffId);
+//			record.setBonus(100000.0);
+//			addOrEditRecord(record);
+//			sendMail(record);
+//		}
+//	}
+
 	// xin nghi nhung khong chap thuan
-	
-	public void notAllowedToLeave(Integer staffId) {
-		Record record = new Record();
-		record.setType(false);
-		record.setReason("Không đồng ý cho nghỉ phép");
-		record.setCreateDate(new Date());
-		record.setStaffId(staffId);
-		record.setBonus(100000.0);
-		addOrEditRecord(record);
-		sendMail(record);
-	}
-	
-	
+
+//	public void notAllowedToLeave(Integer staffId) {
+//		Record record = new Record();
+//		record.setType(false);
+//		record.setReason("Không đồng ý cho nghỉ phép");
+//		record.setCreateDate(new Date());
+//		record.setStaffId(staffId);
+//		record.setBonus(100000.0);
+//		addOrEditRecord(record);
+//		sendMail(record);
+//	}
+
 }

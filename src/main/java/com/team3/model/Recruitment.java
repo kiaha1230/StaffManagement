@@ -23,8 +23,38 @@ public class Recruitment {
 	private String description;
 	@Column(name = "STATUS")
 	private Boolean status;
+	@Column(name = "STAFF_ID")
+	private Integer staffId;
 	@Transient
 	private Pager pager;
+	@Transient
+	private String staffCode;
+	@Transient
+	private String staffName;
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
+
+	public String getStaffCode() {
+		return staffCode;
+	}
+
+	public Integer getStaffId() {
+		return staffId;
+	}
+
+	public void setStaffId(Integer staffId) {
+		this.staffId = staffId;
+	}
+
+	public void setStaffCode(String staffCode) {
+		this.staffCode = staffCode;
+	}
 
 	public Pager getPager() {
 		return pager;
