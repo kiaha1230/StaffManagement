@@ -38,11 +38,11 @@ public class PostitionController {
 		positionService.editPosition(position);
 	}
 
-	@DeleteMapping("/delete/{id}")
-	public void deletePosition(@PathVariable Integer id) {
-		logAuditService.deleteDiff
-		positionService.deletePosition(id);
-	}
+//	@DeleteMapping("/delete/{id}")
+//	public void deletePosition(@PathVariable Integer id) {
+//		logAuditService.deleteDiff
+//		positionService.deletePosition(id);
+//	}
 
 	@PostMapping("/getsByConditions")
 	public APIResponse getByCondition(@RequestBody Position position) {
