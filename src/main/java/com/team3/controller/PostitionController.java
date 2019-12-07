@@ -43,6 +43,8 @@ public class PostitionController {
 //		logAuditService.deleteDiff
 //		positionService.deletePosition(id);
 //	}
+	
+	
 
 	@PostMapping("/getsByConditions")
 	public APIResponse getByCondition(@RequestBody Position position) {
