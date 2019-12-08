@@ -126,7 +126,7 @@ public class StaffService {
 
 	public ArrayList<Staff> getsStaffWithoutAccount() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String hql = "from Staff s where s.staffName not in ( select s.staffName from Account a, Staff s where a.staffId = s.id) ";
+		String hql = "from Staff s where s.id not in ( select s.id from Account a, Staff s where a.staffId = s.id) ";
 		Query q = em.createQuery(hql);
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
@@ -144,7 +144,7 @@ public class StaffService {
 
 	public ArrayList<Staff> getsStaffWithoutSalary() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String hql = "from Staff s where s.staffName not in ( select s.staffName from Salary sa, Staff s where sa.staffId = s.id) ";
+		String hql = "from Staff s where s.id not in ( select s.id from Salary sa, Staff s where sa.staffId = s.id) ";
 		Query q = em.createQuery(hql);
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
@@ -152,7 +152,7 @@ public class StaffService {
 
 	public ArrayList<Staff> getsStaffWithoutAllowance() {
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String hql = "from Staff s where s.staffName not in ( select s.staffName from Allowance a, Staff s where a.staffId = s.id) ";
+		String hql = "from Staff s where s.id not in ( select s.id from Allowance a, Staff s where a.staffId = s.id) ";
 		Query q = em.createQuery(hql);
 		list = (ArrayList<Staff>) q.getResultList();
 		return list;
