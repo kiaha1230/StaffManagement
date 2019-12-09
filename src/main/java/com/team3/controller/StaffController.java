@@ -107,13 +107,13 @@ public class StaffController {
 //	}
 //
 	@PutMapping("/testPhoto")
-	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") Integer staffId) {
+	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
 		File file = new File("");
 		String currentDirectory = file.getAbsolutePath() + "\\src\\images\\";
 		String ok = currentDirectory + photoObj.getOriginalFilename();
 		try {
 			photoObj.transferTo(new File(ok));
-			Staff staff = staffService.getbyIdHQL(staffId);
+			Staff staff = staffService.getbyIdHQL(Integer.valueOf(staffId));
 			staff.setPhoto(photoObj.getOriginalFilename());
 			staffService.addOrEditStaff(staff);
 		} catch (IllegalStateException e) {
