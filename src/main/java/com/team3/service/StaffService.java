@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.team3.customModel.StaffCustom;
 import com.team3.model.APIResponse;
+import com.team3.model.Depart;
 import com.team3.model.Pager;
 import com.team3.model.Record;
 import com.team3.model.Salary;
@@ -190,6 +191,16 @@ public class StaffService {
 		} else {
 			return false;
 		}
+
+	}
+
+	public Staff getbyIdHQL(Integer id) {
+		Staff staff = new Staff();
+		String hql = "From Depart where id = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		staff = (Staff) q.getResultList().stream().findFirst().orElse(null);
+		return staff;
 
 	}
 

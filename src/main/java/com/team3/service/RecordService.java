@@ -10,6 +10,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.team3.Ultilities.Ultilities;
@@ -27,6 +29,7 @@ import com.team3.repository.RecordRepository;
 import com.team3.repository.StaffRepository;
 
 @Service
+@EnableScheduling
 public class RecordService {
 	@Autowired
 	private RecordRepository recordRepository;
@@ -191,7 +194,7 @@ public class RecordService {
 		} else {
 			isLeave = false;
 		}
-		if (isCheckIn == false && isLeave == false) {
+		if (isCheckIn == false || isLeave == false) {
 			return false;
 		} else {
 			return true;
@@ -213,11 +216,17 @@ public class RecordService {
 		}
 	}
 
+	@Scheduled(cron = "0 50 23 * * *")
 	public void doEvery23h() {
-		List<Staff> list = new ArrayList<Staff>();
-		list = staffRepository.findAll();
-		for (Staff s : list) {
-			recordForCheckStaffWithoutCheckInAnDenyLeave(s.getId());
+		try {
+			List<Staff> list = new ArrayList<Staff>();
+			list = staffRepository.findAll();
+			for (Staff s : list) {
+				recordForCheckStaffWithoutCheckInAnDenyLeave(s.getId());
+			}
+			System.out.println("23h success");
+		} catch (Exception e) {
+			System.out.println("failed");
 		}
 	}
 }

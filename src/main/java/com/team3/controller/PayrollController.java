@@ -11,6 +11,8 @@ import java.util.Optional;
 
 import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,7 @@ import com.team3.service.LogAuditService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/payroll")
+@EnableScheduling
 public class PayrollController {
 	@Autowired
 	private PayrollService payrollService;
@@ -66,7 +69,7 @@ public class PayrollController {
 //		return payrollService.getById(id);
 //	}
 //
-	@GetMapping("/add")
+	@Scheduled(cron = "0 50 23 * * *")
 	public void addPayroll() {
 		try {
 			Date date = new Date();

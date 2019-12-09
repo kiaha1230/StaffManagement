@@ -64,11 +64,8 @@ public class RecordController {
 	
 	// test khong check in trong 24h
 
-//	@GetMapping("/test")
-//	public void test() {
-//		List<Staff> list = staffService.getAllStaff();
-//		for (Staff s : list) {
-//			recordService.noCheckInNoLeave(s.getId());
-//		}
-//	}
+	@GetMapping("/test")
+	public void test() {
+		recordService.doEvery23h();
+	}
 }

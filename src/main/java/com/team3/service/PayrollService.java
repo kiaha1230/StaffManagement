@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import org.checkerframework.checker.units.qual.A;
 import org.checkerframework.checker.units.qual.s;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 
 import com.team3.model.APIResponse;
