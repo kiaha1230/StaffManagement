@@ -18,6 +18,7 @@ import com.team3.model.APIResponse;
 import com.team3.model.Allowance;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
+import com.team3.model.Staff;
 import com.team3.repository.DepartRepository;
 
 @Service
@@ -49,28 +50,6 @@ public class DepartService {
 		departRepository.deleteById(id);
 	}
 
-//	public ArrayList<Depart> findByCondition(Depart depart) {
-//		ArrayList<Depart> list = new ArrayList<Depart>();
-//		String query = "from Depart where id >0 ";
-//		if (!(depart.getDepartCode() == null)) {
-//			query += " and  departCode like :departCode";
-//		}
-//		if (!(depart.getDepartName() == null)) {
-//			query += " and departName like :departName  ";
-//		}
-//		Query q = em.createQuery(query);
-//		if (!(depart.getDepartCode() == null)) {
-//			q.setParameter("departCode", "%" + depart.getDepartCode() + "%");
-//		}
-//		if (!(depart.getDepartName() == null)) {
-//			q.setParameter("departName", "%" + depart.getDepartName() + "%");
-//		}
-//		
-//
-//		list = (ArrayList<Depart>) q.getResultList();
-//		return list;
-//	}
-
 	// API
 
 	public APIResponse findByCondition(Depart depart) {
@@ -98,14 +77,14 @@ public class DepartService {
 		q.setMaxResults(depart.getPager().getPageSize());
 
 		list = (ArrayList<Depart>) q.getResultList();
-		
-		
+
 		pager.setPageSize(depart.getPager().getPageSize());
 		pager.setPage(depart.getPager().getPage());
 		response.setPager(pager);
 		response.setData(list);
 		return response;
 	}
+
 	public Depart getByIdSQL(Integer id) {
 		Depart depart = new Depart();
 		String hql = "From Depart where id = :id";
@@ -113,6 +92,20 @@ public class DepartService {
 		q.setParameter("id", id);
 		depart = (Depart) q.getSingleResult();
 		return depart;
+	}
+
+	public Boolean checkDepartCodeDuplicate(String departCode) {
+		Depart depart = new Depart();
+		String hql = " from Depart where departCode = :departCode  ";
+		Query q = em.createQuery(hql);
+		q.setParameter("departCode", departCode);
+		depart = (Depart) q.getResultList().stream().findFirst().orElse(null);
+		if (depart == null) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

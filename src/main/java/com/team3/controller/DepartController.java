@@ -63,4 +63,9 @@ public class DepartController {
 		return departService.findByCondition(depart);
 	}
 
+	@PostMapping("/checkDepartCode")
+	public Boolean checkStaffCode(@RequestBody String departCode) {
+		return departService.checkDepartCodeDuplicate(departCode.trim());
+	}
+
 }

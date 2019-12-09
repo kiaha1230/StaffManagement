@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.team3.model.APIResponse;
+import com.team3.model.Depart;
 import com.team3.model.Pager;
 import com.team3.model.Recruitment;
 import com.team3.repository.RecruitmentRepository;
@@ -86,7 +87,7 @@ public class RecruitmentService {
 			custom.setDescription(recruitments[4].toString());
 			custom.setStaffId((Integer) recruitments[5]);
 			custom.setStaffName((String) recruitments[6]);
-			custom.setStaffCode( (String) recruitments[7]);
+			custom.setStaffCode((String) recruitments[7]);
 
 			list.add(custom);
 		});
@@ -96,6 +97,20 @@ public class RecruitmentService {
 		response.setPager(pager);
 		response.setData(list);
 		return response;
+	}
+
+	public Boolean checkRecruitmentCodeDuplicate(String recruitmentCode) {
+		Recruitment recruitment = new Recruitment();
+		String hql = " from Recruitment where recruitmentCode = :recruitmentCode  ";
+		Query q = em.createQuery(hql);
+		q.setParameter("recruitmentCode", recruitmentCode);
+		recruitment = (Recruitment) q.getResultList().stream().findFirst().orElse(null);
+		if (recruitment == null) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

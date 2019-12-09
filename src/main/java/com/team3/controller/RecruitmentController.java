@@ -58,4 +58,9 @@ public class RecruitmentController {
 		return recruitmentService.findByCondition(recruitment);
 	}
 
+	@PostMapping("/checkRecruitmentCode")
+	public Boolean checkStaffCode(@RequestBody String recruitmentCode) {
+		return recruitmentService.checkRecruitmentCodeDuplicate(recruitmentCode.trim());
+	}
+
 }

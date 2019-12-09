@@ -212,6 +212,14 @@ public class RecordService {
 			sendMail(record);
 		}
 	}
+
+	public void doEvery23h() {
+		List<Staff> list = new ArrayList<Staff>();
+		list = staffRepository.findAll();
+		for (Staff s : list) {
+			recordForCheckStaffWithoutCheckInAnDenyLeave(s.getId());
+		}
+	}
 }
 
 // xin nghi nhung khong chap thuan

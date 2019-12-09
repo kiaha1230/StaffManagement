@@ -42,6 +42,16 @@ public class Ultilities {
 		}
 		return date;
 	}
+	public static Date stringToDateyyyMMDD(String dateString) {
+		Date date = new Date();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
 
 	public static String getStringTimeFromDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");

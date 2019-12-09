@@ -18,7 +18,9 @@ import com.team3.model.Allowance;
 import com.team3.model.Attendance;
 import com.team3.model.Leave;
 import com.team3.model.Pager;
+import com.team3.model.Record;
 import com.team3.repository.LeaveRepository;
+import com.team3.repository.RecordRepository;
 
 @Service
 public class LeaveService {
@@ -26,6 +28,9 @@ public class LeaveService {
 	private LeaveRepository leaveRepository;
 	@PersistenceContext
 	private EntityManager em;
+	@Autowired
+	private RecordRepository recordRepository;
+	private RecordService recordService;
 
 	public ArrayList<Leave> getAllLeave() {
 		List<Leave> list = new ArrayList<Leave>();
@@ -227,4 +232,7 @@ public class LeaveService {
 		response.setData(list);
 		return response;
 	}
+
+
+
 }

@@ -167,4 +167,9 @@ public class StaffController {
 		return staffService.getsStaffWithoutAllowance();
 	}
 
+	@PostMapping("/checkStaffCode")
+	public Boolean checkStaffCode(@RequestBody String staffCode) {
+		return staffService.checkStaffCodeDuplicate(staffCode.trim());
+	}
+
 }
