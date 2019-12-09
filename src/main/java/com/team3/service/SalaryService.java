@@ -64,7 +64,7 @@ public class SalaryService {
 
 	public APIResponse findByCondition(Salary salary) {
 		ArrayList<Salary> list = new ArrayList<Salary>();
-		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary,s.staffCode from Salary sa , Staff s where sa.staffId = s.id ";
+		String query = "select sa.id,s.staffName,sa.grossSalary,sa.tax, sa.insurance,sa.netSalary,s.staffCode,s.id from Salary sa , Staff s where sa.staffId = s.id ";
 		if (!(salary.getStaffId() == null)) {
 			query += " and  sa.staffId = :staffId";
 		}
@@ -139,6 +139,7 @@ public class SalaryService {
 			custom.setInsurance((Double) records[4]);
 			custom.setNetSalary((Double) records[5]);
 			custom.setStaffCode((String) records[6]);
+			custom.setStaffId( (Integer) records[7]);
 			list.add(custom);
 		});
 
