@@ -62,38 +62,42 @@ public class StaffController {
 		return staffService.getById(id);
 	}
 
-	@PostMapping("/add")
-	public void addTask(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
-			@RequestParam("departId") String departId, @RequestParam("gender") String gender,
-			@RequestParam("birthday") String birthday, @RequestParam("email") String email,
-			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("positionId") String positionId,
-			@RequestParam("address") String address, @RequestParam("photoObj") MultipartFile photoObj) {
-		File file = new File("");
-		String currentDirectory = file.getAbsolutePath();
-		Staff staff = new Staff();
-		staff.setStatus(true);
-		staff.setStaffCode(staffCode);
-		staff.setStaffName(staffName);
-		staff.setDepartId(Integer.valueOf(departId));
-		staff.setGender(Boolean.valueOf(gender));
-		staff.setBirthday(Ultilities.stringToDate(birthday));
-		staff.setEmail(email);
-		staff.setPhoneNumber(phoneNumber);
-		staff.setPositionId(Integer.valueOf(positionId));
-		staff.setAddress(address);
-		String photoPath = file.getAbsolutePath() + "\\src\\images\\" + photoObj.getOriginalFilename();
-		try {
-			photoObj.transferTo(new File(photoPath));
-			staff.setPhoto(photoObj.getOriginalFilename());
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		staffService.addOrEditStaff(staff);
+//	@PostMapping("/add")
+//	public void addTask(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
+//			@RequestParam("departId") String departId, @RequestParam("gender") String gender,
+//			@RequestParam("birthday") String birthday, @RequestParam("email") String email,
+//			@RequestParam("phoneNumber") String phoneNumber, @RequestParam("positionId") String positionId,
+//			@RequestParam("address") String address, @RequestParam("photoObj") MultipartFile photoObj) {
+//		File file = new File("");
+//		String currentDirectory = file.getAbsolutePath();
+//		Staff staff = new Staff();
+//		staff.setStatus(true);
+//		staff.setStaffCode(staffCode);
+//		staff.setStaffName(staffName);
+//		staff.setDepartId(Integer.valueOf(departId));
+//		staff.setGender(Boolean.valueOf(gender));
+//		staff.setBirthday(Ultilities.stringToDate(birthday));
+//		staff.setEmail(email);
+//		staff.setPhoneNumber(phoneNumber);
+//		staff.setPositionId(Integer.valueOf(positionId));
+//		staff.setAddress(address);
+//		String photoPath = file.getAbsolutePath() + "\\src\\images\\" + photoObj.getOriginalFilename();
+//		try {
+//			photoObj.transferTo(new File(photoPath));
+//			staff.setPhoto(photoObj.getOriginalFilename());
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		staffService.addOrEditStaff(staff);
+//	}
 
+	@PostMapping("/add")
+	public void addTask(@RequestBody Staff staff) {
+		staffService.addOrEditStaff(staff);
 	}
 
 //	@PostMapping("/testAdd")
