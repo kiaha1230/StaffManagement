@@ -196,7 +196,7 @@ public class StaffService {
 
 	public Staff getbyIdHQL(Integer id) {
 		Staff staff = new Staff();
-		String hql = "From Depart where id = :id";
+		String hql = "From Staff where id = :id";
 		Query q = em.createQuery(hql);
 		q.setParameter("id", id);
 		staff = (Staff) q.getResultList().stream().findFirst().orElse(null);
