@@ -18,14 +18,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.team3.service.RecordService;
 
 @SpringBootApplication
-public class StaffManagementApplication implements WebMvcConfigurer {
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-		// Register resource handler for images
-		registry.addResourceHandler("/images/**").addResourceLocations("/src/images/")
-				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
-	}
+public class StaffManagementApplication {
+//	@Override
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//
+//		registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/static/images/")
+//				.setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(StaffManagementApplication.class, args);
