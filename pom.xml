@@ -67,8 +67,8 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.2.0.RELEASE</version>
 		</dependency>
-		
-		
+
+
 		<!-- mail -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -99,6 +99,32 @@
 			<artifactId>javers-core</artifactId>
 			<version>5.8.5</version>
 		</dependency>
+
+
+
+		<!-- upload to flickr -->
+		<dependency>
+			<groupId>com.flickr4java</groupId>
+			<artifactId>flickr4java</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+		<!-- need this lib for flickr api -->
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-core</artifactId>
+			<version>6.9.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-core</artifactId>
+			<version>6.9.0</version>
+		</dependency>
+
+
+
+
 
 
 	</dependencies>

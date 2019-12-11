@@ -110,28 +110,10 @@ public class StaffController {
 //		staff.setPhoto(photoObj.getOriginalFilename());
 //	}
 //
-//	@PutMapping("/testPhoto")
-//	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
-//		File file = new File("");
-//		String currentDirectory = file.getAbsolutePath() + "\\src\\images\\";
-//		String ok = currentDirectory + photoObj.getOriginalFilename();
-//		try {
-//			photoObj.transferTo(new File(ok));
-//			Staff staff = staffService.getbyIdHQL(Integer.valueOf(staffId));
-//			staff.setPhoto(photoObj.getOriginalFilename());
-//			staffService.addOrEditStaff(staff);
-//		} catch (IllegalStateException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-
 	@PutMapping("/testPhoto")
 	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
-		String currentDirectory = "C:\\Users\\Truong\\Desktop\\Fall 2019\\Dự án 2\\project2-fix-bug\\Project2_FrontEnd\\Project2-FrontEnd\\src\\assets\\img\\avatars\\";
+		File file = new File("");
+		String currentDirectory = file.getAbsolutePath() + "\\src\\images\\";
 		String ok = currentDirectory + photoObj.getOriginalFilename();
 		try {
 			photoObj.transferTo(new File(ok));
@@ -146,6 +128,24 @@ public class StaffController {
 			e.printStackTrace();
 		}
 	}
+
+//	@PutMapping("/testPhoto")
+//	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
+//		String currentDirectory = "C:\\Users\\Truong\\Desktop\\Fall 2019\\Dự án 2\\project2-fix-bug\\Project2_FrontEnd\\Project2-FrontEnd\\src\\assets\\img\\avatars\\";
+//		String ok = currentDirectory + photoObj.getOriginalFilename();
+//		try {
+//			photoObj.transferTo(new File(ok));
+//			Staff staff = staffService.getbyIdHQL(Integer.valueOf(staffId));
+//			staff.setPhoto(photoObj.getOriginalFilename());
+//			staffService.addOrEditStaff(staff);
+//		} catch (IllegalStateException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	@PutMapping("/edit")
 	public void editTask(@RequestBody Staff staff) {

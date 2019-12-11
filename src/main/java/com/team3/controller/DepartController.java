@@ -1,6 +1,8 @@
 package com.team3.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flickr4java.flickr.Flickr;
+import com.flickr4java.flickr.FlickrException;
+import com.flickr4java.flickr.REST;
+import com.flickr4java.flickr.test.TestInterface;
 import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.service.DepartService;
@@ -66,6 +72,21 @@ public class DepartController {
 	@PostMapping("/checkDepartCode")
 	public Boolean checkStaffCode(@RequestBody String departCode) {
 		return departService.checkDepartCodeDuplicate(departCode.trim());
+	}
+
+	@GetMapping("/test")
+	public void test() {
+		String apiKey = "YOUR_API_KEY";
+		String sharedSecret = "YOUR_SHARED_SECRET";
+		Flickr f = new Flickr(apiKey, sharedSecret, new REST());
+		TestInterface testInterface = f.getTestInterface();
+		try {
+			Collection results = testInterface.echo(Collections.EMPTY_MAP);
+		} catch (FlickrException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }
