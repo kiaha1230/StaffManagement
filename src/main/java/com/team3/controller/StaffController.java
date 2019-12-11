@@ -113,7 +113,7 @@ public class StaffController {
 	@PutMapping("/testPhoto")
 	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
 		File file = new File("");
-		String currentDirectory = file.getAbsolutePath() + "\\src\\images\\";
+		String currentDirectory = file.getAbsolutePath() + "\\src\\main\\resources\\static\\images\\";
 		String ok = currentDirectory + photoObj.getOriginalFilename();
 		try {
 			photoObj.transferTo(new File(ok));
