@@ -83,14 +83,13 @@ public class PositionService {
 		return response;
 	}
 
-//	public Account getPositionById(Integer id) {
-//		Position position = new Position();
-//		String hql = "FROM Position WHERE id = :id ";
-//		Query q = em.createQuery(hql);
-//		q.setParameter("id", id);
-//		position = (Position) q.getResultList().stream().findFirst().orElse(null);
-//
-//		return account1;
-//	}
+	public Position getPositionById(Integer id) {
+		Position position = new Position();
+		String hql = "FROM Position WHERE id = :id ";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		position = (Position) q.getResultList().stream().findFirst().orElse(null);
+		return position;
+	}
 
 }

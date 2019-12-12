@@ -54,19 +54,22 @@ public class StaffService {
 		staffRepository.deleteById(id);
 	}
 
-	public ArrayList<Staff> top10Staff() {
-		ArrayList<Staff> list = new ArrayList<Staff>();
-		String hql = "SELECT  s.staffName, SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)"
-				+ "  FROM Record r,Staff s where r.staffId = s.id "
-				+ "GROUP BY s.staffName order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
+	public ArrayList<StaffCustom> top10Staff() {
+		ArrayList<StaffCustom> list = new ArrayList<StaffCustom>();
+		String hql = "SELECT  s.staffName,s.staffCode,d.departName, SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end), s.staffCode"
+				+ "  FROM Record r,Staff s, Depart d where r.staffId = s.id and s.departId = d.id "
+				+ "GROUP BY s.staffName,s.staffCode,d.departName order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
 		Query q = em.createQuery(hql);
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((staffs) -> {
-			Staff custom = new Staff();
+			StaffCustom custom = new StaffCustom();
 			custom.setStaffName((String) staffs[0]);
-			custom.setKhenThuong((Long) staffs[1]);
-			custom.setKiLuat((Long) staffs[2]);
-			custom.setDiem((Long) staffs[3]);
+			custom.setStaffCode((String) staffs[1]);
+			custom.setDepartName((String) staffs[2]);
+			custom.setKhenThuong((Long) staffs[3]);
+			custom.setKiLuat((Long) staffs[4]);
+			custom.setDiem((Long) staffs[5]);
+
 			list.add(custom);
 		});
 		return list;
@@ -94,7 +97,25 @@ public class StaffService {
 		String hql = " from  Staff where MONTH(BIRTHDAY) = MONTH(:currentDate)";
 		Query q = em.createQuery(hql);
 		q.setParameter("currentDate", currentDate);
-		list = (ArrayList<Staff>) q.getResultList();
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((staffs) -> {
+			Staff custom = new Staff();
+			custom.setId((Integer) staffs[0]);
+			custom.setStaffCode((String) staffs[1]);
+			custom.setStaffName((String) staffs[2]);
+			custom.setDepartName((String) staffs[3]);
+			custom.setGender((Boolean) staffs[4]);
+			custom.setBirthday((Date) staffs[5]);
+			custom.setPhoto((String) staffs[6]);
+			custom.setEmail((String) staffs[7]);
+			custom.setPhoneNumber((String) staffs[8]);
+			custom.setStatus((Boolean) staffs[9]);
+			custom.setDepartId((Integer) staffs[10]);
+			custom.setPositionName((String) staffs[11]);
+			custom.setPositionId((Integer) staffs[12]);
+			custom.setAddress((String) staffs[13]);
+			list.add(custom);
+		});
 		return list;
 	}
 

@@ -173,7 +173,8 @@ public class LogAuditService {
 			if (!checkName(a)) {
 				Integer logAuditId = logAudit.getId();
 				String colName = Ultilities.getColNameWithoutEC(a.getName());
-				if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")) {
+				if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")
+						|| tableName.equals("RECORD") && colName.equals("STAFF_CODE")) {
 					continue;
 				}
 				LogDetail logDetail = new LogDetail();
@@ -221,7 +222,8 @@ public class LogAuditService {
 			if (!checkName(a)) {
 				Integer logAuditId = logAudit.getId();
 				String colName = Ultilities.getColNameWithoutEC(a.getName());
-				if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")) {
+				if (tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE")
+						|| tableName.equals("RECORD") && colName.equals("STAFF_CODE")) {
 					continue;
 				}
 				LogDetail logDetail = new LogDetail();

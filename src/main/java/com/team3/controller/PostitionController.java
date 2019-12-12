@@ -37,12 +37,13 @@ public class PostitionController {
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Position position) {
+		logAuditService.getDiff(positionService.getPositionById(position.getId()), position);
 		positionService.editPosition(position);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deletePosition(@PathVariable Integer id) {
-
+		logAuditService.deleteDiff(positionService.getPositionById(id));
 		positionService.deletePosition(id);
 	}
 

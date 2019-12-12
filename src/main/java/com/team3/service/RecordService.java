@@ -139,15 +139,15 @@ public class RecordService {
 		String body = "";
 		if (record.getType() == true) {
 			loai = "Khen thưởng";
-			body += "- Bạn có một " + loai.toUpperCase() + " vào ngày " + strDate;
-			body += "\n - Lí do : " + record.getReason();
-			body += "\n - Thưởng : " + record.getBonus();
+			body += "Bạn có một " + loai.toUpperCase() + " vào ngày " + strDate;
+			body += ". Lí do : " + "\"" + record.getReason() + "\"";
+			body += ". Thưởng : " + record.getBonus() + " VND";
 
 		} else {
 			loai = "Kỉ luật";
-			body += "- Bạn có một " + loai.toUpperCase() + " vào ngày " + strDate;
-			body += "\n - Lí do : " + record.getReason();
-			body += "\n - Phạt : " + record.getBonus();
+			body += "Bạn có một " + loai.toUpperCase() + " vào ngày " + strDate;
+			body += ". Lí do : " + "\"" + record.getReason() + "\"";
+			body += ". Phạt : " + record.getBonus() + " VND";
 		}
 
 		mailer.send(from, to, subject, body);
@@ -229,6 +229,16 @@ public class RecordService {
 			System.out.println("failed");
 		}
 	}
+
+	public Record getByIdSQL(Integer id) {
+		Record record = new Record();
+		String hql = "From Record where id = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		record = (Record) q.getSingleResult();
+		return record;
+	}
+
 }
 
 // xin nghi nhung khong chap thuan

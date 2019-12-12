@@ -20,6 +20,7 @@ import com.team3.model.APIResponse;
 import com.team3.model.Depart;
 import com.team3.model.Record;
 import com.team3.model.Staff;
+import com.team3.service.LogAuditService;
 import com.team3.service.RecordService;
 import com.team3.service.StaffService;
 
@@ -31,6 +32,8 @@ public class RecordController {
 	private RecordService recordService;
 	@Autowired
 	private StaffService staffService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 //	@GetMapping("records")
 //	public ArrayList<Record> getAllRecord() {
@@ -44,16 +47,19 @@ public class RecordController {
 
 	@PostMapping("/add")
 	public void addRecord(@RequestBody Record record) {
+		logAuditService.addDiff(record);
 		recordService.addOrEditRecord(record);
 	}
 
 	@PutMapping("/edit")
 	public void editProject(@RequestBody Record record) {
+		logAuditService.getDiff(recordService.getByIdSQL(record.getId()), record);
 		recordService.addOrEditRecord(record);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteRecord(@PathVariable Integer id) {
+		logAuditService.deleteDiff(recordService.getByIdSQL(id));
 		recordService.deleteRecord(id);
 	}
 
@@ -61,7 +67,7 @@ public class RecordController {
 	public APIResponse findByCondition(@RequestBody Record record) {
 		return recordService.findByCondition(record);
 	}
-	
+
 	// test khong check in trong 24h
 
 	@GetMapping("/test")

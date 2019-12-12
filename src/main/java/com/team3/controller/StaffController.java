@@ -163,7 +163,7 @@ public class StaffController {
 	}
 
 	@GetMapping("/getsTop")
-	public List<Staff> top10Staff() {
+	public List<StaffCustom> top10Staff() {
 		return staffService.top10Staff();
 	}
 
@@ -177,7 +177,7 @@ public class StaffController {
 		return staffService.getsStaffWithoutAccount();
 	}
 
-	@PostMapping("/getBirthdaysInMonth")
+	@GetMapping("/getBirthdaysInMonth")
 	public List<Staff> getBirthdaysInMonth() {
 		return staffService.getStaffHaveBirthday();
 	}
