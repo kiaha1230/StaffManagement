@@ -60,6 +60,7 @@ public class StaffService {
 				+ "  FROM Record r,Staff s, Depart d where r.staffId = s.id and s.departId = d.id "
 				+ "GROUP BY s.staffName,s.staffCode,d.departName  HAVING (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) >0 order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
 		Query q = em.createQuery(hql);
+		q.setMaxResults(10);
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((staffs) -> {
 			StaffCustom custom = new StaffCustom();
@@ -69,7 +70,6 @@ public class StaffService {
 			custom.setTotalAchievement((Long) staffs[3]);
 			custom.setTotalDiscipline((Long) staffs[4]);
 			custom.setTotalMark((Long) staffs[5]);
-
 			list.add(custom);
 		});
 		return list;

@@ -19,6 +19,7 @@ import com.team3.customModel.SalaryCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Salary;
+import com.team3.service.LogAuditService;
 import com.team3.service.SalaryService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -27,6 +28,9 @@ import com.team3.service.SalaryService;
 public class SalaryController {
 	@Autowired
 	private SalaryService salaryService;
+	@Autowired
+	private LogAuditService logAuditService;
+	
 
 //	@GetMapping("salaries")
 //	public ArrayList<Salary> getAllSalary() {
