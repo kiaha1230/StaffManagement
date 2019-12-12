@@ -66,9 +66,9 @@ public class StaffService {
 			custom.setStaffName((String) staffs[0]);
 			custom.setStaffCode((String) staffs[1]);
 			custom.setDepartName((String) staffs[2]);
-			custom.setKhenThuong((Long) staffs[3]);
-			custom.setKiLuat((Long) staffs[4]);
-			custom.setDiem((Long) staffs[5]);
+			custom.setTotalAchievement((Long) staffs[3]);
+			custom.setTotalDiscipline((Long) staffs[4]);
+			custom.setTotalMark((Long) staffs[5]);
 
 			list.add(custom);
 		});

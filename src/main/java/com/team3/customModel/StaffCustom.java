@@ -9,9 +9,9 @@ public class StaffCustom {
 	private String departName;
 	private String staffName;
 	private String staffCode;
-	private Long kiLuat;
-	private Long khenThuong;
-	private Long diem;
+	private Long totalDiscipline;
+	private Long totalAchievement;
+	private Long totalMark;
 
 	public String getDepartName() {
 		return departName;
@@ -37,32 +37,32 @@ public class StaffCustom {
 		this.staffCode = staffCode;
 	}
 
-	public Long getKiLuat() {
-		return kiLuat;
-	}
-
-	public void setKiLuat(Long kiLuat) {
-		this.kiLuat = kiLuat;
-	}
-
-	public Long getKhenThuong() {
-		return khenThuong;
-	}
-
-	public void setKhenThuong(Long khenThuong) {
-		this.khenThuong = khenThuong;
-	}
-
-	public Long getDiem() {
-		return diem;
-	}
-
-	public void setDiem(Long diem) {
-		this.diem = diem;
-	}
-
 	public StaffCustom() {
 		super();
+	}
+
+	public Long getTotalDiscipline() {
+		return totalDiscipline;
+	}
+
+	public void setTotalDiscipline(Long totalDiscipline) {
+		this.totalDiscipline = totalDiscipline;
+	}
+
+	public Long getTotalAchievement() {
+		return totalAchievement;
+	}
+
+	public void setTotalAchievement(Long totalAchievement) {
+		this.totalAchievement = totalAchievement;
+	}
+
+	public Long getTotalMark() {
+		return totalMark;
+	}
+
+	public void setTotalMark(Long totalMark) {
+		this.totalMark = totalMark;
 	}
 
 }
