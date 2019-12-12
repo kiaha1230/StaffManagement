@@ -42,6 +42,7 @@ public class Salary {
 	private Double toNetSalary;
 	@Transient
 	private Pager pager;
+	@Transient
 	private String staffCode;
 
 	public String getStaffCode() {

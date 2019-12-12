@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.Ultilities.Ultilities;
 import com.team3.model.APIResponse;
 import com.team3.model.Recruitment;
-import com.team3.service.RecruitmentService;
+import com.team3.resources.UserInformation;
+import com.team3.service.LogAuditService;
 import com.team3.service.RecruitmentService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -27,6 +29,8 @@ import com.team3.service.RecruitmentService;
 public class RecruitmentController {
 	@Autowired
 	private RecruitmentService recruitmentService;
+	@Autowired
+	private LogAuditService logAuditService;
 
 //	@GetMapping("departs")
 //	public ArrayList<Recruitment> getAllRecruitment() {
@@ -40,16 +44,21 @@ public class RecruitmentController {
 
 	@PostMapping("/add")
 	public void addRecruitment(@RequestBody Recruitment recruitment) {
+		recruitment.setStaffId(UserInformation.getACCOUNT().getStaffId());
+		logAuditService.addDiff(recruitment);
 		recruitmentService.addOrEditRecruitment(recruitment);
 	}
 
 	@PutMapping("/edit")
 	public void editRecruitment(@RequestBody Recruitment recruitment) {
+		recruitment.setStaffId(UserInformation.getACCOUNT().getStaffId());
+		logAuditService.getDiff(recruitmentService.getByIdSQL(recruitment.getId()), recruitment);
 		recruitmentService.addOrEditRecruitment(recruitment);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteRecruitment(@PathVariable Integer id) {
+		logAuditService.deleteDiff(recruitmentService.getByIdSQL(id));
 		recruitmentService.deleteRecruitment(id);
 	}
 

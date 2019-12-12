@@ -56,9 +56,9 @@ public class StaffService {
 
 	public ArrayList<StaffCustom> top10Staff() {
 		ArrayList<StaffCustom> list = new ArrayList<StaffCustom>();
-		String hql = "SELECT  s.staffName,s.staffCode,d.departName, SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end), s.staffCode"
+		String hql = "SELECT  s.staffName,s.staffCode,d.departName,s.photo, SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end), s.staffCode"
 				+ "  FROM Record r,Staff s, Depart d where r.staffId = s.id and s.departId = d.id "
-				+ "GROUP BY s.staffName,s.staffCode,d.departName  HAVING (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) >0 order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
+				+ "GROUP BY s.staffName,s.staffCode,d.departName,s.photo  HAVING (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) >0 order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
 		Query q = em.createQuery(hql);
 		q.setMaxResults(10);
 		List<Object[]> obj = q.getResultList();
@@ -67,9 +67,10 @@ public class StaffService {
 			custom.setStaffName((String) staffs[0]);
 			custom.setStaffCode((String) staffs[1]);
 			custom.setDepartName((String) staffs[2]);
-			custom.setTotalAchievement((Long) staffs[3]);
-			custom.setTotalDiscipline((Long) staffs[4]);
-			custom.setTotalMark((Long) staffs[5]);
+			custom.setPhoto((String) staffs[3]);
+			custom.setTotalAchievement((Long) staffs[4]);
+			custom.setTotalDiscipline((Long) staffs[5]);
+			custom.setTotalMark((Long) staffs[6]);
 			list.add(custom);
 		});
 		return list;

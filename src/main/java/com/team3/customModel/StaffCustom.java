@@ -12,6 +12,15 @@ public class StaffCustom {
 	private Long totalDiscipline;
 	private Long totalAchievement;
 	private Long totalMark;
+	private String photo;
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
 	public String getDepartName() {
 		return departName;

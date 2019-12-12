@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team3.Ultilities.Ultilities;
 import com.team3.customModel.AccountCustom;
 import com.team3.customModel.SalaryCustom;
 import com.team3.model.APIResponse;
@@ -30,7 +31,6 @@ public class SalaryController {
 	private SalaryService salaryService;
 	@Autowired
 	private LogAuditService logAuditService;
-	
 
 //	@GetMapping("salaries")
 //	public ArrayList<Salary> getAllSalary() {
@@ -44,22 +44,36 @@ public class SalaryController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Salary salary) {
+		logAuditService.addDiff(salary);
 		salaryService.addOrEditSalary(salary);
 	}
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Salary salary) {
+		Double Insurance = salary.getGrossSalary() * 0.105;
+		Double Tax = salary.getGrossSalary() * Ultilities.getPercentSalGrade(salary.getGrossSalary());
+		salary.setInsurance(Insurance);
+		salary.setTax(Tax);
+		Double netSal = salary.getGrossSalary() - Insurance - Tax;
+		salary.setNetSalary(netSal);
+		logAuditService.getDiff(salaryService.getByIdSQL(salary.getId()), salary);
 		salaryService.addOrEditSalary(salary);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleleSalary(@PathVariable int id) {
+		logAuditService.deleteDiff(salaryService.getByIdSQL(id));
 		salaryService.deleteSalary(id);
 	}
 
 	@PostMapping("/getsByConditions")
 	public APIResponse getByCondition(@RequestBody Salary salaryCustom) {
 		return salaryService.findByCondition(salaryCustom);
+	}
+
+	@PostMapping("/test")
+	public Salary test(@RequestBody Integer id) {
+		return salaryService.getByIdSQL(id);
 	}
 
 }

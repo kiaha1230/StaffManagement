@@ -110,7 +110,15 @@ public class RecruitmentService {
 		} else {
 			return false;
 		}
+	}
 
+	public Recruitment getByIdSQL(Integer id) {
+		Recruitment recruitment = new Recruitment();
+		String hql = "From Recruitment where id = :id";
+		Query q = em.createQuery(hql);
+		q.setParameter("id", id);
+		recruitment = (Recruitment) q.getSingleResult();
+		return recruitment;
 	}
 
 }
