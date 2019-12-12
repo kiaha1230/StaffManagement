@@ -58,7 +58,7 @@ public class StaffService {
 		ArrayList<StaffCustom> list = new ArrayList<StaffCustom>();
 		String hql = "SELECT  s.staffName,s.staffCode,d.departName, SUM(case when r.type=1 then 1 else 0 end), SUM(case when r.type=0 then 1 else 0 end),SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end), s.staffCode"
 				+ "  FROM Record r,Staff s, Depart d where r.staffId = s.id and s.departId = d.id "
-				+ "GROUP BY s.staffName,s.staffCode,d.departName order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
+				+ "GROUP BY s.staffName,s.staffCode,d.departName  HAVING (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) >0 order by (SUM(case when r.type=1 then 1 else 0 end) - SUM(case when r.type=0 then 1 else 0 end)) desc";
 		Query q = em.createQuery(hql);
 		List<Object[]> obj = q.getResultList();
 		obj.stream().forEach((staffs) -> {
@@ -94,7 +94,8 @@ public class StaffService {
 	public ArrayList<Staff> getStaffHaveBirthday() {
 		Date currentDate = new Date();
 		ArrayList<Staff> list = new ArrayList<Staff>();
-		String hql = " from  Staff where MONTH(BIRTHDAY) = MONTH(:currentDate)";
+		String hql = "select s.id, s.staffCode,s.staffName,d.departName, s.gender,s.birthday,s.photo, s.email,s.phoneNumber,s.status,s.departId,p.positionName,s.positionId, s.address from Depart d , Staff s,Position p where d.id = s.departId and p.id = s.positionId "
+				+ " and MONTH(BIRTHDAY) = MONTH(:currentDate)";
 		Query q = em.createQuery(hql);
 		q.setParameter("currentDate", currentDate);
 		List<Object[]> obj = q.getResultList();
