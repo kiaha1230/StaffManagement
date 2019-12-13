@@ -52,12 +52,27 @@ public class LeaveController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Leave leave) {
+		leave.setAccept(1);
+		if (!leaveService.isAnAnnualLeaveInMonth(leave.getStaffId(), leave.getFromDate().getMonth(),
+				leave.getFromDate().getYear())) {
+			leave.setStatus(true);
+		} else {
+			leave.setStatus(false);
+		}
+
 		logAuditService.addDiff(leave);
 		leaveService.addLeave(leave);
 	}
 
 	@PutMapping("/edit")
 	public void editDepart(@RequestBody Leave leave) {
+		leave.setAccept(1);
+		if (leaveService.isAnAnnualLeaveInMonth(leave.getStaffId(), leave.getFromDate().getMonth(),
+				leave.getFromDate().getYear())) {
+			leave.setStatus(true);
+		} else {
+			leave.setStatus(false);
+		}
 		logAuditService.getDiff(leaveService.getByIdSQL(leave.getId()), leave);
 		leaveService.editLeave(leave);
 	}
@@ -106,6 +121,7 @@ public class LeaveController {
 				}
 			}
 			leave.setAccept(0);
+			leave.setStatus(false);
 			leaveService.editLeave(leave);
 		} else {
 

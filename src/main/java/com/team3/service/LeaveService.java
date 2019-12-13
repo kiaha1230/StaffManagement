@@ -58,7 +58,7 @@ public class LeaveService {
 
 	public APIResponse findByCondition(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.staffCode from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.staffCode,s.id from Leave l , Staff s where l.staffId = s.id and accept != 1 ";
 		if (leave.getAccept() != null) {
 			query += " and  l.accept = :accept ";
 		}
@@ -120,6 +120,7 @@ public class LeaveService {
 			custom.setStatus((Boolean) record[5]);
 			custom.setAccept((Integer) record[6]);
 			custom.setStaffCode((String) record[7]);
+			custom.setStaffId((Integer) record[8]);
 			list.add(custom);
 		});
 
@@ -152,7 +153,7 @@ public class LeaveService {
 
 	public Boolean isAnAnnualLeaveInMonth(Integer staffId, Integer month, Integer year) {
 		List<Leave> leave = new ArrayList<Leave>();
-		String hql = "From Leave where staffId = :staffId and MONTH(leaveDate) = :month and YEAR(leaveDate) = :year and status=1";
+		String hql = "From Leave where staffId = :staffId and MONTH(fromDate) = :month and YEAR(fromDate) = :year and status=1";
 		Query q = em.createQuery(hql);
 		q.setParameter("staffId", staffId);
 		q.setParameter("month", month);
@@ -232,7 +233,5 @@ public class LeaveService {
 		response.setData(list);
 		return response;
 	}
-
-
 
 }

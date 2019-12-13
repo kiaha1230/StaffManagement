@@ -170,7 +170,7 @@ public class LogAuditService {
 		logAuditRepository.save(logAudit);
 		Field[] elements = addObj.getClass().getDeclaredFields();
 		for (Field a : elements) {
-			if (!checkName(a)) {
+			if (!checkName(a) && (a.getName() != "fromDate" || a.getName() != "toDate")) {
 				Integer logAuditId = logAudit.getId();
 				String colName = Ultilities.getColNameWithoutEC(a.getName());
 				if ((tableName.equals("ACCOUNT") && colName.equals("STAFF_CODE"))
@@ -178,15 +178,16 @@ public class LogAuditService {
 						|| (tableName.equals("SALARY") && (colName.equals("TAX") || colName.equals("INSURANCE")
 								|| colName.equals("NET_SALARY") || colName.equals("STAFF_CODE")))
 						|| (tableName.equals("ALLOWANCE") && colName.equals("STAFF_CODE"))
-						|| (tableName.equals("RECRUITMENT") && colName.equals("STAFF_CODE"))) {
+						|| (tableName.equals("RECRUITMENT") && colName.equals("STAFF_CODE"))
+						|| (tableName.equals("LEAVE") && colName.equals("STAFF_CODE"))) {
 					continue;
 				}
 				LogDetail logDetail = new LogDetail();
 				logDetail.setLogAuditId(logAuditId);
 				logDetail.setColumnName(colName);
-				if (a.getName().contains("Date") && a.getName() != "leaveDate") {
+				if (a.getName().contains("Date") && (a.getName() != "fromDate" || a.getName() != "toDate")) {
 					logDetail.setNewValue(Ultilities.dateToStringUSFormat(new Date()));
-				} else if (a.getName() == "leaveDate") {
+				} else if (a.getName() == "fromDate" || a.getName() == "toDate") {
 					try {
 						a.setAccessible(true);
 						Date fieldVal = (Date) a.get(addObj);
@@ -230,7 +231,8 @@ public class LogAuditService {
 						|| (tableName.equals("RECORD") && colName.equals("STAFF_CODE"))
 						|| (tableName.equals("SALARY") && colName.equals("STAFF_CODE"))
 						|| (tableName.equals("ALLOWANCE") && colName.equals("STAFF_CODE"))
-						|| (tableName.equals("RECRUITMENT") && colName.equals("STAFF_CODE"))) {
+						|| (tableName.equals("RECRUITMENT") && colName.equals("STAFF_CODE"))
+						|| (tableName.equals("LEAVE") && colName.equals("STAFF_CODE"))) {
 					continue;
 				}
 				LogDetail logDetail = new LogDetail();
