@@ -238,7 +238,7 @@ public class LeaveService {
 
 	public APIResponse getByStaffId(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.id,s.staffCode from Leave l , Staff s where l.staffId = s.id and staffId = :staffId";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.id,s.staffCode from Leave l , Staff s where l.staffId = s.id and l.staffId = :staffId";
 		Query q = em.createQuery(query);
 		q.setParameter("staffId", leave.getStaffId());
 		APIResponse response = new APIResponse();
