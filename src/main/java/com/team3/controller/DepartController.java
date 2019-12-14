@@ -48,6 +48,8 @@ public class DepartController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Depart depart) {
+		String code = depart.getDepartCode().trim();
+		depart.setDepartCode(code.toUpperCase());
 		logAuditService.addDiff(depart);
 		departService.addDepart(depart);
 	}

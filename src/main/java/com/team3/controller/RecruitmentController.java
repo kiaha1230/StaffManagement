@@ -45,6 +45,8 @@ public class RecruitmentController {
 	@PostMapping("/add")
 	public void addRecruitment(@RequestBody Recruitment recruitment) {
 		recruitment.setStaffId(UserInformation.getACCOUNT().getStaffId());
+		String code = recruitment.getRecruitmentCode().trim();
+		recruitment.setRecruitmentCode(code.toUpperCase());
 		logAuditService.addDiff(recruitment);
 		recruitmentService.addOrEditRecruitment(recruitment);
 	}

@@ -30,6 +30,8 @@ public class PostitionController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Position position) {
+		String code = position.getPositionName().trim();
+		position.setPositionName(code.toUpperCase());
 		logAuditService.addDiff(position);
 		positionService.addPosition(position);
 

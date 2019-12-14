@@ -1,5 +1,6 @@
 package com.team3.service;
 
+import java.awt.AlphaComposite;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
@@ -264,15 +265,17 @@ public class AccountService {
 	}
 
 	public void checkMatchUsernameEmail(String email, String username) {
-		List<Account> accounts = new ArrayList<Account>();
-		String hql = "from Account a , Staff s  where a.staffId = s.id and s.email = :email and a.username = :username ";
+		Account accounts = new Account();
+		String hql = "from Account where id in (select a.id from Account a , Staff s  where a.staffId = s.id and s.email = :email and a.username = :username) ";
 		Query q = em.createQuery(hql);
 		q.setParameter("email", email);
 		q.setParameter("username", username);
-		accounts = q.getResultList();
+		accounts = (Account) q.getResultList().stream().findFirst().orElse(null);
 		if (accounts != null) {
 			String password = randomPassword();
 			sendMailResetPassword(email, password);
+			accounts.setPassword(password);
+			accountRepository.save(accounts);
 		} else {
 
 		}
@@ -291,7 +294,7 @@ public class AccountService {
 	public void sendMailResetPassword(String email, String password) {
 		String from = "VIS-HR";
 		String subject = "Reset mật khẩu VISSOFT";
-		String body = "Mật khẩu mới của bạn là: " + password + "Vui lòng đổi mật khẩu mới khi đăng nhập";
+		String body = "Mật khẩu mới của bạn là: " + password + ". Vui lòng đổi mật khẩu mới khi đăng nhập";
 		mailer.send(from, email, subject, body);
 	}
 
