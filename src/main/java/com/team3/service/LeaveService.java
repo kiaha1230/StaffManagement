@@ -153,7 +153,7 @@ public class LeaveService {
 
 	public Boolean isAnAnnualLeaveInMonth(Integer staffId, Integer month, Integer year) {
 		List<Leave> leave = new ArrayList<Leave>();
-		String hql = "From Leave where staffId = :staffId and MONTH(fromDate) = :month and YEAR(fromDate) = :year and status=1";
+		String hql = "From Leave where staffId = :staffId and MONTH(fromDate) = :month and YEAR(fromDate) = :year and status=1 and accept=1";
 		Query q = em.createQuery(hql);
 		q.setParameter("staffId", staffId);
 		q.setParameter("month", month);

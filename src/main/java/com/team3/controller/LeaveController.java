@@ -128,4 +128,10 @@ public class LeaveController {
 		}
 
 	}
+
+	@PostMapping("/accept")
+	public void accept(@RequestBody Leave leave) {
+		leave.setAccept(2);
+		leaveService.editLeave(leave);
+	}
 }

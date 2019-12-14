@@ -179,7 +179,9 @@ public class LogAuditService {
 								|| colName.equals("NET_SALARY") || colName.equals("STAFF_CODE")))
 						|| (tableName.equals("ALLOWANCE") && colName.equals("STAFF_CODE"))
 						|| (tableName.equals("RECRUITMENT") && colName.equals("STAFF_CODE"))
-						|| (tableName.equals("LEAVE") && colName.equals("STAFF_CODE"))) {
+						|| (tableName.equals("LEAVE") && colName.equals("STAFF_CODE"))
+						|| (tableName.equals("STAFF") && colName.equals("DEPART_NAME"))
+						|| (tableName.equals("STAFF") && colName.equals("POSITION_NAME"))) {
 					continue;
 				}
 				LogDetail logDetail = new LogDetail();
@@ -232,7 +234,9 @@ public class LogAuditService {
 						|| (tableName.equals("SALARY") && colName.equals("STAFF_CODE"))
 						|| (tableName.equals("ALLOWANCE") && colName.equals("STAFF_CODE"))
 						|| (tableName.equals("RECRUITMENT") && colName.equals("STAFF_CODE"))
-						|| (tableName.equals("LEAVE") && colName.equals("STAFF_CODE"))) {
+						|| (tableName.equals("LEAVE") && colName.equals("STAFF_CODE"))
+						|| (tableName.equals("STAFF") && colName.equals("DEPART_NAME"))
+						|| (tableName.equals("STAFF") && colName.equals("POSITION_NAME"))) {
 					continue;
 				}
 				LogDetail logDetail = new LogDetail();
@@ -263,7 +267,9 @@ public class LogAuditService {
 		if ((a.getName().contains("Name") && !(a.getName().contains("logAuditName"))
 				&& !(a.getName().contains("departName")) && !(a.getName().contains("username"))
 				&& !(a.getName().contains("positionName"))) || a.getName().contains("pager")
-				|| a.getName().contains("from") || a.getName().contains("to") || a.getName().contains("id")) {
+				|| a.getName().contains("from") || a.getName().contains("to") || a.getName().contains("id")
+				|| a.getName().contains("kiLuat") || a.getName().contains("khenThuong")
+				|| a.getName().contains("diem")) {
 			return true;
 		}
 		return false;
