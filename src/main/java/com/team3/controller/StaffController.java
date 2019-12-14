@@ -132,8 +132,10 @@ public class StaffController {
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteTask(@PathVariable int id) {
-		logAuditService.deleteDiff(staffService.getbyIdHQL(id));
-		staffService.deleteStaff(id);
+		Staff staff = staffService.getbyIdHQL(id);
+		staff.setStatus(false);
+		logAuditService.getDiff(staffService.getbyIdHQL(staff.getId()), staff);
+		staffService.addOrEditStaff(staff);
 	}
 
 	@PostMapping("/getsByConditions")

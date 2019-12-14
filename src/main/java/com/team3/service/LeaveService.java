@@ -169,7 +169,7 @@ public class LeaveService {
 
 	public APIResponse findByConditionPending(Leave leave) {
 		ArrayList<Leave> list = new ArrayList<Leave>();
-		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept from Leave l , Staff s where l.staffId = s.id and l.accept = 1 ";
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.id,s.staffCode from Leave l , Staff s where l.staffId = s.id and l.accept = 1 ";
 		if (leave.getStaffId() != null) {
 			query += " and  l.staffId = :staffId ";
 		}
@@ -224,6 +224,8 @@ public class LeaveService {
 			custom.setReason((String) record[4]);
 			custom.setStatus((Boolean) record[5]);
 			custom.setAccept((Integer) record[6]);
+			custom.setStaffId((Integer) record[7]);
+			custom.setStaffCode((String) record[8]);
 			list.add(custom);
 		});
 

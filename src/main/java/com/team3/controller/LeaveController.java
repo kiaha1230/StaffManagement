@@ -1,4 +1,4 @@
-package com.team3.controller;
+  package com.team3.controller;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -98,10 +98,10 @@ public class LeaveController {
 		return leaveService.findByConditionPending(leave);
 	}
 
-	@PostMapping("/deny")
+	@PutMapping("/deny")
 	public void deny(@RequestBody Leave leave) {
 		if (leave != null) {
-			if (leave.getFromDate().compareTo(new Date()) == 1) {
+			if (leave.getFromDate().compareTo(new Date()) == -1) {
 				String fromDate = Ultilities.dateToStringUSFormat(leave.getFromDate());
 				String nowDate = Ultilities.dateToStringUSFormat(new Date());
 				LocalDate startDate = LocalDate.parse(fromDate);
@@ -117,7 +117,8 @@ public class LeaveController {
 					record.setStaffId(leave.getStaffId());
 					record.setBonus(100000.0);
 					recordService.addOrEditRecord(record);
-					recordService.sendMail(record);
+					recordService.sendMail(record); 
+					
 				}
 			}
 			leave.setAccept(0);
@@ -129,7 +130,7 @@ public class LeaveController {
 
 	}
 
-	@PostMapping("/accept")
+	@PutMapping("/accept")
 	public void accept(@RequestBody Leave leave) {
 		leave.setAccept(2);
 		leaveService.editLeave(leave);
