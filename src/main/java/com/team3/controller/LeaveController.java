@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.team3.model.Leave;
 import com.team3.model.Record;
+import com.team3.resources.UserInformation;
 import com.team3.Ultilities.Ultilities;
 import com.team3.model.APIResponse;
 import com.team3.model.Depart;
@@ -53,6 +54,7 @@ public class LeaveController {
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Leave leave) {
 		leave.setAccept(1);
+		leave.setStaffId(UserInformation.getACCOUNT().getStaffId());
 		if (!leaveService.isAnAnnualLeaveInMonth(leave.getStaffId(), leave.getFromDate().getMonth(),
 				leave.getFromDate().getYear())) {
 			leave.setStatus(true);
