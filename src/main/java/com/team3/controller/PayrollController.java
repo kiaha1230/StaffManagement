@@ -13,6 +13,7 @@ import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ import com.team3.service.LogAuditService;
 @RestController
 @RequestMapping("/payroll")
 @EnableScheduling
+@Transactional
 public class PayrollController {
 	@Autowired
 	private PayrollService payrollService;
@@ -69,11 +71,12 @@ public class PayrollController {
 //		return payrollService.getById(id);
 //	}
 //
-	@GetMapping("/getpayroll")
+
 	@Scheduled(cron = "0 0 23 28-31 * ?")
+	@GetMapping("/getpayroll")
 	public void addPayroll() {
-		final Calendar c = Calendar.getInstance();
-		if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
+//		final Calendar c = Calendar.getInstance();
+//		if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
 			try {
 				Date date = new Date();
 				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -140,7 +143,7 @@ public class PayrollController {
 								+ allowance.getMealAllowance();
 						payroll.setAllowance(allowanceMoney);
 					}
-
+					System.out.println("done");
 					// set NetPay
 					Double netPay = netMoneyCount + bonus + allowanceMoney;
 					payroll.setNetPay(netPay);
@@ -154,12 +157,13 @@ public class PayrollController {
 				for (Payroll p : listPayroll) {
 					payrollService.addPayroll(p);
 				}
+				System.out.println("done");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
-	}
+//	}
 
 //
 //	@PutMapping("/edit")
