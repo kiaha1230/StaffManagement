@@ -216,7 +216,7 @@ public class RecordService {
 		}
 	}
 
-	@Scheduled(cron = "0 50 23 * * *")
+	@Scheduled(cron = "0 40 23 * * *")
 	public void doEvery23h() {
 		try {
 			List<Staff> list = new ArrayList<Staff>();

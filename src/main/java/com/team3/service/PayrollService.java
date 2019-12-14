@@ -187,7 +187,7 @@ public class PayrollService {
 		cal1.set(cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.getMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
 		int workingDays = 0;
 		/* run the while loop until the months are same */
-		while (cal.get(Calendar.MONTH) != cal1.get(Calendar.MONTH)) {
+		while (cal.get(Calendar.MONTH) == cal1.get(Calendar.MONTH)) {
 			if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
 					&& cal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
 				System.out.println("Check >> " + cal.getTime());

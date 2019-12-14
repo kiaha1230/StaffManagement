@@ -1,4 +1,4 @@
-  package com.team3.controller;
+package com.team3.controller;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -46,10 +46,10 @@ public class LeaveController {
 		return leaveService.getAllLeave();
 	}
 
-//	@GetMapping("/leaves/{id}")
-//	public Optional<Leave> getById(@PathVariable int id) {
-//		return leaveService.getById(id);
-//	}
+	@GetMapping("/leaves/{id}")
+	public Optional<Leave> getById(@PathVariable int id) {
+		return leaveService.getById(id);
+	}
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Leave leave) {
@@ -101,12 +101,12 @@ public class LeaveController {
 	@PutMapping("/deny")
 	public void deny(@RequestBody Leave leave) {
 		if (leave != null) {
-			if (leave.getFromDate().compareTo(new Date()) == -1) {
+			if ((leave.getFromDate().compareTo(new Date()) == 1) && (leave.getToDate().compareTo(new Date()) == 1)) {
 				String fromDate = Ultilities.dateToStringUSFormat(leave.getFromDate());
 				String nowDate = Ultilities.dateToStringUSFormat(new Date());
 				LocalDate startDate = LocalDate.parse(fromDate);
 				LocalDate endDate = LocalDate.parse(nowDate);
-				Long daysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+				Long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
 				List<LocalDate> totalDates = LongStream.iterate(0, i -> i + 1).limit(daysBetween)
 						.mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
 				for (LocalDate l : totalDates) {
@@ -117,8 +117,8 @@ public class LeaveController {
 					record.setStaffId(leave.getStaffId());
 					record.setBonus(100000.0);
 					recordService.addOrEditRecord(record);
-					recordService.sendMail(record); 
-					
+					recordService.sendMail(record);
+
 				}
 			}
 			leave.setAccept(0);

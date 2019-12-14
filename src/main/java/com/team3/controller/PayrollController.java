@@ -69,7 +69,8 @@ public class PayrollController {
 //		return payrollService.getById(id);
 //	}
 //
-	@Scheduled(cron = "0 50 23 * * *")
+//	@Scheduled(cron = "0 50 23 * * *")
+	@GetMapping("/ok")
 	public void addPayroll() {
 		try {
 			Date date = new Date();
@@ -129,7 +130,7 @@ public class PayrollController {
 				Allowance allowance = new Allowance();
 				allowance = allowanceService.getByIdSQL(s.getId());
 				Double allowanceMoney = (double) 0;
-				if (allowance == null) {
+				if (allowance == null) { 
 					allowanceMoney += 0;
 					payroll.setAllowance(allowanceMoney);
 				} else {
@@ -199,5 +200,19 @@ public class PayrollController {
 		}
 		return count.size();
 
+	} 
+
+	@GetMapping("/addtest")
+	public void addtest() {
+		Payroll payroll = new Payroll();
+		payroll.setStaffId(25);
+		payroll.setDatetime(new Date());
+		payroll.setGrossSal(1000.0);
+		payroll.setNetSal(2000.0);
+		payroll.setBonus(1000.0);
+		payroll.setLeaveDate(6);
+		payroll.setAllowance(1000.0);
+		payroll.setNetPay(5000.0);
+		payrollService.addPayroll(payroll);
 	}
 }
