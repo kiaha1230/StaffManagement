@@ -47,7 +47,6 @@ import com.team3.service.LogAuditService;
 @RestController
 @RequestMapping("/payroll")
 @EnableScheduling
-@Transactional
 public class PayrollController {
 	@Autowired
 	private PayrollService payrollService;
