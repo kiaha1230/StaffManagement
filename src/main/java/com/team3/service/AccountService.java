@@ -226,6 +226,8 @@ public class AccountService {
 			if (account.getPassword().equals(account1.getPassword())) {
 				UserInformation.setACCOUNT(account1);
 				return account1;
+			} else {
+				return null;
 			}
 		}
 
