@@ -110,19 +110,16 @@ public class LeaveController {
 			String nowDate = Ultilities.dateToStringUSFormat(new Date());
 			LocalDate startDate = LocalDate.parse(fromDate);
 			LocalDate endDate = LocalDate.parse(nowDate);
-			Long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-			List<LocalDate> totalDates = LongStream.iterate(0, i -> i + 1).limit(daysBetween)
-					.mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
-			for (LocalDate l : totalDates) {
+			Integer daysBetween = (int) (ChronoUnit.DAYS.between(startDate, endDate) + 1);
+//			List<LocalDate> totalDates = LongStream.iterate(0, i -> i + 1).limit(daysBetween)
+//					.mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
+			for (int i = 0; i < daysBetween; i++) {
 				Record record = new Record();
 				record.setType(false);
 				record.setReason("Nghỉ không phép");
-				record.setCreateDate(Ultilities.stringToDateyyyMMDD(l.toString()));
 				record.setStaffId(leave.getStaffId());
 				record.setBonus(100000.0);
 				recordService.addOrEditRecord(record);
-				recordService.sendMail(record);
-
 			}
 			leave.setAccept(0);
 			leave.setStatus(false);
@@ -142,8 +139,6 @@ public class LeaveController {
 				record.setStaffId(leave.getStaffId());
 				record.setBonus(100000.0);
 				recordService.addOrEditRecord(record);
-				recordService.sendMail(record);
-
 			}
 			leave.setAccept(0);
 			leave.setStatus(false);

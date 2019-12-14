@@ -69,6 +69,7 @@ public class PayrollController {
 //		return payrollService.getById(id);
 //	}
 //
+	@GetMapping("/getpayroll")
 	@Scheduled(cron = "0 0 23 28-31 * ?")
 	public void addPayroll() {
 		final Calendar c = Calendar.getInstance();
