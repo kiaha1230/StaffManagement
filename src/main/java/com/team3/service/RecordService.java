@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.team3.Ultilities.Ultilities;
 import com.team3.bean.Mailer;
@@ -216,7 +217,6 @@ public class RecordService {
 		}
 	}
 
-	@Scheduled(cron = "0 40 23 * * *")
 	public void doEvery23h() {
 		try {
 			List<Staff> list = new ArrayList<Staff>();
@@ -227,6 +227,7 @@ public class RecordService {
 			System.out.println("23h success");
 		} catch (Exception e) {
 			System.out.println("failed");
+			e.printStackTrace();
 		}
 	}
 

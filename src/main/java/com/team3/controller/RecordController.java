@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,8 @@ import com.team3.service.StaffService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/record")
+@EnableScheduling
+@Transactional
 public class RecordController {
 	@Autowired
 	private RecordService recordService;
@@ -70,6 +75,7 @@ public class RecordController {
 
 	// test khong check in trong 24h
 
+	@Scheduled(cron = "0 6 2 * * *")
 	@GetMapping("/test")
 	public void test() {
 		recordService.doEvery23h();

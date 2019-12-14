@@ -69,91 +69,93 @@ public class PayrollController {
 //		return payrollService.getById(id);
 //	}
 //
-//	@Scheduled(cron = "0 50 23 * * *")
-	@GetMapping("/ok")
+	@Scheduled(cron = "0 0 23 28-31 * ?")
 	public void addPayroll() {
-		try {
-			Date date = new Date();
-			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			int year = localDate.getYear();
-			int month = localDate.getMonthValue();
+		final Calendar c = Calendar.getInstance();
+		if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
+			try {
+				Date date = new Date();
+				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				int year = localDate.getYear();
+				int month = localDate.getMonthValue();
 //			int day = localDate.getDayOfMonth();
-			Integer workingDays = payrollService.getWorkingDayOfMonth();
-			List<Payroll> listPayroll = new ArrayList<Payroll>();
-			List<Staff> listStaff = staffService.getAllStaff();
-			for (Staff s : listStaff) {
-				Payroll payroll = new Payroll();
-				payroll.setStaffId(s.getId());
-				payroll.setDatetime(new Date());
-				// get sal and add to GROSS_SAL, NET_SAL
-				Salary salary = new Salary();
-				salary = salaryService.getByStaffId(s.getId());
-				if (salary == null) {
-					payroll.setGrossSal((double) 0);
-					payroll.setNetSal((double) 0);
-				} else {
-					payroll.setGrossSal(salary.getGrossSalary());
-					payroll.setNetSal(salary.getNetSalary());
-				}
+				Integer workingDays = payrollService.getWorkingDayOfMonth();
+				List<Payroll> listPayroll = new ArrayList<Payroll>();
+				List<Staff> listStaff = staffService.getAllStaff();
+				for (Staff s : listStaff) {
+					Payroll payroll = new Payroll();
+					payroll.setStaffId(s.getId());
+					payroll.setDatetime(new Date());
+					// get sal and add to GROSS_SAL, NET_SAL
+					Salary salary = new Salary();
+					salary = salaryService.getByStaffId(s.getId());
+					if (salary == null) {
+						payroll.setGrossSal((double) 0);
+						payroll.setNetSal((double) 0);
+					} else {
+						payroll.setGrossSal(salary.getGrossSalary());
+						payroll.setNetSal(salary.getNetSalary());
+					}
 
-				// bonus
-				List<Record> records = new ArrayList<Record>();
-				records = recordService.getByStaffId(s.getId(), month, year);
-				Double bonus = (double) 0;
-				if (records == null) {
-					bonus += 0;
-				} else {
-					for (Record r : records) {
-						if (r.getType() == true) {
-							bonus += r.getBonus();
-						} else {
-							bonus -= r.getBonus();
+					// bonus
+					List<Record> records = new ArrayList<Record>();
+					records = recordService.getByStaffId(s.getId(), month, year);
+					Double bonus = (double) 0;
+					if (records == null) {
+						bonus += 0;
+					} else {
+						for (Record r : records) {
+							if (r.getType() == true) {
+								bonus += r.getBonus();
+							} else {
+								bonus -= r.getBonus();
+							}
 						}
 					}
+					payroll.setBonus(bonus);
+					// get leave date
+					Integer staffWorkingDays = attendanceService.getWorkingDayOfStaff(s.getId(), month, year);
+					Integer leaveDate = workingDays - staffWorkingDays;
+					payroll.setLeaveDate(leaveDate);
+					Double moneyPerDay = payroll.getGrossSal() / workingDays;
+					Boolean isAnAnnualLeave = leaveService.isAnAnnualLeaveInMonth(s.getId(), month, year);
+					Double annualSal = (double) 0;
+					if (isAnAnnualLeave) {
+						annualSal += moneyPerDay;
+					}
+					Double netMoneyCount = salaryService
+							.taxNInsuranceCount(payroll.getGrossSal() - moneyPerDay * leaveDate + annualSal);
+
+					// get Allowance
+
+					Allowance allowance = new Allowance();
+					allowance = allowanceService.getByIdSQL(s.getId());
+					Double allowanceMoney = (double) 0;
+					if (allowance == null) {
+						allowanceMoney += 0;
+						payroll.setAllowance(allowanceMoney);
+					} else {
+						allowanceMoney = allowance.getTravelAllowance() + allowance.getDeviceAllowance()
+								+ allowance.getMealAllowance();
+						payroll.setAllowance(allowanceMoney);
+					}
+
+					// set NetPay
+					Double netPay = netMoneyCount + bonus + allowanceMoney;
+					payroll.setNetPay(netPay);
+
+					// add payroll to list
+					listPayroll.add(payroll);
+
 				}
-				payroll.setBonus(bonus);
-				// get leave date
-				Integer staffWorkingDays = attendanceService.getWorkingDayOfStaff(s.getId(), month, year);
-				Integer leaveDate = workingDays - staffWorkingDays;
-				payroll.setLeaveDate(leaveDate);
-				Double moneyPerDay = payroll.getGrossSal() / workingDays;
-				Boolean isAnAnnualLeave = leaveService.isAnAnnualLeaveInMonth(s.getId(), month, year);
-				Double annualSal = (double) 0;
-				if (isAnAnnualLeave) {
-					annualSal += moneyPerDay;
+
+				// add Payroll
+				for (Payroll p : listPayroll) {
+					payrollService.addPayroll(p);
 				}
-				Double netMoneyCount = salaryService
-						.taxNInsuranceCount(payroll.getGrossSal() - moneyPerDay * leaveDate + annualSal);
-
-				// get Allowance
-
-				Allowance allowance = new Allowance();
-				allowance = allowanceService.getByIdSQL(s.getId());
-				Double allowanceMoney = (double) 0;
-				if (allowance == null) { 
-					allowanceMoney += 0;
-					payroll.setAllowance(allowanceMoney);
-				} else {
-					allowanceMoney = allowance.getTravelAllowance() + allowance.getDeviceAllowance()
-							+ allowance.getMealAllowance();
-					payroll.setAllowance(allowanceMoney);
-				}
-
-				// set NetPay
-				Double netPay = netMoneyCount + bonus + allowanceMoney;
-				payroll.setNetPay(netPay);
-
-				// add payroll to list
-				listPayroll.add(payroll);
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			// add Payroll
-			for (Payroll p : listPayroll) {
-				payrollService.addPayroll(p);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -200,7 +202,7 @@ public class PayrollController {
 		}
 		return count.size();
 
-	} 
+	}
 
 	@GetMapping("/addtest")
 	public void addtest() {

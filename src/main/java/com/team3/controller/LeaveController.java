@@ -135,4 +135,9 @@ public class LeaveController {
 		leave.setAccept(2);
 		leaveService.editLeave(leave);
 	}
+
+	@PostMapping("/getByStaffId")
+	public APIResponse getByStaffId(@RequestBody Leave leave) {
+		return leaveService.getByStaffId(leave);
+	}
 }

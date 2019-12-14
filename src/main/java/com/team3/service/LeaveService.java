@@ -236,4 +236,38 @@ public class LeaveService {
 		return response;
 	}
 
+	public APIResponse getByStaffId(Leave leave) {
+		ArrayList<Leave> list = new ArrayList<Leave>();
+		String query = "select l.id , s.staffName , l.fromDate,l.toDate , l.reason, l.status,l.accept,s.id,s.staffCode from Leave l , Staff s where l.staffId = s.id and staffId = :staffId";
+		Query q = em.createQuery(query);
+		q.setParameter("staffId", leave.getStaffId());
+		APIResponse response = new APIResponse();
+		Pager pager = new Pager();
+		List<Object[]> totalRow = q.getResultList();
+		pager.setTotalRow(totalRow.size());
+		q.setFirstResult(leave.getPager().getPage() * leave.getPager().getPageSize());
+		q.setMaxResults(leave.getPager().getPageSize());
+
+		List<Object[]> obj = q.getResultList();
+		obj.stream().forEach((record) -> {
+			Leave custom = new Leave();
+			custom.setId((Integer) record[0]);
+			custom.setStaffName(record[1].toString());
+			custom.setFromDate((Date) record[2]);
+			custom.setToDate((Date) record[3]);
+			custom.setReason((String) record[4]);
+			custom.setStatus((Boolean) record[5]);
+			custom.setAccept((Integer) record[6]);
+			custom.setStaffId((Integer) record[7]);
+			custom.setStaffCode((String) record[8]);
+			list.add(custom);
+		});
+
+		pager.setPageSize(leave.getPager().getPageSize());
+		pager.setPage(leave.getPager().getPage());
+		response.setPager(pager);
+		response.setData(list);
+		return response;
+	}
+
 }
