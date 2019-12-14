@@ -90,7 +90,7 @@ public class AccountController {
 		return accountService.getAccountByStaff();
 	}
 
-	@GetMapping("listUsername")
+	@GetMapping("getUsernames")
 	public List<Account> getListUsername() {
 		return accountService.getlistUsername();
 	}
