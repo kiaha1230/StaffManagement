@@ -91,7 +91,7 @@ public class AccountController {
 	}
 
 	@GetMapping("getUsernames")
-	public List<Account> getListUsername() {
+	public List<String> getListUsername() {
 		return accountService.getlistUsername();
 	}
 }

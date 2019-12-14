@@ -240,12 +240,13 @@ public class AccountService {
 		return list;
 	}
 
-	public List<Account> getlistUsername() {
-		List<Account> account = new ArrayList<Account>();
-		String hql = " from Account";
+	public List<String> getlistUsername() {
+		List<String> list = new ArrayList<String>();
+		List<String> account = new ArrayList<String>();
+		String hql = " select username from Account";
 		Query q = em.createQuery(hql);
-		account = q.getResultList();
-		return account;
+		list = q.getResultList();
+		return list;
 
 	}
 
