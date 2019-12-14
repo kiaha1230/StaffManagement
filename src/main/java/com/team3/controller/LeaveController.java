@@ -1,6 +1,7 @@
 package com.team3.controller;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,13 +54,17 @@ public class LeaveController {
 
 	@PostMapping("/add")
 	public void addDepart(@RequestBody Leave leave) {
+		LocalDate localDate = leave.getFromDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int year = localDate.getYear();
+		int month = localDate.getMonthValue();
+		int day = localDate.getDayOfMonth();
 		leave.setAccept(1);
 		leave.setStaffId(UserInformation.getACCOUNT().getStaffId());
-		if (!leaveService.isAnAnnualLeaveInMonth(leave.getStaffId(), leave.getFromDate().getMonth(),
-				leave.getFromDate().getYear())) {
-			leave.setStatus(true);
-		} else {
+		Boolean status = leaveService.isAnAnnualLeaveInMonth(leave.getStaffId(), month, year);
+		if (status) {
 			leave.setStatus(false);
+		} else {
+			leave.setStatus(true);
 		}
 
 		leaveService.addLeave(leave);
@@ -100,32 +105,53 @@ public class LeaveController {
 
 	@PutMapping("/deny")
 	public void deny(@RequestBody Leave leave) {
-		if (leave != null) {
-			if ((leave.getFromDate().compareTo(new Date()) == 1) && (leave.getToDate().compareTo(new Date()) == 1)) {
-				String fromDate = Ultilities.dateToStringUSFormat(leave.getFromDate());
-				String nowDate = Ultilities.dateToStringUSFormat(new Date());
-				LocalDate startDate = LocalDate.parse(fromDate);
-				LocalDate endDate = LocalDate.parse(nowDate);
-				Long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-				List<LocalDate> totalDates = LongStream.iterate(0, i -> i + 1).limit(daysBetween)
-						.mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
-				for (LocalDate l : totalDates) {
-					Record record = new Record();
-					record.setType(false);
-					record.setReason("Nghỉ không phép");
-					record.setCreateDate(Ultilities.stringToDateyyyMMDD(l.toString()));
-					record.setStaffId(leave.getStaffId());
-					record.setBonus(100000.0);
-					recordService.addOrEditRecord(record);
-					recordService.sendMail(record);
+		if ((leave.getFromDate().before(new Date()) == true) && (leave.getToDate().before(new Date()) == false)) {
+			String fromDate = Ultilities.dateToStringUSFormat(leave.getFromDate());
+			String nowDate = Ultilities.dateToStringUSFormat(new Date());
+			LocalDate startDate = LocalDate.parse(fromDate);
+			LocalDate endDate = LocalDate.parse(nowDate);
+			Long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+			List<LocalDate> totalDates = LongStream.iterate(0, i -> i + 1).limit(daysBetween)
+					.mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
+			for (LocalDate l : totalDates) {
+				Record record = new Record();
+				record.setType(false);
+				record.setReason("Nghỉ không phép");
+				record.setCreateDate(Ultilities.stringToDateyyyMMDD(l.toString()));
+				record.setStaffId(leave.getStaffId());
+				record.setBonus(100000.0);
+				recordService.addOrEditRecord(record);
+				recordService.sendMail(record);
 
-				}
+			}
+			leave.setAccept(0);
+			leave.setStatus(false);
+			leaveService.editLeave(leave);
+		} else if ((leave.getFromDate().before(new Date()) == true) && (leave.getToDate().before(new Date()) == true)) {
+			String fromDate = Ultilities.dateToStringUSFormat(leave.getFromDate());
+			String nowDate = Ultilities.dateToStringUSFormat(leave.getToDate());
+			LocalDate startDate = LocalDate.parse(fromDate);
+			LocalDate endDate = LocalDate.parse(nowDate);
+			Integer daysBetween = (int) (ChronoUnit.DAYS.between(startDate, endDate) + 1);
+//			List<LocalDate> totalDates = LongStream.iterate(0, i -> i + 1).limit(daysBetween)
+//					.mapToObj(i -> startDate.plusDays(i)).collect(Collectors.toList());
+			for (int i = 0; i < daysBetween; i++) {
+				Record record = new Record();
+				record.setType(false);
+				record.setReason("Nghỉ không phép");
+				record.setStaffId(leave.getStaffId());
+				record.setBonus(100000.0);
+				recordService.addOrEditRecord(record);
+				recordService.sendMail(record);
+
 			}
 			leave.setAccept(0);
 			leave.setStatus(false);
 			leaveService.editLeave(leave);
 		} else {
-
+			leave.setAccept(0);
+			leave.setStatus(false);
+			leaveService.editLeave(leave);
 		}
 
 	}
