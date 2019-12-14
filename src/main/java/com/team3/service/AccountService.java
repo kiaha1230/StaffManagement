@@ -14,12 +14,15 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.team3.Ultilities.Ultilities;
+import com.team3.bean.Mailer;
 import com.team3.customModel.AccountCustom;
 
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Pager;
+import com.team3.model.Record;
 import com.team3.model.Staff;
 import com.team3.repository.AccountRepository;
 import com.team3.resources.UserInformation;
@@ -30,6 +33,8 @@ public class AccountService {
 	private AccountRepository accountRepository;
 	@PersistenceContext
 	private EntityManager em;
+	@Autowired
+	Mailer mailer;
 
 	public ArrayList<Account> getAllAccount() {
 		List<Account> list = new ArrayList<Account>();
@@ -217,7 +222,13 @@ public class AccountService {
 		q.setParameter("username", account.getUsername());
 		q.setParameter("password", account.getPassword());
 		account1 = (Account) q.getResultList().stream().findFirst().orElse(null);
-		UserInformation.setACCOUNT(account1);
+		if (account1 != null) {
+			if (account.getPassword().equals(account1.getPassword())) {
+				UserInformation.setACCOUNT(account1);
+				return account1;
+			}
+		}
+
 		return account1;
 	}
 
@@ -248,6 +259,38 @@ public class AccountService {
 		list = q.getResultList();
 		return list;
 
+	}
+
+	public void checkMatchUsernameEmail(String email, String username) {
+		List<Account> accounts = new ArrayList<Account>();
+		String hql = "from Account a , Staff s  where a.staffId = s.id and s.email = :email and a.username = :username ";
+		Query q = em.createQuery(hql);
+		q.setParameter("email", email);
+		q.setParameter("username", username);
+		accounts = q.getResultList();
+		if (accounts != null) {
+			String password = randomPassword();
+			sendMailResetPassword(email, password);
+		} else {
+
+		}
+	}
+
+	public String randomPassword() {
+		String password = "";
+		final int length = 8;
+		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		for (int i = 0; i < length; i++) {
+			password += chars.charAt((int) Math.floor(Math.random() * chars.length()));
+		}
+		return password;
+	}
+
+	public void sendMailResetPassword(String email, String password) {
+		String from = "VIS-HR";
+		String subject = "Reset mật khẩu VISSOFT";
+		String body = "Mật khẩu mới của bạn là: " + password + "Vui lòng đổi mật khẩu mới khi đăng nhập";
+		mailer.send(from, email, subject, body);
 	}
 
 }

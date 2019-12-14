@@ -94,4 +94,9 @@ public class AccountController {
 	public List<String> getListUsername() {
 		return accountService.getlistUsername();
 	}
+
+	@PostMapping("/forgotPassword")
+	public void forgotPassword(@RequestParam("email") String email, @RequestParam("username") String username) {
+		accountService.checkMatchUsernameEmail(email, username);
+	}
 }
