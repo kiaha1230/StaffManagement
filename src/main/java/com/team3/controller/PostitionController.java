@@ -57,4 +57,9 @@ public class PostitionController {
 		return positionService.getAllPosition();
 	}
 
+	@GetMapping("/getPositionName")
+	public List<String> getPositionName() {
+		return positionService.getListPositionName();
+	}
+
 }

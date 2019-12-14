@@ -92,4 +92,13 @@ public class PositionService {
 		return position;
 	}
 
+	public List<String> getListPositionName() {
+		List<String> list = new ArrayList<String>();
+		String hql = " select positionName from Position";
+		Query q = em.createQuery(hql);
+		list = q.getResultList();
+		return list;
+
+	}
+
 }

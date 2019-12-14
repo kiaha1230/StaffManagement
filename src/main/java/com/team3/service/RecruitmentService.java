@@ -121,4 +121,13 @@ public class RecruitmentService {
 		return recruitment;
 	}
 
+	public List<String> getListRecruitmentCode() {
+		List<String> list = new ArrayList<String>();
+		String hql = " select recruitmentCode from Recruitment";
+		Query q = em.createQuery(hql);
+		list = q.getResultList();
+		return list;
+
+	}
+
 }

@@ -108,4 +108,14 @@ public class DepartService {
 
 	}
 
+	public List<String> getListDepartCodes() {
+		List<String> list = new ArrayList<String>();
+		List<String> account = new ArrayList<String>();
+		String hql = " select departCode from Depart";
+		Query q = em.createQuery(hql);
+		list = q.getResultList();
+		return list;
+
+	}
+
 }

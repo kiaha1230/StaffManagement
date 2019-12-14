@@ -89,4 +89,9 @@ public class DepartController {
 
 	}
 
+	@GetMapping("/getDepartCode")
+	public List<String> getListDepartCodes() {
+		return departService.getListDepartCodes();
+	}
+
 }

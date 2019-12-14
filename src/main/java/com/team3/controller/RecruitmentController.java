@@ -72,4 +72,9 @@ public class RecruitmentController {
 		return recruitmentService.checkRecruitmentCodeDuplicate(recruitmentCode.trim());
 	}
 
+	@GetMapping("/getRecuitmentCode")
+	public List<String> getRecuitmentCode() {
+		return recruitmentService.getListRecruitmentCode();
+	}
+
 }
