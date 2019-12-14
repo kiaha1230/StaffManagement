@@ -226,6 +226,15 @@ public class StaffService {
 		return staff;
 
 	}
-	
+
+	public List<String> getListStaffCodes() {
+		List<String> list = new ArrayList<String>();
+		List<String> account = new ArrayList<String>();
+		String hql = " select staffCode from Staff";
+		Query q = em.createQuery(hql);
+		list = q.getResultList();
+		return list;
+
+	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Query;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.swing.text.TabableView;
@@ -193,6 +194,12 @@ public class StaffController {
 	@PostMapping("/checkStaffCode")
 	public Boolean checkStaffCode(@RequestBody String staffCode) {
 		return staffService.checkStaffCodeDuplicate(staffCode.trim());
+	}
+
+	@GetMapping("/getStaffCode")
+	public List<String> getListStaffCodes() {
+		return staffService.getListStaffCodes();
+
 	}
 
 }
