@@ -269,7 +269,7 @@ public class LogAuditService {
 				&& !(a.getName().contains("positionName"))) || a.getName().contains("pager")
 				|| a.getName().contains("from") || a.getName().contains("to") || a.getName().contains("id")
 				|| a.getName().contains("kiLuat") || a.getName().contains("khenThuong")
-				|| a.getName().contains("diem")) {
+				|| a.getName().contains("password") || a.getName().contains("diem")) {
 			return true;
 		}
 		return false;

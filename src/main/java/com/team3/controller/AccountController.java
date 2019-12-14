@@ -96,7 +96,7 @@ public class AccountController {
 	}
 
 	@PostMapping("/forgotPassword")
-	public void forgotPassword(@RequestParam("email") String email, @RequestParam("username") String username) {
-		accountService.checkMatchUsernameEmail(email, username);
+	public Boolean forgotPassword(@RequestParam("email") String email, @RequestParam("username") String username) {
+	 return	accountService.checkMatchUsernameEmail(email, username);
 	}
 }

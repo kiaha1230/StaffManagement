@@ -48,6 +48,8 @@ public class AccountService {
 	}
 
 	public void addAccount(Account account) {
+		account.setPassword(randomPassword());
+
 		accountRepository.save(account);
 
 	}
@@ -70,70 +72,6 @@ public class AccountService {
 		return account;
 
 	}
-
-//	public ArrayList<Account> getByCondition(Account account) {
-//		ArrayList<Account> list = new ArrayList<Account>();
-//		String query = "select  a.id, a.username,a.password,a.createDate, s.staffName,a.accountRole,a.staffId,s.id from Account a , Staff s where a.staffId = s.id ";
-//		Date fromDate = new Date();
-//		Date toDate = new Date();
-//		Date createDate = new Date();
-//		if (!(account.getUsername() == null)) {
-//			query += " and  a.username like :username";
-//		}
-//		// ngay
-//		if (account.getFromCreateDate() != null && account.getToCreateDate() != null) {
-//			query += " and a.createDate between :fromDate and :toDate ";
-//		}
-//		if (account.getFromCreateDate() != null && account.getToCreateDate() == null) {
-//			query += " and a.createDate >= :fromDate ";
-//		}
-//		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
-//			query += " and a.createDate <= :toDate ";
-//		}
-//
-//		//
-//		if (!(account.getStaffId() == null)) {
-//			query += " and s.id = :staffId  ";
-//		}
-//		if (account.getAccountRole() != null) {
-//			query += " and a.accountRole = :accountRole ";
-//		}
-//		Query q = em.createQuery(query);
-//		// set parameter
-//		if (account.getUsername() != null) {
-//			q.setParameter("username", "%" + account.getUsername() + "%");
-//		}
-//		if (!(account.getStaffId() == null)) {
-//			q.setParameter("staffId", account.getStaffId());
-//		}
-//		if (account.getAccountRole() != null) {
-//			q.setParameter("accountRole", account.getAccountRole());
-//		}
-//		if (account.getFromCreateDate() != null && account.getToCreateDate() != null) {
-//			q.setParameter("fromDate", account.getFromCreateDate());
-//			q.setParameter("toDate", account.getToCreateDate());
-//		}
-//		if (account.getFromCreateDate() != null && account.getToCreateDate() == null) {
-//			q.setParameter("fromDate", account.getFromCreateDate());
-//		}
-//		if (account.getFromCreateDate() == null && account.getToCreateDate() != null) {
-//			q.setParameter("toDate", account.getToCreateDate());
-//		}
-//
-//		List<Object[]> obj = q.getResultList();
-//		obj.stream().forEach((record) -> {
-//			Account custom = new Account();
-//			custom.setId((Integer) record[0]);
-//			custom.setUsername(record[1].toString());
-//			custom.setPassword(record[2].toString());
-//			custom.setCreateDate((Date) record[3]);
-//			custom.setStaffName(record[4].toString());
-//			custom.setAccountRole((Integer) record[5]);
-//			custom.setStaffId((Integer) record[6]);
-//			list.add(custom);
-//		});
-//		return list;
-//	}
 
 	public APIResponse getByConditionPager(Account account) {
 		ArrayList<Account> list = new ArrayList<Account>();
@@ -264,7 +202,7 @@ public class AccountService {
 
 	}
 
-	public void checkMatchUsernameEmail(String email, String username) {
+	public Boolean checkMatchUsernameEmail(String email, String username) {
 		Account accounts = new Account();
 		String hql = "from Account where id in (select a.id from Account a , Staff s  where a.staffId = s.id and s.email = :email and a.username = :username) ";
 		Query q = em.createQuery(hql);
@@ -276,8 +214,9 @@ public class AccountService {
 			sendMailResetPassword(email, password);
 			accounts.setPassword(password);
 			accountRepository.save(accounts);
+			return true;
 		} else {
-
+			return false;
 		}
 	}
 
