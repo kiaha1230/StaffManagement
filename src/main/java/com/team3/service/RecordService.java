@@ -133,7 +133,7 @@ public class RecordService {
 		Optional<Staff> staff = staffRepository.findById(record.getStaffId());
 		String to = staff.get().getEmail();
 		String strDate = Ultilities.dateToString(new Date());
-		String from = "Vissoft";
+		String from = "VIS HR";
 		String subject = "Khen thưởng và kỉ luật";
 		String loai = "";
 		String body = "";

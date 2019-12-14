@@ -60,7 +60,6 @@ public class LeaveController {
 			leave.setStatus(false);
 		}
 
-		logAuditService.addDiff(leave);
 		leaveService.addLeave(leave);
 	}
 
@@ -73,7 +72,6 @@ public class LeaveController {
 		} else {
 			leave.setStatus(false);
 		}
-		logAuditService.getDiff(leaveService.getByIdSQL(leave.getId()), leave);
 		leaveService.editLeave(leave);
 	}
 

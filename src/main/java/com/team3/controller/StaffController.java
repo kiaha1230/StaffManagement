@@ -38,6 +38,7 @@ import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
 import com.team3.model.Staff;
+import com.team3.service.LogAuditService;
 import com.team3.service.StaffService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -48,6 +49,8 @@ public class StaffController {
 	private StaffService staffService;
 	@Autowired
 	private ApplicationContext applicationContext;
+	@Autowired
+	private LogAuditService logAuditService;
 
 	@GetMapping("staffs")
 	public ArrayList<Staff> getAllStaff() {
@@ -97,19 +100,11 @@ public class StaffController {
 
 	@PostMapping("/add")
 	public void addTask(@RequestBody Staff staff) {
+		staff.setStatus(true);
+		logAuditService.addDiff(staff);
 		staffService.addOrEditStaff(staff);
 	}
 
-//	@PostMapping("/testAdd")
-//	public void addTaskTest(@RequestParam("staffCode") String staffCode, @RequestParam("staffName") String staffName,
-//			@RequestParam("photoObj") MultipartFile photoObj) {
-//		Staff staff = new Staff();
-//		staff.setStatus(true);
-//		staff.setStaffCode(staffCode);
-//		staff.setStaffName(staffName);
-//		staff.setPhoto(photoObj.getOriginalFilename());
-//	}
-//
 	@PutMapping("/testPhoto")
 	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
 		File file = new File("");
@@ -129,31 +124,15 @@ public class StaffController {
 		}
 	}
 
-//	@PutMapping("/testPhoto")
-//	public void testPhoto(@RequestParam("photoObj") MultipartFile photoObj, @RequestParam("staffId") String staffId) {
-//		String currentDirectory = "C:\\Users\\Truong\\Desktop\\Fall 2019\\Dự án 2\\project2-fix-bug\\Project2_FrontEnd\\Project2-FrontEnd\\src\\assets\\img\\avatars\\";
-//		String ok = currentDirectory + photoObj.getOriginalFilename();
-//		try {
-//			photoObj.transferTo(new File(ok));
-//			Staff staff = staffService.getbyIdHQL(Integer.valueOf(staffId));
-//			staff.setPhoto(photoObj.getOriginalFilename());
-//			staffService.addOrEditStaff(staff);
-//		} catch (IllegalStateException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-
 	@PutMapping("/edit")
 	public void editTask(@RequestBody Staff staff) {
+		logAuditService.getDiff(staffService.getbyIdHQL(staff.getId()), staff);
 		staffService.addOrEditStaff(staff);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public void deleteTask(@PathVariable int id) {
+		logAuditService.deleteDiff(staffService.getbyIdHQL(id));
 		staffService.deleteStaff(id);
 	}
 
