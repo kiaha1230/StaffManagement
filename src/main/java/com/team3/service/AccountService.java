@@ -196,7 +196,7 @@ public class AccountService {
 			custom.setStaffName(record[4].toString());
 			custom.setAccountRole((Integer) record[5]);
 			custom.setStaffId((Integer) record[6]);
-			custom.setStaffCode( (String) record[7]);
+			custom.setStaffCode((String) record[7]);
 			list.add(custom);
 		});
 
@@ -238,6 +238,15 @@ public class AccountService {
 			list.add(custom);
 		});
 		return list;
+	}
+
+	public List<Account> getlistUsername() {
+		List<Account> account = new ArrayList<Account>();
+		String hql = " from Account";
+		Query q = em.createQuery(hql);
+		account = q.getResultList();
+		return account;
+
 	}
 
 }

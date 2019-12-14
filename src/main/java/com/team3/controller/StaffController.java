@@ -37,8 +37,12 @@ import com.team3.customModel.StaffCustom;
 import com.team3.model.APIResponse;
 import com.team3.model.Account;
 import com.team3.model.Depart;
+import com.team3.model.LogAudit;
+import com.team3.model.LogDetail;
 import com.team3.model.Staff;
+import com.team3.resources.UserInformation;
 import com.team3.service.LogAuditService;
+import com.team3.service.LogDetailService;
 import com.team3.service.StaffService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -51,6 +55,8 @@ public class StaffController {
 	private ApplicationContext applicationContext;
 	@Autowired
 	private LogAuditService logAuditService;
+	@Autowired
+	private LogDetailService logDetailService;
 
 	@GetMapping("staffs")
 	public ArrayList<Staff> getAllStaff() {
@@ -134,7 +140,18 @@ public class StaffController {
 	public void deleteTask(@PathVariable int id) {
 		Staff staff = staffService.getbyIdHQL(id);
 		staff.setStatus(false);
-		logAuditService.getDiff(staffService.getbyIdHQL(staff.getId()), staff);
+		LogAudit audit = new LogAudit();
+		audit.setAccountId(UserInformation.getACCOUNT().getId());
+		audit.setTableName("STAFF");
+		audit.setActionDatetime(new Date());
+		audit.setActionType(2);
+		logAuditService.add(audit);
+		LogDetail detail = new LogDetail();
+		detail.setColumnName("STATUS");
+		detail.setOldValue("TRUE");
+		detail.setNewValue("FALSE");
+		detail.setLogAuditId(audit.getId());
+		logDetailService.addLogDetail(detail);
 		staffService.addOrEditStaff(staff);
 	}
 
