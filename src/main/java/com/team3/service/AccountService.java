@@ -26,12 +26,15 @@ import com.team3.model.Pager;
 import com.team3.model.Record;
 import com.team3.model.Staff;
 import com.team3.repository.AccountRepository;
+import com.team3.repository.StaffRepository;
 import com.team3.resources.UserInformation;
 
 @Service
 public class AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
+	@Autowired
+	private StaffRepository staffRepository;
 	@PersistenceContext
 	private EntityManager em;
 	@Autowired
@@ -48,8 +51,13 @@ public class AccountService {
 	}
 
 	public void addAccount(Account account) {
-		account.setPassword(randomPassword());
-
+		Optional<Staff> staff = staffRepository.findById(account.getStaffId());
+		String password = randomPassword();
+		account.setPassword(password);
+		String from = "VIS-HR";
+		String subject = "Reset mật khẩu VISSOFT";
+		String body = "Mật khẩu mới của bạn là: " + password + ". Vui lòng đổi mật khẩu mới khi đăng nhập";
+		mailer.send(from, staff.get().getEmail(), subject, body);
 		accountRepository.save(account);
 
 	}

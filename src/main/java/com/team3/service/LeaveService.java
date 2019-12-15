@@ -30,7 +30,6 @@ public class LeaveService {
 	private EntityManager em;
 	@Autowired
 	private RecordRepository recordRepository;
-	private RecordService recordService;
 
 	public ArrayList<Leave> getAllLeave() {
 		List<Leave> list = new ArrayList<Leave>();

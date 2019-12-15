@@ -75,7 +75,7 @@ public class RecordController {
 
 	// test khong check in trong 24h
 
-	@Scheduled(cron = "0 6 2 * * *")
+	@Scheduled(cron = "0 0 23 * * *")
 	@GetMapping("/test")
 	public void test() {
 		recordService.doEvery23h();

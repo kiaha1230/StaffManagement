@@ -47,6 +47,7 @@ import com.team3.service.LogAuditService;
 @RestController
 @RequestMapping("/payroll")
 @EnableScheduling
+@Transactional
 public class PayrollController {
 	@Autowired
 	private PayrollService payrollService;
@@ -74,8 +75,8 @@ public class PayrollController {
 	@Scheduled(cron = "0 0 23 28-31 * ?")
 	@GetMapping("/getpayroll")
 	public void addPayroll() {
-//		final Calendar c = Calendar.getInstance();
-//		if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
+		final Calendar c = Calendar.getInstance();
+		if (c.get(Calendar.DATE) == c.getActualMaximum(Calendar.DATE)) {
 			try {
 				Date date = new Date();
 				LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -162,7 +163,7 @@ public class PayrollController {
 			}
 		}
 
-//	}
+	}
 
 //
 //	@PutMapping("/edit")
